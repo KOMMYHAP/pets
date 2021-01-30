@@ -14,6 +14,7 @@
 #include <array>
 
 GLFWwindow* g_mainWindow = nullptr;
+static bool g_wireframeMode = false;
 constexpr auto * g_vertexShaderData = R"(
 #version 330 core
 layout (location = 0) in vec3 aPos;
@@ -30,7 +31,7 @@ out vec4 aColor;
 
 void main()
 {
-	aColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+	aColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 )";
 
@@ -88,8 +89,10 @@ static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, i
 		switch (key)
 		{
 		case GLFW_KEY_ESCAPE:
-			// Quit
 			glfwSetWindowShouldClose(g_mainWindow, GL_TRUE);
+			break;
+		case GLFW_KEY_SPACE:
+			g_wireframeMode = !g_wireframeMode;
 			break;
 		default:
 			break;
@@ -164,15 +167,51 @@ int main()
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	
-	std::array vertices = {
-		-0.5f, -0.5f,  0.0f,
-		 0.5f, -0.5f,  0.0f,
-		 0.0f,  0.5f,  0.0f
+	float vertices[] = {
+		-0.6,  0.5, 0.0,	// 0
+		-0.5, -0.5, 0.0,	// 1
+		-0.3, -0.5, 0.0,	// 2
+		-0.1,  0.3, 0.0,	// 3
+		 0.1,  0.3, 0.0,	// 4
+		 0.3, -0.5, 0.0,	// 5
+		 0.5, -0.5, 0.0,	// 6
+		 0.6,  0.5, 0.0,	// 7
+		 0.4,  0.5, 0.0,	// 8
+		0.45, -0.4, 0.0,	// 9
+		0.35, -0.4, 0.0,	// 10
+		 0.1,  0.5, 0.0,	// 11
+		-0.1,  0.5, 0.0,	// 12
+	   -0.35, -0.4, 0.0,	// 13
+	   -0.45, -0.4, 0.0,	// 14
+		-0.4,  0.5, 0.0,	// 15
 	};
+	GLuint indices[] = {
+		 0,  1, 15,
+		15,  1, 14,
+		14,  1,  2,
+		 2, 14, 13,
+		13,  2, 12,
+		12,  2,  3,
+		 3, 12, 11,
+		11,  3,  4,
+		 4, 11,  5,
+		 5, 11, 10,
+		10,  5,  6,
+		 6, 10,  9,
+		 9,  6,  8,
+		 8,  7,  6,
+	};
+		
 	GLuint vbo;
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices.back()), vertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	
+	GLuint ebo;
+	glGenBuffers(1, &ebo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	
@@ -191,10 +230,9 @@ int main()
 	glAttachShader(shaderProgram, fragmentShader);
 	glLinkProgram(shaderProgram);
 	CheckProgram(shaderProgram, "shader program");
-	// glDeleteShader(vertexShader);
-	// glDeleteShader(fragmentShader);
-	
-	
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+
 	std::chrono::duration<double> frameTime(0.0);
 	std::chrono::duration<double> sleepAdjust(0.0);
 	std::chrono::duration<double> timeUsed(0.0);
@@ -213,8 +251,10 @@ int main()
 
 		{
 			glUseProgram(shaderProgram);
+			glPolygonMode(GL_FRONT_AND_BACK, g_wireframeMode ? GL_LINE : GL_FILL);
 			glBindVertexArray(vao);
-			glDrawArrays(GL_TRIANGLES, 0, 3);
+			glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(indices[0]), GL_UNSIGNED_INT, 0);
+			glBindVertexArray(0);
 		}
 
 		ImGui_ImplOpenGL3_NewFrame();
