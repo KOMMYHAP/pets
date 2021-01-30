@@ -19,3 +19,5 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRCS})
+
+set_property(TARGET top-down-view-shooter PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/data")

@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #define IMGUI_DISABLE_OBSOLETE_FUNCTIONS 1
 
 #include "imgui/imgui.h"
@@ -12,32 +13,29 @@
 #include <chrono>
 #include <thread>
 #include <array>
+#include <fstream>
 
 GLFWwindow* g_mainWindow = nullptr;
 static bool g_wireframeMode = false;
-constexpr auto * g_vertexShaderData = R"(
-#version 330 core
-layout (location = 0) in vec3 aPos;
-
-void main()
-{
-	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
-}
-)";
-
-constexpr auto * g_fragmentShaderData = R"(
-#version 330 core
-out vec4 aColor;
-
-void main()
-{
-	aColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
-}
-)";
 
 void glfwErrorCallback(int error, const char* description)
 {
 	fprintf(stderr, "GLFW error occured. Code: %d. Description: %s\n", error, description);
+}
+
+static std::string LoadShader(const std::string & name)
+{
+	auto f = std::ifstream(name, std::ifstream::binary | std::ifstream::in);
+	if (f.is_open())
+	{
+		f.seekg(0, f.end);
+		auto length = f.tellg();
+		f.seekg(0, f.beg);
+		std::string shader(length, '\0');
+		f.read(shader.data(), shader.length());
+		return shader;
+	}
+	return {};
 }
 
 static bool CheckShader(GLint shader, const char * desc)
@@ -100,7 +98,7 @@ static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, i
 	}
 }
 
-int main()
+int main(int argc, char** argv)
 {
 	glfwSetErrorCallback(glfwErrorCallback);
 	
@@ -162,76 +160,121 @@ int main()
 	ImGui::StyleColorsDark();
 
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-	
-	GLuint vao;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	
-	float vertices[] = {
-		-0.6,  0.5, 0.0,	// 0
-		-0.5, -0.5, 0.0,	// 1
-		-0.3, -0.5, 0.0,	// 2
-		-0.1,  0.3, 0.0,	// 3
-		 0.1,  0.3, 0.0,	// 4
-		 0.3, -0.5, 0.0,	// 5
-		 0.5, -0.5, 0.0,	// 6
-		 0.6,  0.5, 0.0,	// 7
-		 0.4,  0.5, 0.0,	// 8
-		0.45, -0.4, 0.0,	// 9
-		0.35, -0.4, 0.0,	// 10
-		 0.1,  0.5, 0.0,	// 11
-		-0.1,  0.5, 0.0,	// 12
-	   -0.35, -0.4, 0.0,	// 13
-	   -0.45, -0.4, 0.0,	// 14
-		-0.4,  0.5, 0.0,	// 15
-	};
-	GLuint indices[] = {
-		 0,  1, 15,
-		15,  1, 14,
-		14,  1,  2,
-		 2, 14, 13,
-		13,  2, 12,
-		12,  2,  3,
-		 3, 12, 11,
-		11,  3,  4,
-		 4, 11,  5,
-		 5, 11, 10,
-		10,  5,  6,
-		 6, 10,  9,
-		 9,  6,  8,
-		 8,  7,  6,
-	};
-		
-	GLuint vbo;
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	
-	GLuint ebo;
-	glGenBuffers(1, &ebo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	
+
+	GLuint indices_size[2] = {};
+	GLuint vao[2] = {};
+	GLuint vbo[2] = {};
+	GLuint ebo[2] = {};
+	glGenVertexArrays(2, vao);
+	glGenBuffers(2, vbo);
+	glGenBuffers(2, ebo);
+
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &g_vertexShaderData, NULL);
+	std::string shader = LoadShader("vertex_shader.glsl");
+	auto shaderData = shader.data();
+	glShaderSource(vertexShader, 1, &shaderData, NULL);
 	glCompileShader(vertexShader);
 	CheckShader(vertexShader, "vertex shader");
+	
+	GLuint fragmentShader_1 = glCreateShader(GL_FRAGMENT_SHADER);
+	shader = LoadShader("fragment_shader_1.glsl");
+	shaderData = shader.data();
+	glShaderSource(fragmentShader_1, 1, &shaderData, NULL);
+	glCompileShader(fragmentShader_1);
+	CheckShader(fragmentShader_1, "fragment shader #1");
+	
+	GLuint fragmentShader_2 = glCreateShader(GL_FRAGMENT_SHADER);
+	shader = LoadShader("fragment_shader_2.glsl");
+	shaderData = shader.data();
+	glShaderSource(fragmentShader_2, 1, &shaderData, NULL);
+	glCompileShader(fragmentShader_2);
+	CheckShader(fragmentShader_2, "fragment shader #2");
 
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &g_fragmentShaderData, NULL);
-	glCompileShader(fragmentShader);
-	CheckShader(fragmentShader, "fragment shader");
+	GLuint shaderProgram_1 = glCreateProgram();
+	glAttachShader(shaderProgram_1, vertexShader);
+	glAttachShader(shaderProgram_1, fragmentShader_1);
+	glLinkProgram(shaderProgram_1);
+	CheckProgram(shaderProgram_1, "shader program #1");
+	
+	glDeleteShader(fragmentShader_1);
 
-	GLuint shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-	CheckProgram(shaderProgram, "shader program");
+	GLuint shaderProgram_2 = glCreateProgram();
+	glAttachShader(shaderProgram_2, vertexShader);
+	glAttachShader(shaderProgram_2, fragmentShader_2);
+	glLinkProgram(shaderProgram_2);
+	CheckProgram(shaderProgram_2, "shader program #2");
+	
 	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	glDeleteShader(fragmentShader_2);
+	
+	{ // binding data for vao[0]
+		float vertices[] = {
+			-0.6,  0.5, 0.0,	// 0
+			-0.5, -0.5, 0.0,	// 1
+			-0.3, -0.5, 0.0,	// 2
+			-0.1,  0.3, 0.0,	// 3
+			 0.1,  0.3, 0.0,	// 4
+			 0.3, -0.5, 0.0,	// 5
+			 0.5, -0.5, 0.0,	// 6
+			 0.6,  0.5, 0.0,	// 7
+			 0.4,  0.5, 0.0,	// 8
+			0.45, -0.4, 0.0,	// 9
+			0.35, -0.4, 0.0,	// 10
+			 0.1,  0.5, 0.0,	// 11
+			-0.1,  0.5, 0.0,	// 12
+		   -0.35, -0.4, 0.0,	// 13
+		   -0.45, -0.4, 0.0,	// 14
+			-0.4,  0.5, 0.0,	// 15
+		};
+		GLuint indices[] = {
+			 0,  1, 15,
+			15,  1, 14,
+			14,  1,  2,
+			 2, 14, 13,
+			13,  2, 12,
+			12,  2,  3,
+			 3, 12, 11,
+			11,  3,  4,
+			 4, 11,  5,
+			 5, 11, 10,
+			10,  5,  6,
+			 6, 10,  9,
+			 9,  6,  8,
+			 8,  7,  6,
+		};
+		indices_size[0] = sizeof(indices) / sizeof(indices[0]); 
+		
+		glBindVertexArray(vao[0]);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[0]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+	}
+	{ // binding data for vao[1]
+		float vertices[] = {
+			-1.0, 1.0, 0.0,
+			0.0, 0.8, 0.0,
+			1.0, 1.0, 0.0
+		};
+		GLuint indices[] = {
+			0, 1, 2
+		};
+		indices_size[1] = sizeof(indices) / sizeof(indices[0]); 
+		
+		glBindVertexArray(vao[1]);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[1]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+	}
 
 	std::chrono::duration<double> frameTime(0.0);
 	std::chrono::duration<double> sleepAdjust(0.0);
@@ -250,11 +293,15 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		{
-			glUseProgram(shaderProgram);
-			glPolygonMode(GL_FRONT_AND_BACK, g_wireframeMode ? GL_LINE : GL_FILL);
-			glBindVertexArray(vao);
-			glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(indices[0]), GL_UNSIGNED_INT, 0);
-			glBindVertexArray(0);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glUseProgram(shaderProgram_1);
+			glBindVertexArray(vao[0]);
+			glDrawElements(GL_TRIANGLES, indices_size[0], GL_UNSIGNED_INT, 0);
+			
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glUseProgram(shaderProgram_2);
+			glBindVertexArray(vao[1]);
+			glDrawElements(GL_TRIANGLES, indices_size[1], GL_UNSIGNED_INT, 0);
 		}
 
 		ImGui_ImplOpenGL3_NewFrame();
