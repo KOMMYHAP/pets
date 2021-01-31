@@ -15,63 +15,14 @@
 #include <array>
 #include <fstream>
 
+#include "Shader.h"
+
 GLFWwindow* g_mainWindow = nullptr;
 static bool g_wireframeMode = false;
 
 void glfwErrorCallback(int error, const char* description)
 {
 	fprintf(stderr, "GLFW error occured. Code: %d. Description: %s\n", error, description);
-}
-
-static std::string LoadShader(const std::string & name)
-{
-	auto f = std::ifstream(name, std::ifstream::binary | std::ifstream::in);
-	if (f.is_open())
-	{
-		f.seekg(0, f.end);
-		auto length = f.tellg();
-		f.seekg(0, f.beg);
-		std::string shader(length, '\0');
-		f.read(shader.data(), shader.length());
-		return shader;
-	}
-	return {};
-}
-
-static bool CheckShader(GLint shader, const char * desc)
-{
-	GLint status = 0;		glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-	GLint logLength = 0;	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
-
-	if (static_cast<GLboolean>(status) == GL_FALSE)
-	{
-		fprintf(stderr, "failed to compile: %s!\n", desc);
-	}
-	if (logLength > 0)
-	{
-		std::vector<char> log(logLength + 1);
-		glGetShaderInfoLog(shader, logLength, NULL, log.data());
-		fprintf(stderr, "%s\n", log.data());
-	}
-	return static_cast<GLboolean>(status) == GL_TRUE;
-}
-
-static bool CheckProgram(GLint program, const char * desc)
-{
-	GLint status = 0;		glGetProgramiv(program, GL_LINK_STATUS, &status);
-	GLint logLength = 0;	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
-
-	if (static_cast<GLboolean>(status) == GL_FALSE)
-	{
-		fprintf(stderr, "failed to link: %s!\n", desc);
-	}
-	if (logLength > 0)
-	{
-		std::vector<char> log(logLength + 1);
-		glGetProgramInfoLog(program, logLength, NULL, log.data());
-		fprintf(stderr, "%s\n", log.data());
-	}
-	return static_cast<GLboolean>(status) == GL_TRUE;
 }
 
 static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -101,13 +52,13 @@ static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, i
 int main(int argc, char** argv)
 {
 	glfwSetErrorCallback(glfwErrorCallback);
-	
+
 	if (glfwInit() == 0)
 	{
 		fprintf(stderr, "Failed to initialize GLFW\n");
 		return -1;
 	}
-	
+
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -122,23 +73,23 @@ int main(int argc, char** argv)
 	{
 		g_mainWindow = glfwCreateWindow(800, 600, "Top Down View Shooter", NULL, NULL);
 	}
-	
+
 	if (g_mainWindow == nullptr)
 	{
 		fprintf(stderr, "Failed to open GLFW g_mainWindow.\n");
 		glfwTerminate();
 		return -1;
 	}
-	
+
 	glfwMakeContextCurrent(g_mainWindow);
-	
+
 	// Load OpenGL functions using glad
 	int version = gladLoadGL(glfwGetProcAddress);
 	printf("GL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
 	printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
-	
+
 	glfwSetKeyCallback(g_mainWindow, KeyCallback);
-	
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
@@ -155,7 +106,7 @@ int main(int argc, char** argv)
 		printf("ImGui_ImplOpenGL3_Init failed.\n");
 		assert(false);
 	}
-	
+
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
 
@@ -173,28 +124,7 @@ int main(int argc, char** argv)
 	glGenBuffers(2, vbo);
 	glGenBuffers(2, ebo);
 
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	std::string shader = LoadShader("vertex_shader.glsl");
-	auto shaderData = shader.data();
-	glShaderSource(vertexShader, 1, &shaderData, NULL);
-	glCompileShader(vertexShader);
-	CheckShader(vertexShader, "vertex shader");
-	
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	shader = LoadShader("fragment_shader.glsl");
-	shaderData = shader.data();
-	glShaderSource(fragmentShader, 1, &shaderData, NULL);
-	glCompileShader(fragmentShader);
-	CheckShader(fragmentShader, "fragment shader");
-	
-	GLuint shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-	CheckProgram(shaderProgram, "shader program");
-	
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	Shader shader = Shader::Load("vertex_shader.glsl", "fragment_shader.glsl");
 
 	{ // binding data for vao[0]
 		float vertices[] = {
@@ -206,15 +136,15 @@ int main(int argc, char** argv)
 		GLuint indices[] = {
 			0, 1, 2
 		};
-		indices_size[0] = sizeof(indices) / sizeof(indices[0]); 
-		
+		indices_size[0] = sizeof(indices) / sizeof(indices[0]);
+
 		glBindVertexArray(vao[0]);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-		
+
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[0]);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-		
+
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -224,7 +154,7 @@ int main(int argc, char** argv)
 	std::chrono::duration<double> frameTime(0.0);
 	std::chrono::duration<double> sleepAdjust(0.0);
 	std::chrono::duration<double> timeUsed(0.0);
-	
+
 	int width, height;
 	while (!glfwWindowShouldClose(g_mainWindow))
 	{
@@ -239,7 +169,7 @@ int main(int argc, char** argv)
 
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, g_wireframeMode ? GL_LINE : GL_FILL);
-			glUseProgram(shaderProgram);
+			shader.Use();
 			glBindVertexArray(vao[0]);
 			glDrawElements(GL_TRIANGLES, indices_size[0], GL_UNSIGNED_INT, 0);
 		}

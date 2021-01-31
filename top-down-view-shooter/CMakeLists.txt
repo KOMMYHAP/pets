@@ -4,9 +4,11 @@ set(SRCS
 	src/imgui_impl_glfw.cpp
 	src/imgui_impl_opengl3.cpp
 	src/main.cpp
+	src/Shader.cpp
 
 	include/imgui_impl_glfw.h
 	include/imgui_impl_opengl3.h
+	include/Shader.h
 )
 
 add_executable(${PROJECT_NAME} ${SRCS})
