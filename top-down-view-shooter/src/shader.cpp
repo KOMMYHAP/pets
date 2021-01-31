@@ -23,6 +23,9 @@ namespace
 
 		std::string shader(length, '\0');
 		size_t read = fread(shader.data(), 1, length, f);
+
+		fclose(f);
+
 		if (read != length)
 		{
 			fprintf(stderr, "failed to read data from %s", filename.data());
@@ -133,6 +136,12 @@ void Shader::SetFloat(std::string_view var, float value)
 {
 	GLint location = glGetUniformLocation(m_shaderProgram, var.data());
 	glUniform1f(location, value);
+}
+
+void Shader::SetFloat(std::string_view var, float v1, float v2)
+{
+	GLint location = glGetUniformLocation(m_shaderProgram, var.data());
+	glUniform2f(location, v1, v2);
 }
 
 void Shader::SetFloat(std::string_view var, float v1, float v2, float v3)

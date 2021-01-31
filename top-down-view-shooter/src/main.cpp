@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define IMGUI_DISABLE_OBSOLETE_FUNCTIONS 1
+#define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 #include "imgui/imgui.h"
 #include "imgui_impl_glfw.h"
@@ -12,11 +13,11 @@
 #include <cstdio>
 #include <chrono>
 #include <thread>
-#include <cmath>
 
 #include "Shader.h"
 
 GLFWwindow* g_mainWindow = nullptr;
+GLuint g_width, g_height;
 static bool g_wireframeMode = false;
 
 void glfwErrorCallback(int error, const char* description)
@@ -64,14 +65,19 @@ int main(int argc, char** argv)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	bool fullscreen = false;
+	GLFWmonitor * monitor = NULL;
 	if (fullscreen)
 	{
-		g_mainWindow = glfwCreateWindow(1366, 768, "Top Down View Shooter", glfwGetPrimaryMonitor(), NULL);
+		g_width = 1366;
+		g_height = 768;
+		monitor = glfwGetPrimaryMonitor();
 	}
 	else
 	{
-		g_mainWindow = glfwCreateWindow(800, 600, "Top Down View Shooter", NULL, NULL);
+		g_width = 800;
+		g_height = 600;
 	}
+	g_mainWindow = glfwCreateWindow(g_width, g_height, "Top Down View Shooter", monitor, NULL);
 
 	if (g_mainWindow == nullptr)
 	{
@@ -108,7 +114,8 @@ int main(int argc, char** argv)
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
-
+	
+	glViewport(0, 0, g_width, g_height);
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
 	// GLint nrAttributes;
@@ -123,19 +130,28 @@ int main(int argc, char** argv)
 	glGenBuffers(2, vbo);
 	glGenBuffers(2, ebo);
 
-	Shader shader = Shader::Load("vertex_shader.glsl", "fragment_shader.glsl");
-	shader.Use();
-	shader.SetFloat("offsetX", 0.0f);
+	Shader shader;
+	try
+	{
+		shader = Shader::Load("vertex_shader.glsl", "fragment_shader.glsl");
+	}
+	catch (const std::runtime_error & e)
+	{
+		fprintf(stderr, e.what());
+		return -1;
+	}
 
 	{ // binding data for vao[0]
 		float vertices[] = {
 			// positions			// colors
-			 0.0f,  0.5f, 0.0f,		1.0f, 0.0f, 0.0f,		// top
-			-0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,		// bottom left
-			 0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		// bottom right
+			-0.5f,  0.5f, 0.0f,		1.0f, 0.0f, 0.0f,	// left top
+			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,	// left bottom
+			 0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,	// right top
+			 0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,	// right bottom
 		};
 		GLuint indices[] = {
-			0, 1, 2
+			0, 1, 2,
+			2, 3, 1,
 		};
 		indices_size[0] = sizeof(indices) / sizeof(indices[0]);
 
@@ -146,9 +162,9 @@ int main(int argc, char** argv)
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[0]);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), BUFFER_OFFSET(0));
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), BUFFER_OFFSET(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
 	}
 
@@ -156,28 +172,25 @@ int main(int argc, char** argv)
 	std::chrono::duration<double> sleepAdjust(0.0);
 	std::chrono::duration<double> timeUsed(0.0);
 
-	int width, height;
 	float time = 0.0f;
+	float speed = 1.0f;
 	while (!glfwWindowShouldClose(g_mainWindow))
 	{
 		std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
 
-		glfwGetWindowSize(g_mainWindow, &width, &height);
-
-		int bufferWidth, bufferHeight;
-		glfwGetFramebufferSize(g_mainWindow, &bufferWidth, &bufferHeight);
-		glViewport(0, 0, bufferWidth, bufferHeight);
+		// glfwGetWindowSize(g_mainWindow, &width, &height);
+		//
+		// int bufferWidth, bufferHeight;
+		// glfwGetFramebufferSize(g_mainWindow, &bufferWidth, &bufferHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+		
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, g_wireframeMode ? GL_LINE : GL_FILL);
 
 			shader.Use();
-			time += static_cast<float>(timeUsed.count() * 100);
-			float v1 = sin(time + 0 * 3.1415f / 3) / 2.0f + 0.5f;
-			float v2 = sin(time + 1 * 3.1415f / 3) / 2.0f + 0.5f;
-			float v3 = sin(time + 2 * 3.1415f / 3) / 2.0f + 0.5f;
-			shader.SetFloat("colorT", v1, v2, v3);
+			time += static_cast<float>(timeUsed.count() * 100 * speed);
+			float v1 = sin(time) / 2.0f + 0.5f;
+			shader.SetFloat("t", v1);
 			
 			glBindVertexArray(vao[0]);
 			glDrawElements(GL_TRIANGLES, indices_size[0], GL_UNSIGNED_INT, 0);
@@ -187,6 +200,7 @@ int main(int argc, char** argv)
 		ImGui_ImplGlfw_NewFrame();
 
 		ImGui::NewFrame();
+		ImGui::DragFloat("Speed", &speed, 0.1f, 0.1f, 3.0f);
 		ImGui::Text("Time Used: %.2f ms", timeUsed * 100);
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
