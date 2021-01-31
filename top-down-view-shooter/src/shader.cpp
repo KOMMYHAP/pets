@@ -135,6 +135,12 @@ void Shader::SetFloat(std::string_view var, float value)
 	glUniform1f(location, value);
 }
 
+void Shader::SetFloat(std::string_view var, float v1, float v2, float v3)
+{
+	GLint location = glGetUniformLocation(m_shaderProgram, var.data());
+	glUniform3f(location, v1, v2, v3);
+}
+
 void Shader::SetInt(std::string_view var, int value)
 {
 	GLint location = glGetUniformLocation(m_shaderProgram, var.data());

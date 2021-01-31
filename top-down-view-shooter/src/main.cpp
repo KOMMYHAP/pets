@@ -12,8 +12,7 @@
 #include <cstdio>
 #include <chrono>
 #include <thread>
-#include <array>
-#include <fstream>
+#include <cmath>
 
 #include "Shader.h"
 
@@ -125,6 +124,8 @@ int main(int argc, char** argv)
 	glGenBuffers(2, ebo);
 
 	Shader shader = Shader::Load("vertex_shader.glsl", "fragment_shader.glsl");
+	shader.Use();
+	shader.SetFloat("offsetX", 0.0f);
 
 	{ // binding data for vao[0]
 		float vertices[] = {
@@ -156,6 +157,7 @@ int main(int argc, char** argv)
 	std::chrono::duration<double> timeUsed(0.0);
 
 	int width, height;
+	float time = 0.0f;
 	while (!glfwWindowShouldClose(g_mainWindow))
 	{
 		std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
@@ -169,7 +171,14 @@ int main(int argc, char** argv)
 
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, g_wireframeMode ? GL_LINE : GL_FILL);
+
 			shader.Use();
+			time += static_cast<float>(timeUsed.count() * 100);
+			float v1 = sin(time + 0 * 3.1415f / 3) / 2.0f + 0.5f;
+			float v2 = sin(time + 1 * 3.1415f / 3) / 2.0f + 0.5f;
+			float v3 = sin(time + 2 * 3.1415f / 3) / 2.0f + 0.5f;
+			shader.SetFloat("colorT", v1, v2, v3);
+			
 			glBindVertexArray(vao[0]);
 			glDrawElements(GL_TRIANGLES, indices_size[0], GL_UNSIGNED_INT, 0);
 		}
