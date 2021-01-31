@@ -14,6 +14,9 @@
 #include <chrono>
 #include <thread>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 #include "Shader.h"
 
 GLFWwindow* g_mainWindow = nullptr;
@@ -61,7 +64,7 @@ int main(int argc, char** argv)
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	// glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	bool fullscreen = false;
@@ -104,36 +107,37 @@ int main(int argc, char** argv)
 		printf("ImGui_ImplGlfw_InitForOpenGL failed.\n");
 		assert(false);
 	}
-
+	
 	success = ImGui_ImplOpenGL3_Init();
 	if (!success)
 	{
 		printf("ImGui_ImplOpenGL3_Init failed.\n");
 		assert(false);
 	}
-
+	
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
 	
 	glViewport(0, 0, g_width, g_height);
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
-	// GLint nrAttributes;
-	// glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
-	// printf("Maximum number of vertex attributes supported: %d\n", nrAttributes);
+	GLint nrAttributes;
+	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
+	printf("Maximum number of vertex attributes supported: %d\n", nrAttributes);
 
 	GLuint indices_size[2] = {};
 	GLuint vao[2] = {};
 	GLuint vbo[2] = {};
 	GLuint ebo[2] = {};
+	GLuint texture;
 	glGenVertexArrays(2, vao);
 	glGenBuffers(2, vbo);
 	glGenBuffers(2, ebo);
+	glGenTextures(1, &texture);
 
 	Shader shader;
 	try
 	{
-		shader = Shader::Load("vertex_shader.glsl", "fragment_shader.glsl");
+		shader = std::move(Shader::Load("vertex_shader.glsl", "fragment_shader.glsl"));
 	}
 	catch (const std::runtime_error & e)
 	{
@@ -144,61 +148,74 @@ int main(int argc, char** argv)
 	{ // binding data for vao[0]
 		float vertices[] = {
 			// positions			// colors
-			-0.5f,  0.5f, 0.0f,		1.0f, 0.0f, 0.0f,	// left top
-			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,	// left bottom
-			 0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,	// right top
-			 0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,	// right bottom
+			 0.5f,  0.5f, 0.0f,		1.0f, 0.0f, 0.0f,	1.0f, 1.0f,		// top right
+			 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,	1.0f, 0.0f,		// bottom right
+			-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,	0.0f, 0.0f,		// bottom left
+			-0.5f,  0.5f, 0.0f,		1.0f, 1.0f, 0.0f,	0.0f, 1.0f		// top left
 		};
 		GLuint indices[] = {
-			0, 1, 2,
-			2, 3, 1,
+			0, 1, 3,
+			1, 2, 3,
 		};
 		indices_size[0] = sizeof(indices) / sizeof(indices[0]);
 
 		glBindVertexArray(vao[0]);
+		
 		glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[0]);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), BUFFER_OFFSET(0));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), BUFFER_OFFSET(0));
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), BUFFER_OFFSET(3 * sizeof(float)));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), BUFFER_OFFSET(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), BUFFER_OFFSET(6 * sizeof(float)));
+		glEnableVertexAttribArray(2);
+		
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		int width, height, nrChannels;
+		unsigned char *data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
+		if (!data)
+		{
+			fprintf(stderr, "failed to load image");
+			return -1;
+		}
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		stbi_image_free(data);
 	}
 
 	std::chrono::duration<double> frameTime(0.0);
 	std::chrono::duration<double> sleepAdjust(0.0);
 	std::chrono::duration<double> timeUsed(0.0);
 
-	float time = 0.0f;
 	float speed = 1.0f;
 	while (!glfwWindowShouldClose(g_mainWindow))
 	{
 		std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
-
-		// glfwGetWindowSize(g_mainWindow, &width, &height);
-		//
-		// int bufferWidth, bufferHeight;
-		// glfwGetFramebufferSize(g_mainWindow, &bufferWidth, &bufferHeight);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 		
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, g_wireframeMode ? GL_LINE : GL_FILL);
-
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, texture);
 			shader.Use();
-			time += static_cast<float>(timeUsed.count() * 100 * speed);
-			float v1 = sin(time) / 2.0f + 0.5f;
-			shader.SetFloat("t", v1);
-			
 			glBindVertexArray(vao[0]);
 			glDrawElements(GL_TRIANGLES, indices_size[0], GL_UNSIGNED_INT, 0);
 		}
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
-
+		
 		ImGui::NewFrame();
 		ImGui::DragFloat("Speed", &speed, 0.1f, 0.1f, 3.0f);
 		ImGui::Text("Time Used: %.2f ms", timeUsed * 100);
@@ -206,7 +223,6 @@ int main(int argc, char** argv)
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		glfwSwapBuffers(g_mainWindow);
-
 		glfwPollEvents();
 
 		// Throttle to cap at 60Hz. This adaptive using a sleep adjustment. This could be improved by
@@ -226,6 +242,10 @@ int main(int argc, char** argv)
 		// Compute the sleep adjustment using a low pass filter
 		sleepAdjust = 0.9 * sleepAdjust + 0.1 * (target - frameTime);
 	}
+
+	glDeleteVertexArrays(2, vao);
+	glDeleteBuffers(2, vbo);
+	glDeleteBuffers(2, ebo);
 
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();

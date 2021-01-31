@@ -77,6 +77,27 @@ Shader Shader::Load(std::string_view vertexShaderFile, std::string_view fragment
 	return Shader(vertexShader, fragmentShader);
 }
 
+Shader::Shader(Shader&& other) noexcept
+	: m_shaderProgram(other.m_shaderProgram)
+{
+	other.m_shaderProgram = 0;
+}
+
+Shader& Shader::operator=(Shader&& other) noexcept
+{
+	if (&other != this)
+	{
+		Shader temp(std::move(other));
+		swap(*this, temp);
+	}
+	return *this;
+}
+
+void swap(Shader& lhs, Shader& rhs) noexcept
+{
+	std::swap(lhs.m_shaderProgram, rhs.m_shaderProgram);
+}
+
 Shader::Shader(std::string_view vertexShaderSource, std::string_view fragmentShaderSource)
 {
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -118,6 +139,14 @@ Shader::Shader(std::string_view vertexShaderSource, std::string_view fragmentSha
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 		throw std::runtime_error("Compiler error");
+	}
+}
+
+Shader::~Shader()
+{
+	if (m_shaderProgram)
+	{
+		glDeleteProgram(m_shaderProgram);
 	}
 }
 

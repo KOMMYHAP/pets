@@ -9,6 +9,7 @@ set(SRCS
 	include/imgui_impl_glfw.h
 	include/imgui_impl_opengl3.h
 	include/Shader.h
+	include/stb_image.h
 )
 
 add_executable(${PROJECT_NAME} ${SRCS})

@@ -14,3 +14,5 @@ add_subdirectory(external/glad)
 add_subdirectory(external/glfw)
 add_subdirectory(external/imgui)
 add_subdirectory(top-down-view-shooter)
+
+add_compile_options(-msse2)

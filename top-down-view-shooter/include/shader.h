@@ -8,6 +8,14 @@ public:
 	static Shader Load(std::string_view vertexShaderFile, std::string_view fragmentShaderFile);
 
 	Shader() = default;
+	Shader(const Shader &) = delete;
+	Shader& operator=(const Shader &) = delete;
+	Shader(Shader && other) noexcept;
+	Shader& operator=(Shader && other) noexcept;
+	~Shader();
+	
+	friend void swap(Shader & lhs, Shader & rhs) noexcept;
+	
 	Shader(std::string_view vertexShaderSource, std::string_view fragmentShaderSource);
 
 	void Use();
