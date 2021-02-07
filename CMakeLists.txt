@@ -10,9 +10,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/bin")
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-add_subdirectory(external/glad)
-add_subdirectory(external/glfw)
-add_subdirectory(external/imgui)
-add_subdirectory(top-down-view-shooter)
+set(BUILD_STATIC_LIBS ON)
+add_subdirectory(external)
 
-add_compile_options(-msse2)
+add_subdirectory(top-down-view-shooter)

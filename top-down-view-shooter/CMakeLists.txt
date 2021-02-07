@@ -14,13 +14,8 @@ set(SRCS
 
 add_executable(${PROJECT_NAME} ${SRCS})
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} include)
-target_link_libraries(${PROJECT_NAME} PUBLIC glfw imgui glad)
-set_target_properties(${PROJECT_NAME} PROPERTIES
-	CXX_STANDARD 17
-    CXX_STANDARD_REQUIRED YES
-    CXX_EXTENSIONS NO
-)
-
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw imgui glad glm::glm_static)
+target_compile_options(${PROJECT_NAME} PUBLIC /permissive- /arch:AVX /std:c++17)
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRCS})
 
 set_property(TARGET top-down-view-shooter PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/data")

@@ -70,11 +70,23 @@ namespace
 }
 
 
-Shader Shader::Load(std::string_view vertexShaderFile, std::string_view fragmentShaderFile)
+std::unique_ptr<Shader> Shader::Load(std::string_view vertexShaderFile, std::string_view fragmentShaderFile)
 {
 	std::string vertexShader = LoadShader(vertexShaderFile);
 	std::string fragmentShader = LoadShader(fragmentShaderFile);
-	return Shader(vertexShader, fragmentShader);
+	return Create(vertexShader, fragmentShader);
+}
+
+std::unique_ptr<Shader> Shader::Create(std::string_view vertexShaderData, std::string_view fragmentShaderData)
+{
+	try
+	{
+		return std::make_unique<Shader>(vertexShaderData, fragmentShaderData);
+	}
+	catch (const std::exception &)
+	{
+		return nullptr;
+	}
 }
 
 Shader::Shader(Shader&& other) noexcept
@@ -177,6 +189,12 @@ void Shader::SetFloat(std::string_view var, float v1, float v2, float v3)
 {
 	GLint location = glGetUniformLocation(m_shaderProgram, var.data());
 	glUniform3f(location, v1, v2, v3);
+}
+
+void Shader::SetMat4(std::string_view var, const float* v)
+{
+	GLint transformLoc = glGetUniformLocation(m_shaderProgram, var.data());
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, v);
 }
 
 void Shader::SetInt(std::string_view var, int value)
