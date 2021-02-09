@@ -32,25 +32,10 @@
 static GLFWwindow* g_mainWindow = nullptr;
 static GLuint g_width, g_height;
 static bool g_wireframeMode = false;
-static glm::vec2 g_mouseMove;
 
 void glfwErrorCallback(int error, const char* description)
 {
 	fprintf(stderr, "GLFW error occured. Code: %d. Description: %s\n", error, description);
-}
-
-static void HandleArrowKey(int key, bool pressed)
-{
-	float speed = pressed ? 7.0f : 0.0f;
-	g_mouseMove.x =
-		key == GLFW_KEY_LEFT ?	-speed :
-		key == GLFW_KEY_RIGHT ?	+speed :
-		g_mouseMove.x;
-
-	g_mouseMove.y =
-		key == GLFW_KEY_UP ?	-speed :
-		key == GLFW_KEY_DOWN ?	+speed :
-		g_mouseMove.y;
 }
 
 static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -73,21 +58,6 @@ static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, i
 			break;
 		default:
 			break;
-		}
-	}
-
-	if (action == GLFW_RELEASE || action == GLFW_PRESS)
-	{
-		switch (key)
-		{
-			case GLFW_KEY_UP:
-			case GLFW_KEY_DOWN:
-			case GLFW_KEY_LEFT:
-			case GLFW_KEY_RIGHT:
-				HandleArrowKey(key, action == GLFW_PRESS);
-				break;
-			default:
-				break;
 		}
 	}
 }
@@ -278,7 +248,6 @@ int main(int argc, char** argv)
 	glm::mat4 model(1.0f);
 	glm::mat4 view(1.0f);
 	glm::mat4 projection(1.0f);
-	g_mouseMove  = glm::vec2(0.0f);
 
 	model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
@@ -291,15 +260,6 @@ int main(int argc, char** argv)
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		{ // update
-			if (g_mouseMove.x != 0.0f || g_mouseMove.y != 0.0f)
-			{
-				double x = 0.0f;
-				double y = 0.0f;
-				glfwGetCursorPos(g_mainWindow, &x, &y);
-				x += g_mouseMove.x;
-				y += g_mouseMove.y;
-				glfwSetCursorPos(g_mainWindow, x, y);
-			}
 		}
 
 		{ // render
