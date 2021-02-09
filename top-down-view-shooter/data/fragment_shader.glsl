@@ -12,7 +12,6 @@ void main()
 {
 	vec4 colorBox = texture(u_texture1, texCoord);
 	vec4 colorSmile = texture(u_texture2, texCoord);
-	vec4 mixedSmile = mix(colorSmile, vec4(color, 1.0f), u_visibility);
-	vec4 mixedBox = mix(colorBox, mixedSmile, 0.3f);
+	vec4 mixedBox = mix(colorBox, colorSmile, u_visibility);
 	aColor = mixedBox;
 }
