@@ -23,7 +23,6 @@ int main()
 	window.setFramerateLimit(60);
 	ImGui::SFML::Init(window);
 
-
 	sf::Clock deltaClock;
 	while (window.isOpen())
 	{
