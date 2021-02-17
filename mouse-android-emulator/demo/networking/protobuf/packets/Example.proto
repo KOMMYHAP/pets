@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+message Request
+{
+	string question = 1;
+}
+
+message Response
+{
+	int32 number = 1;
+}
