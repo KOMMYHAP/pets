@@ -89,7 +89,6 @@ static void Writer(std::shared_ptr<WriterData> data)
 int main()
 {
 	Request r;
-	r.set_question("qwe");
 	
 	sf::RenderWindow window(sf::VideoMode(640, 480), "Writer");
 	window.setFramerateLimit(60);
