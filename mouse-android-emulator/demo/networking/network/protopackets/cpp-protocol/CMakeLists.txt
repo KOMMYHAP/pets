@@ -1,6 +1,6 @@
 set(
 	SRCS
-		${CMAKE_CURRENT_SOURCE_DIR}/protocol/Example.pb.cc
-		${CMAKE_CURRENT_SOURCE_DIR}/protocol/Example.pb.h
+		cpp-protocol/Example.pb.cc
+		cpp-protocol/Example.pb.h
 	PARENT_SCOPE
 )
