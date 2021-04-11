@@ -3,7 +3,8 @@ project(core)
 set(SRCS
 	include/Callback.h
 	include/TemplateUtils.h
-	src/stub.cpp
+	include/Utils.h
+	src/Utils.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC ${SRCS})
