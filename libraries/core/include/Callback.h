@@ -21,13 +21,20 @@ namespace Utils
 		 * \param args Arguments packed in tuple.
 		 * \note This function should not be called manually, it's used for internal purposes.
 		 */
-		virtual void Do(std::any args) = 0;
+		virtual void Do(std::any args) const = 0;
+		
+		/**
+		 * \return true if callback is callable and not expired.
+		 */
+		virtual bool Valid() const = 0;
 	};
 
 	template <class ...Args>
 	class TypedCallback : public CallbackBase
 	{
 	public:
+		TypedCallback() = default;
+
 		TypedCallback(std::weak_ptr<void> owner, std::function<void(Args...)> f) noexcept
 			: _owner(std::move(owner))
 			, _function(std::move(f))
@@ -37,7 +44,7 @@ namespace Utils
 		 * \brief Directly passes args to the function if owner is still alive.
 		 * \param args Arguments to be passed to the function.
 		 */
-		void operator()(Args &&... args)
+		void operator()(Args &&... args) const
 		{
 			if (not _owner.expired() && _function)
 			{
@@ -50,7 +57,7 @@ namespace Utils
 		 * \param args Arguments packed in tuple.
 		 * \note This function should not be called manually, it's used for internal purposes.
 		 */
-		void Do(std::any args) override
+		void Do(std::any args) const override
 		{
 			if (not _owner.expired() && _function)
 			{
@@ -66,6 +73,13 @@ namespace Utils
 			}
 		}
 
+		bool Valid() const override
+		{
+			return not _owner.expired() && _function;
+		}
+
+		auto Owner() const { return _owner; }
+
 	private:
 		std::weak_ptr<void> _owner;
 		std::function<void(Args&&...)> _function;
@@ -74,6 +88,8 @@ namespace Utils
 	class Callback
 	{
 	public:
+		Callback() = default;
+
 		template<class ...Args>
 		Callback(std::weak_ptr<void> owner, std::function<void(Args...)> f)
 			: _delegate(std::make_unique<TypedCallback<Args...>>(
@@ -103,7 +119,7 @@ namespace Utils
 		 * \note Move-only types are unsupported and should be avoided.
 		 */
 		template<class ...Args>
-		void operator()(Args &&... args)
+		void operator()(Args &&... args) const
 		{
 			if constexpr((... && std::is_copy_constructible_v<Args>))
 			{
@@ -113,6 +129,11 @@ namespace Utils
 			{
 				static_assert(always_false_v<Args...>, "Move-only types are unsupported in std::any.");
 			}
+		}
+		
+		bool Valid() const
+		{
+			return _delegate && _delegate->Valid();
 		}
 
 	private:
