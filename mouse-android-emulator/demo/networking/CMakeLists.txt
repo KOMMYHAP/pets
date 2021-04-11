@@ -1,2 +1,2 @@
-add_subdirectory(protobuf)
+add_subdirectory(network)
 add_subdirectory(client)

@@ -1,0 +1,16 @@
+syntax = "proto3";
+import "PacketsId.proto";
+
+package my.proto.package;
+
+message ConnectionClientBroadcastSearchRequest
+{
+	option (package_id) = CONNECTION_CLIENT_BROADCAST_SEARCH_REQUEST;
+}
+
+message ConnectionClientBroadcastSearchResponse
+{
+	option (package_id) = CONNECTION_CLIENT_BROADCAST_SEARCH_RESPONSE;
+	string 				ip = 1;
+	uint32				port = 2;
+}

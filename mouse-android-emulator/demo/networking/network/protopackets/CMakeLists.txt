@@ -16,3 +16,4 @@ set(libprotobuf_LIBRARY
 	optimized ${libprotobuf_LIBRARY_RELEASE}
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE ${libprotobuf_LIBRARY})
+target_compile_options(${PROJECT_NAME} PRIVATE /permissive- /std:c++17)

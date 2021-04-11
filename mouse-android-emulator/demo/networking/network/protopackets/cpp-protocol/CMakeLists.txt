@@ -1,6 +1,10 @@
 set(
 	SRCS
-		cpp-protocol/Example.pb.cc
-		cpp-protocol/Example.pb.h
+		cpp-protocol/Connection.pb.cc
+		cpp-protocol/Connection.pb.h
+		cpp-protocol/Main.pb.cc
+		cpp-protocol/Main.pb.h
+		cpp-protocol/PacketsId.pb.cc
+		cpp-protocol/PacketsId.pb.h
 	PARENT_SCOPE
 )

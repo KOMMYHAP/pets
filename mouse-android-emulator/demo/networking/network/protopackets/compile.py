@@ -29,6 +29,7 @@ if not os.path.exists(out_cpp_dir):
 # cd into protocol dir
 old_dir = os.getcwd()
 os.chdir("./protocol")
+protocol_dir = os.getcwd()
 
 # list input protocol files
 in_files = list_proto_files(".")
@@ -37,6 +38,7 @@ print("Protocol: " + str(in_files))
 # run proto compiler
 result = subprocess.run([
 	proto_compiler,
+	"--proto_path=" + protocol_dir,
 	"--cpp_out=" + out_cpp_dir]
 	+ in_files,
 	capture_output=True)
