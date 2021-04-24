@@ -5,6 +5,9 @@ project(imgui_sfml
   VERSION 2.1
 )
 
+if (POLICY CMP0069)
+  cmake_policy(SET CMP0069 NEW)
+endif()
 # In CMake 3.12+ this policy will automatically take the ImGui_ROOT and SFML_ROOT environment variables
 # into account as hints for the find_package calls.
 if(POLICY CMP0074)

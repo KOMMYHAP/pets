@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 cmake_policy(VERSION 3.2)
 
-
+if (POLICY CMP0069)
+  cmake_policy(SET CMP0069 NEW)
+endif()
 file(READ "glm/detail/setup.hpp" GLM_SETUP_FILE)
 string(REGEX MATCH "#define[ ]+GLM_VERSION_MAJOR[ ]+([0-9]+)" _ ${GLM_SETUP_FILE})
 set(GLM_VERSION_MAJOR "${CMAKE_MATCH_1}")
