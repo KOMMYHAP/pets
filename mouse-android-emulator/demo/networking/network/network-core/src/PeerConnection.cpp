@@ -9,10 +9,6 @@
 #include "Peer.h"
 #include "ReceivedPacket.h"
 
-namespace 
-{
-	
-}
 
 namespace Network
 {

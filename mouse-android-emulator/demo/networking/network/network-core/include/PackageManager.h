@@ -1,8 +1,7 @@
 #pragma once
+#include <functional>
 #include <map>
 #include <memory>
-
-#include "Callback.h"
 
 namespace google {
 	namespace protobuf {

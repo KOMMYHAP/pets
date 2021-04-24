@@ -5,6 +5,7 @@ set(SRCS
 	include/PeerConnection.h
 	include/PackageManager.h
 	include/ReceivedPacket.h
+	include/ProtoPackagesNamespace.h
 	src/Peer.cpp
 	src/PeerConnection.cpp
 	src/PackageManager.cpp

@@ -1,8 +1,8 @@
 #pragma once
-#include <map>
-#include <mutex>
+// #include <map>
+// #include <mutex>
 
-#include "Callback.h"
+#include "tools/Callback.h"
 #include "PacketsId.pb.h"
 
 namespace google {
@@ -18,8 +18,8 @@ namespace Network
 	class PeerConnection;
 
 	template <class T>
-	using TypedResponseCallback = Utils::TypedCallback<const T &>;
-	using ResponseCallback = Utils::TypedCallback<const google::protobuf::Message &>;
+	using TypedResponseCallback = TypedCallback<const T &>;
+	using ResponseCallback = TypedCallback<const google::protobuf::Message &>;
 	
 	class Peer
 	{
