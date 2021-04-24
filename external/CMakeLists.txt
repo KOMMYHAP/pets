@@ -20,3 +20,6 @@ add_subdirectory(imgui-sfml)
 
 # Protobuf
 add_subdirectory(protobuf)
+
+# jsoncpp
+add_subdirectory(json)

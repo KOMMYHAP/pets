@@ -12,6 +12,8 @@
 #include "operations/OperationManager.h"
 #include "operations/SimpleOperation.h"
 
+#include "json.h"
+
 class NetworkOptions
 {
 public:
@@ -22,7 +24,7 @@ public:
 	int64_t			GetInt(const std::string & field, int64_t defaultValue);
 
 private:
-	// json
+	Json::Value _root;
 };
 
 class NetworkInterface

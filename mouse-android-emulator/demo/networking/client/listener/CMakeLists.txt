@@ -14,4 +14,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	SFML
 	protopackets
 	network-core
+	jsoncpp
 )
