@@ -1,7 +1,7 @@
 project(network-listener)
 
 set(SRCS
-  Listener.cpp
+	Listener.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SRCS})
@@ -9,10 +9,4 @@ add_executable(${PROJECT_NAME} ${SRCS})
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRCS})
 
 target_compile_options(${PROJECT_NAME} PRIVATE /permissive- /std:c++17)
-target_link_libraries(${PROJECT_NAME} PRIVATE
-	ImGui-SFML::ImGui-SFML
-	SFML
-	protopackets
-	network-core
-	jsoncpp
-)
+target_link_libraries(${PROJECT_NAME} PRIVATE network-api)
