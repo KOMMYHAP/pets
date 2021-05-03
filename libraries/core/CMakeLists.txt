@@ -22,10 +22,12 @@ set(SRCS
 	src/operations/SimpleOperation.cpp
 
 	include/tools/Callback.h
+	include/tools/JsonConfig.h
 	include/tools/TemplateUtils.h
 	include/tools/TimeState.h
 	include/tools/Utils.h
 
+	src/tools/JsonConfig.cpp
 	src/tools/TimeState.cpp
 	src/tools/Utils.cpp
 
@@ -37,3 +39,4 @@ add_library(PETS::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_compile_options(${PROJECT_NAME} PRIVATE /permissive- /std:c++17)
 target_precompile_headers(${PROJECT_NAME} PRIVATE include/stddefs.h)
+target_link_libraries(${PROJECT_NAME} PRIVATE jsoncpp)
