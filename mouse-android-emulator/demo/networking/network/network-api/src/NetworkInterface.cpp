@@ -1,10 +1,23 @@
 #include "NetworkInterface.h"
 #include "PackageManager.h"
 #include "Peer.h"
-#include "NetworkOptions.h"
 
-NetworkInterface::NetworkInterface(std::unique_ptr<NetworkOptions> options)
-	: _options(std::move(options))
+NetworkInterface::NetworkInterface(OperationManager& operationManager)
+	: _operationManager(operationManager)
+{
+}
+NetworkInterface::~NetworkInterface() = default;
+
+void NetworkInterface::TryConnect(const std::string& ip, uint16_t port, const TypedCallback<bool>& callback)
+{
+}
+
+Network::Peer* NetworkInterface::GetPeer() const
+{
+	return nullptr;
+}
+
+void NetworkInterface::CreatePeer()
 {
 }
 
@@ -61,4 +74,3 @@ NetworkInterface::NetworkInterface(std::unique_ptr<NetworkOptions> options)
 // }
 //
 // std::cout << "User found. Bye!" << std::endl;
-NetworkInterface::~NetworkInterface() = default;

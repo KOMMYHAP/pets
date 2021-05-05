@@ -1,5 +1,10 @@
 #pragma once
 #include <memory>
+#include <string>
+
+#include "tools/Callback.h"
+
+class OperationManager;
 
 namespace Network {
 	class PackageManager;
@@ -8,18 +13,20 @@ namespace Network {
 
 class NetworkOptions;
 
+
 class NetworkInterface
 {
 public:
-	NetworkInterface(std::unique_ptr<NetworkOptions> options);
+	NetworkInterface(OperationManager & operationManager);
 	~NetworkInterface();
 
-	std::shared_ptr<Network::Peer> GetPeer() const;
+	void TryConnect(const std::string & ip, uint16_t port, const TypedCallback<bool> & callback);
+	Network::Peer * GetPeer() const;
 
 private:
 	void CreatePeer();
 
-	std::unique_ptr<NetworkOptions>				_options;
 	std::unique_ptr<Network::PackageManager>	_packageManager;
-	std::shared_ptr<Network::Peer>				_peer;
+	std::unique_ptr<Network::Peer>				_peer;
+	OperationManager &							_operationManager;
 };

@@ -2,10 +2,8 @@ project(network-api)
 
 set(SRCS
 	include/NetworkInterface.h
-	include/NetworkOptions.h
 
 	src/NetworkInterface.cpp
-	src/NetworkOptions.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC ${SRCS})
