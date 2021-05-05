@@ -26,11 +26,13 @@ set(SRCS
 	src/operations/SimpleOperation.cpp
 
 	include/tools/Callback.h
+	include/tools/ParsedCommandLine.h
 	include/tools/JsonConfig.h
 	include/tools/TemplateUtils.h
 	include/tools/TimeState.h
 	include/tools/Utils.h
 
+	src/tools/ParsedCommandLine.cpp
 	src/tools/JsonConfig.cpp
 	src/tools/TimeState.cpp
 	src/tools/Utils.cpp
