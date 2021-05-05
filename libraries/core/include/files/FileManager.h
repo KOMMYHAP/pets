@@ -10,7 +10,5 @@ public:
 	std::ofstream & WriteFile(const std::string & name);
 
 private:
-	const std::string & GetRoot() const;
-
 	std::string		_root;
 };
