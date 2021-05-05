@@ -12,6 +12,8 @@ namespace Network
 	{
 	}
 
+	Peer::~Peer() = default;
+
 	void Peer::Connect(std::unique_ptr<PeerConnection> connection)
 	{
 		_connection = std::move(connection);

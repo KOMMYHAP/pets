@@ -25,6 +25,7 @@ namespace Network
 	{
 	public:
 		Peer(PackageManager & packageManager);
+		~Peer();
 		void Connect(std::unique_ptr<PeerConnection> connection);
 
 		template <class T>
