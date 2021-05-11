@@ -47,7 +47,7 @@ struct TableStruct_Main_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[1]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -57,18 +57,14 @@ extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table
 namespace my {
 namespace proto {
 namespace package {
-class MousePositionMessageRequest;
-class MousePositionMessageRequestDefaultTypeInternal;
-extern MousePositionMessageRequestDefaultTypeInternal _MousePositionMessageRequest_default_instance_;
-class MousePositionMessageResponse;
-class MousePositionMessageResponseDefaultTypeInternal;
-extern MousePositionMessageResponseDefaultTypeInternal _MousePositionMessageResponse_default_instance_;
+class MousePositionMessage;
+class MousePositionMessageDefaultTypeInternal;
+extern MousePositionMessageDefaultTypeInternal _MousePositionMessage_default_instance_;
 }  // namespace package
 }  // namespace proto
 }  // namespace my
 PROTOBUF_NAMESPACE_OPEN
-template<> ::my::proto::package::MousePositionMessageRequest* Arena::CreateMaybeMessage<::my::proto::package::MousePositionMessageRequest>(Arena*);
-template<> ::my::proto::package::MousePositionMessageResponse* Arena::CreateMaybeMessage<::my::proto::package::MousePositionMessageResponse>(Arena*);
+template<> ::my::proto::package::MousePositionMessage* Arena::CreateMaybeMessage<::my::proto::package::MousePositionMessage>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace my {
 namespace proto {
@@ -76,23 +72,23 @@ namespace package {
 
 // ===================================================================
 
-class MousePositionMessageRequest PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:my.proto.package.MousePositionMessageRequest) */ {
+class MousePositionMessage PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:my.proto.package.MousePositionMessage) */ {
  public:
-  inline MousePositionMessageRequest() : MousePositionMessageRequest(nullptr) {}
-  virtual ~MousePositionMessageRequest();
+  inline MousePositionMessage() : MousePositionMessage(nullptr) {}
+  virtual ~MousePositionMessage();
 
-  MousePositionMessageRequest(const MousePositionMessageRequest& from);
-  MousePositionMessageRequest(MousePositionMessageRequest&& from) noexcept
-    : MousePositionMessageRequest() {
+  MousePositionMessage(const MousePositionMessage& from);
+  MousePositionMessage(MousePositionMessage&& from) noexcept
+    : MousePositionMessage() {
     *this = ::std::move(from);
   }
 
-  inline MousePositionMessageRequest& operator=(const MousePositionMessageRequest& from) {
+  inline MousePositionMessage& operator=(const MousePositionMessage& from) {
     CopyFrom(from);
     return *this;
   }
-  inline MousePositionMessageRequest& operator=(MousePositionMessageRequest&& from) noexcept {
+  inline MousePositionMessage& operator=(MousePositionMessage&& from) noexcept {
     if (GetArena() == from.GetArena()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -110,19 +106,19 @@ class MousePositionMessageRequest PROTOBUF_FINAL :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const MousePositionMessageRequest& default_instance();
+  static const MousePositionMessage& default_instance();
 
-  static inline const MousePositionMessageRequest* internal_default_instance() {
-    return reinterpret_cast<const MousePositionMessageRequest*>(
-               &_MousePositionMessageRequest_default_instance_);
+  static inline const MousePositionMessage* internal_default_instance() {
+    return reinterpret_cast<const MousePositionMessage*>(
+               &_MousePositionMessage_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(MousePositionMessageRequest& a, MousePositionMessageRequest& b) {
+  friend void swap(MousePositionMessage& a, MousePositionMessage& b) {
     a.Swap(&b);
   }
-  inline void Swap(MousePositionMessageRequest* other) {
+  inline void Swap(MousePositionMessage* other) {
     if (other == this) return;
     if (GetArena() == other->GetArena()) {
       InternalSwap(other);
@@ -130,7 +126,7 @@ class MousePositionMessageRequest PROTOBUF_FINAL :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(MousePositionMessageRequest* other) {
+  void UnsafeArenaSwap(MousePositionMessage* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -138,17 +134,17 @@ class MousePositionMessageRequest PROTOBUF_FINAL :
 
   // implements Message ----------------------------------------------
 
-  inline MousePositionMessageRequest* New() const final {
-    return CreateMaybeMessage<MousePositionMessageRequest>(nullptr);
+  inline MousePositionMessage* New() const final {
+    return CreateMaybeMessage<MousePositionMessage>(nullptr);
   }
 
-  MousePositionMessageRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<MousePositionMessageRequest>(arena);
+  MousePositionMessage* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<MousePositionMessage>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const MousePositionMessageRequest& from);
-  void MergeFrom(const MousePositionMessageRequest& from);
+  void CopyFrom(const MousePositionMessage& from);
+  void MergeFrom(const MousePositionMessage& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -162,136 +158,13 @@ class MousePositionMessageRequest PROTOBUF_FINAL :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(MousePositionMessageRequest* other);
+  void InternalSwap(MousePositionMessage* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "my.proto.package.MousePositionMessageRequest";
+    return "my.proto.package.MousePositionMessage";
   }
   protected:
-  explicit MousePositionMessageRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_Main_2eproto);
-    return ::descriptor_table_Main_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // @@protoc_insertion_point(class_scope:my.proto.package.MousePositionMessageRequest)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_Main_2eproto;
-};
-// -------------------------------------------------------------------
-
-class MousePositionMessageResponse PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:my.proto.package.MousePositionMessageResponse) */ {
- public:
-  inline MousePositionMessageResponse() : MousePositionMessageResponse(nullptr) {}
-  virtual ~MousePositionMessageResponse();
-
-  MousePositionMessageResponse(const MousePositionMessageResponse& from);
-  MousePositionMessageResponse(MousePositionMessageResponse&& from) noexcept
-    : MousePositionMessageResponse() {
-    *this = ::std::move(from);
-  }
-
-  inline MousePositionMessageResponse& operator=(const MousePositionMessageResponse& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline MousePositionMessageResponse& operator=(MousePositionMessageResponse&& from) noexcept {
-    if (GetArena() == from.GetArena()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const MousePositionMessageResponse& default_instance();
-
-  static inline const MousePositionMessageResponse* internal_default_instance() {
-    return reinterpret_cast<const MousePositionMessageResponse*>(
-               &_MousePositionMessageResponse_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    1;
-
-  friend void swap(MousePositionMessageResponse& a, MousePositionMessageResponse& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(MousePositionMessageResponse* other) {
-    if (other == this) return;
-    if (GetArena() == other->GetArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(MousePositionMessageResponse* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline MousePositionMessageResponse* New() const final {
-    return CreateMaybeMessage<MousePositionMessageResponse>(nullptr);
-  }
-
-  MousePositionMessageResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<MousePositionMessageResponse>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const MousePositionMessageResponse& from);
-  void MergeFrom(const MousePositionMessageResponse& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(MousePositionMessageResponse* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "my.proto.package.MousePositionMessageResponse";
-  }
-  protected:
-  explicit MousePositionMessageResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  explicit MousePositionMessage(::PROTOBUF_NAMESPACE_ID::Arena* arena);
   private:
   static void ArenaDtor(void* object);
   inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -311,10 +184,10 @@ class MousePositionMessageResponse PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kXFieldNumber = 2,
-    kYFieldNumber = 3,
+    kXFieldNumber = 1,
+    kYFieldNumber = 2,
   };
-  // int32 x = 2;
+  // int32 x = 1;
   void clear_x();
   ::PROTOBUF_NAMESPACE_ID::int32 x() const;
   void set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -323,7 +196,7 @@ class MousePositionMessageResponse PROTOBUF_FINAL :
   void _internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 y = 3;
+  // int32 y = 2;
   void clear_y();
   ::PROTOBUF_NAMESPACE_ID::int32 y() const;
   void set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -332,7 +205,7 @@ class MousePositionMessageResponse PROTOBUF_FINAL :
   void _internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:my.proto.package.MousePositionMessageResponse)
+  // @@protoc_insertion_point(class_scope:my.proto.package.MousePositionMessage)
  private:
   class _Internal;
 
@@ -353,57 +226,51 @@ class MousePositionMessageResponse PROTOBUF_FINAL :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// MousePositionMessageRequest
+// MousePositionMessage
 
-// -------------------------------------------------------------------
-
-// MousePositionMessageResponse
-
-// int32 x = 2;
-inline void MousePositionMessageResponse::clear_x() {
+// int32 x = 1;
+inline void MousePositionMessage::clear_x() {
   x_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 MousePositionMessageResponse::_internal_x() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 MousePositionMessage::_internal_x() const {
   return x_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 MousePositionMessageResponse::x() const {
-  // @@protoc_insertion_point(field_get:my.proto.package.MousePositionMessageResponse.x)
+inline ::PROTOBUF_NAMESPACE_ID::int32 MousePositionMessage::x() const {
+  // @@protoc_insertion_point(field_get:my.proto.package.MousePositionMessage.x)
   return _internal_x();
 }
-inline void MousePositionMessageResponse::_internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void MousePositionMessage::_internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   x_ = value;
 }
-inline void MousePositionMessageResponse::set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void MousePositionMessage::set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_x(value);
-  // @@protoc_insertion_point(field_set:my.proto.package.MousePositionMessageResponse.x)
+  // @@protoc_insertion_point(field_set:my.proto.package.MousePositionMessage.x)
 }
 
-// int32 y = 3;
-inline void MousePositionMessageResponse::clear_y() {
+// int32 y = 2;
+inline void MousePositionMessage::clear_y() {
   y_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 MousePositionMessageResponse::_internal_y() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 MousePositionMessage::_internal_y() const {
   return y_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 MousePositionMessageResponse::y() const {
-  // @@protoc_insertion_point(field_get:my.proto.package.MousePositionMessageResponse.y)
+inline ::PROTOBUF_NAMESPACE_ID::int32 MousePositionMessage::y() const {
+  // @@protoc_insertion_point(field_get:my.proto.package.MousePositionMessage.y)
   return _internal_y();
 }
-inline void MousePositionMessageResponse::_internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void MousePositionMessage::_internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   y_ = value;
 }
-inline void MousePositionMessageResponse::set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void MousePositionMessage::set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_y(value);
-  // @@protoc_insertion_point(field_set:my.proto.package.MousePositionMessageResponse.y)
+  // @@protoc_insertion_point(field_set:my.proto.package.MousePositionMessage.y)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 

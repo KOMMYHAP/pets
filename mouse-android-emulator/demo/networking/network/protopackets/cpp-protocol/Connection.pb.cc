@@ -17,42 +17,42 @@
 namespace my {
 namespace proto {
 namespace package {
-class ConnectionClientBroadcastSearchRequestDefaultTypeInternal {
+class ConnectionRequestDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ConnectionClientBroadcastSearchRequest> _instance;
-} _ConnectionClientBroadcastSearchRequest_default_instance_;
-class ConnectionClientBroadcastSearchResponseDefaultTypeInternal {
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ConnectionRequest> _instance;
+} _ConnectionRequest_default_instance_;
+class ConnectionResponseDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ConnectionClientBroadcastSearchResponse> _instance;
-} _ConnectionClientBroadcastSearchResponse_default_instance_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ConnectionResponse> _instance;
+} _ConnectionResponse_default_instance_;
 }  // namespace package
 }  // namespace proto
 }  // namespace my
-static void InitDefaultsscc_info_ConnectionClientBroadcastSearchRequest_Connection_2eproto() {
+static void InitDefaultsscc_info_ConnectionRequest_Connection_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::my::proto::package::_ConnectionClientBroadcastSearchRequest_default_instance_;
-    new (ptr) ::my::proto::package::ConnectionClientBroadcastSearchRequest();
+    void* ptr = &::my::proto::package::_ConnectionRequest_default_instance_;
+    new (ptr) ::my::proto::package::ConnectionRequest();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ConnectionClientBroadcastSearchRequest_Connection_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ConnectionClientBroadcastSearchRequest_Connection_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ConnectionRequest_Connection_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ConnectionRequest_Connection_2eproto}, {}};
 
-static void InitDefaultsscc_info_ConnectionClientBroadcastSearchResponse_Connection_2eproto() {
+static void InitDefaultsscc_info_ConnectionResponse_Connection_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::my::proto::package::_ConnectionClientBroadcastSearchResponse_default_instance_;
-    new (ptr) ::my::proto::package::ConnectionClientBroadcastSearchResponse();
+    void* ptr = &::my::proto::package::_ConnectionResponse_default_instance_;
+    new (ptr) ::my::proto::package::ConnectionResponse();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ConnectionClientBroadcastSearchResponse_Connection_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ConnectionClientBroadcastSearchResponse_Connection_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ConnectionResponse_Connection_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ConnectionResponse_Connection_2eproto}, {}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Connection_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_Connection_2eproto = nullptr;
@@ -60,45 +60,44 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_s
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Connection_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionClientBroadcastSearchRequest, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionClientBroadcastSearchResponse, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionResponse, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionClientBroadcastSearchResponse, ip_),
-  PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionClientBroadcastSearchResponse, port_),
+  PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionResponse, ip_),
+  PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionResponse, port_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::my::proto::package::ConnectionClientBroadcastSearchRequest)},
-  { 5, -1, sizeof(::my::proto::package::ConnectionClientBroadcastSearchResponse)},
+  { 0, -1, sizeof(::my::proto::package::ConnectionRequest)},
+  { 5, -1, sizeof(::my::proto::package::ConnectionResponse)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::my::proto::package::_ConnectionClientBroadcastSearchRequest_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::my::proto::package::_ConnectionClientBroadcastSearchResponse_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::my::proto::package::_ConnectionRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::my::proto::package::_ConnectionResponse_default_instance_),
 };
 
 const char descriptor_table_protodef_Connection_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\020Connection.proto\022\020my.proto.package\032\017Pa"
-  "cketsId.proto\".\n&ConnectionClientBroadca"
-  "stSearchRequest:\004\200\265\030\n\"I\n\'ConnectionClien"
-  "tBroadcastSearchResponse\022\n\n\002ip\030\001 \001(\t\022\014\n\004"
-  "port\030\002 \001(\r:\004\200\265\030\013b\006proto3"
+  "cketsId.proto\"\031\n\021ConnectionRequest:\004\200\265\030\n"
+  "\"4\n\022ConnectionResponse\022\n\n\002ip\030\001 \001(\t\022\014\n\004po"
+  "rt\030\002 \001(\r:\004\200\265\030\013b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Connection_2eproto_deps[1] = {
   &::descriptor_table_PacketsId_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Connection_2eproto_sccs[2] = {
-  &scc_info_ConnectionClientBroadcastSearchRequest_Connection_2eproto.base,
-  &scc_info_ConnectionClientBroadcastSearchResponse_Connection_2eproto.base,
+  &scc_info_ConnectionRequest_Connection_2eproto.base,
+  &scc_info_ConnectionResponse_Connection_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Connection_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Connection_2eproto = {
-  false, false, descriptor_table_protodef_Connection_2eproto, "Connection.proto", 184,
+  false, false, descriptor_table_protodef_Connection_2eproto, "Connection.proto", 142,
   &descriptor_table_Connection_2eproto_once, descriptor_table_Connection_2eproto_sccs, descriptor_table_Connection_2eproto_deps, 2, 1,
   schemas, file_default_instances, TableStruct_Connection_2eproto::offsets,
   file_level_metadata_Connection_2eproto, 2, file_level_enum_descriptors_Connection_2eproto, file_level_service_descriptors_Connection_2eproto,
@@ -112,52 +111,52 @@ namespace package {
 
 // ===================================================================
 
-class ConnectionClientBroadcastSearchRequest::_Internal {
+class ConnectionRequest::_Internal {
  public:
 };
 
-ConnectionClientBroadcastSearchRequest::ConnectionClientBroadcastSearchRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+ConnectionRequest::ConnectionRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:my.proto.package.ConnectionClientBroadcastSearchRequest)
+  // @@protoc_insertion_point(arena_constructor:my.proto.package.ConnectionRequest)
 }
-ConnectionClientBroadcastSearchRequest::ConnectionClientBroadcastSearchRequest(const ConnectionClientBroadcastSearchRequest& from)
+ConnectionRequest::ConnectionRequest(const ConnectionRequest& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:my.proto.package.ConnectionClientBroadcastSearchRequest)
+  // @@protoc_insertion_point(copy_constructor:my.proto.package.ConnectionRequest)
 }
 
-void ConnectionClientBroadcastSearchRequest::SharedCtor() {
+void ConnectionRequest::SharedCtor() {
 }
 
-ConnectionClientBroadcastSearchRequest::~ConnectionClientBroadcastSearchRequest() {
-  // @@protoc_insertion_point(destructor:my.proto.package.ConnectionClientBroadcastSearchRequest)
+ConnectionRequest::~ConnectionRequest() {
+  // @@protoc_insertion_point(destructor:my.proto.package.ConnectionRequest)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void ConnectionClientBroadcastSearchRequest::SharedDtor() {
+void ConnectionRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
 }
 
-void ConnectionClientBroadcastSearchRequest::ArenaDtor(void* object) {
-  ConnectionClientBroadcastSearchRequest* _this = reinterpret_cast< ConnectionClientBroadcastSearchRequest* >(object);
+void ConnectionRequest::ArenaDtor(void* object) {
+  ConnectionRequest* _this = reinterpret_cast< ConnectionRequest* >(object);
   (void)_this;
 }
-void ConnectionClientBroadcastSearchRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+void ConnectionRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 }
-void ConnectionClientBroadcastSearchRequest::SetCachedSize(int size) const {
+void ConnectionRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ConnectionClientBroadcastSearchRequest& ConnectionClientBroadcastSearchRequest::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ConnectionClientBroadcastSearchRequest_Connection_2eproto.base);
+const ConnectionRequest& ConnectionRequest::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ConnectionRequest_Connection_2eproto.base);
   return *internal_default_instance();
 }
 
 
-void ConnectionClientBroadcastSearchRequest::Clear() {
-// @@protoc_insertion_point(message_clear_start:my.proto.package.ConnectionClientBroadcastSearchRequest)
+void ConnectionRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:my.proto.package.ConnectionRequest)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -165,7 +164,7 @@ void ConnectionClientBroadcastSearchRequest::Clear() {
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* ConnectionClientBroadcastSearchRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* ConnectionRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
@@ -189,9 +188,9 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* ConnectionClientBroadcastSearchRequest::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* ConnectionRequest::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:my.proto.package.ConnectionClientBroadcastSearchRequest)
+  // @@protoc_insertion_point(serialize_to_array_start:my.proto.package.ConnectionRequest)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -199,12 +198,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:my.proto.package.ConnectionClientBroadcastSearchRequest)
+  // @@protoc_insertion_point(serialize_to_array_end:my.proto.package.ConnectionRequest)
   return target;
 }
 
-size_t ConnectionClientBroadcastSearchRequest::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:my.proto.package.ConnectionClientBroadcastSearchRequest)
+size_t ConnectionRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:my.proto.package.ConnectionRequest)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -220,23 +219,23 @@ size_t ConnectionClientBroadcastSearchRequest::ByteSizeLong() const {
   return total_size;
 }
 
-void ConnectionClientBroadcastSearchRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:my.proto.package.ConnectionClientBroadcastSearchRequest)
+void ConnectionRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:my.proto.package.ConnectionRequest)
   GOOGLE_DCHECK_NE(&from, this);
-  const ConnectionClientBroadcastSearchRequest* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ConnectionClientBroadcastSearchRequest>(
+  const ConnectionRequest* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ConnectionRequest>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:my.proto.package.ConnectionClientBroadcastSearchRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:my.proto.package.ConnectionRequest)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:my.proto.package.ConnectionClientBroadcastSearchRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:my.proto.package.ConnectionRequest)
     MergeFrom(*source);
   }
 }
 
-void ConnectionClientBroadcastSearchRequest::MergeFrom(const ConnectionClientBroadcastSearchRequest& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:my.proto.package.ConnectionClientBroadcastSearchRequest)
+void ConnectionRequest::MergeFrom(const ConnectionRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:my.proto.package.ConnectionRequest)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -244,47 +243,47 @@ void ConnectionClientBroadcastSearchRequest::MergeFrom(const ConnectionClientBro
 
 }
 
-void ConnectionClientBroadcastSearchRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:my.proto.package.ConnectionClientBroadcastSearchRequest)
+void ConnectionRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:my.proto.package.ConnectionRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void ConnectionClientBroadcastSearchRequest::CopyFrom(const ConnectionClientBroadcastSearchRequest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:my.proto.package.ConnectionClientBroadcastSearchRequest)
+void ConnectionRequest::CopyFrom(const ConnectionRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:my.proto.package.ConnectionRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ConnectionClientBroadcastSearchRequest::IsInitialized() const {
+bool ConnectionRequest::IsInitialized() const {
   return true;
 }
 
-void ConnectionClientBroadcastSearchRequest::InternalSwap(ConnectionClientBroadcastSearchRequest* other) {
+void ConnectionRequest::InternalSwap(ConnectionRequest* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata ConnectionClientBroadcastSearchRequest::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata ConnectionRequest::GetMetadata() const {
   return GetMetadataStatic();
 }
 
 
 // ===================================================================
 
-class ConnectionClientBroadcastSearchResponse::_Internal {
+class ConnectionResponse::_Internal {
  public:
 };
 
-ConnectionClientBroadcastSearchResponse::ConnectionClientBroadcastSearchResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+ConnectionResponse::ConnectionResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:my.proto.package.ConnectionClientBroadcastSearchResponse)
+  // @@protoc_insertion_point(arena_constructor:my.proto.package.ConnectionResponse)
 }
-ConnectionClientBroadcastSearchResponse::ConnectionClientBroadcastSearchResponse(const ConnectionClientBroadcastSearchResponse& from)
+ConnectionResponse::ConnectionResponse(const ConnectionResponse& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
@@ -293,43 +292,43 @@ ConnectionClientBroadcastSearchResponse::ConnectionClientBroadcastSearchResponse
       GetArena());
   }
   port_ = from.port_;
-  // @@protoc_insertion_point(copy_constructor:my.proto.package.ConnectionClientBroadcastSearchResponse)
+  // @@protoc_insertion_point(copy_constructor:my.proto.package.ConnectionResponse)
 }
 
-void ConnectionClientBroadcastSearchResponse::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_ConnectionClientBroadcastSearchResponse_Connection_2eproto.base);
+void ConnectionResponse::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_ConnectionResponse_Connection_2eproto.base);
   ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   port_ = 0u;
 }
 
-ConnectionClientBroadcastSearchResponse::~ConnectionClientBroadcastSearchResponse() {
-  // @@protoc_insertion_point(destructor:my.proto.package.ConnectionClientBroadcastSearchResponse)
+ConnectionResponse::~ConnectionResponse() {
+  // @@protoc_insertion_point(destructor:my.proto.package.ConnectionResponse)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void ConnectionClientBroadcastSearchResponse::SharedDtor() {
+void ConnectionResponse::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
   ip_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-void ConnectionClientBroadcastSearchResponse::ArenaDtor(void* object) {
-  ConnectionClientBroadcastSearchResponse* _this = reinterpret_cast< ConnectionClientBroadcastSearchResponse* >(object);
+void ConnectionResponse::ArenaDtor(void* object) {
+  ConnectionResponse* _this = reinterpret_cast< ConnectionResponse* >(object);
   (void)_this;
 }
-void ConnectionClientBroadcastSearchResponse::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+void ConnectionResponse::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 }
-void ConnectionClientBroadcastSearchResponse::SetCachedSize(int size) const {
+void ConnectionResponse::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ConnectionClientBroadcastSearchResponse& ConnectionClientBroadcastSearchResponse::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ConnectionClientBroadcastSearchResponse_Connection_2eproto.base);
+const ConnectionResponse& ConnectionResponse::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ConnectionResponse_Connection_2eproto.base);
   return *internal_default_instance();
 }
 
 
-void ConnectionClientBroadcastSearchResponse::Clear() {
-// @@protoc_insertion_point(message_clear_start:my.proto.package.ConnectionClientBroadcastSearchResponse)
+void ConnectionResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:my.proto.package.ConnectionResponse)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -339,7 +338,7 @@ void ConnectionClientBroadcastSearchResponse::Clear() {
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* ConnectionClientBroadcastSearchResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* ConnectionResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
@@ -351,7 +350,7 @@ const char* ConnectionClientBroadcastSearchResponse::_InternalParse(const char* 
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           auto str = _internal_mutable_ip();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "my.proto.package.ConnectionClientBroadcastSearchResponse.ip"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "my.proto.package.ConnectionResponse.ip"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -384,9 +383,9 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* ConnectionClientBroadcastSearchResponse::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* ConnectionResponse::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:my.proto.package.ConnectionClientBroadcastSearchResponse)
+  // @@protoc_insertion_point(serialize_to_array_start:my.proto.package.ConnectionResponse)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -395,7 +394,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "my.proto.package.ConnectionClientBroadcastSearchResponse.ip");
+      "my.proto.package.ConnectionResponse.ip");
     target = stream->WriteStringMaybeAliased(
         1, this->_internal_ip(), target);
   }
@@ -410,12 +409,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:my.proto.package.ConnectionClientBroadcastSearchResponse)
+  // @@protoc_insertion_point(serialize_to_array_end:my.proto.package.ConnectionResponse)
   return target;
 }
 
-size_t ConnectionClientBroadcastSearchResponse::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:my.proto.package.ConnectionClientBroadcastSearchResponse)
+size_t ConnectionResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:my.proto.package.ConnectionResponse)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -445,23 +444,23 @@ size_t ConnectionClientBroadcastSearchResponse::ByteSizeLong() const {
   return total_size;
 }
 
-void ConnectionClientBroadcastSearchResponse::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:my.proto.package.ConnectionClientBroadcastSearchResponse)
+void ConnectionResponse::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:my.proto.package.ConnectionResponse)
   GOOGLE_DCHECK_NE(&from, this);
-  const ConnectionClientBroadcastSearchResponse* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ConnectionClientBroadcastSearchResponse>(
+  const ConnectionResponse* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ConnectionResponse>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:my.proto.package.ConnectionClientBroadcastSearchResponse)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:my.proto.package.ConnectionResponse)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:my.proto.package.ConnectionClientBroadcastSearchResponse)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:my.proto.package.ConnectionResponse)
     MergeFrom(*source);
   }
 }
 
-void ConnectionClientBroadcastSearchResponse::MergeFrom(const ConnectionClientBroadcastSearchResponse& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:my.proto.package.ConnectionClientBroadcastSearchResponse)
+void ConnectionResponse::MergeFrom(const ConnectionResponse& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:my.proto.package.ConnectionResponse)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -475,32 +474,32 @@ void ConnectionClientBroadcastSearchResponse::MergeFrom(const ConnectionClientBr
   }
 }
 
-void ConnectionClientBroadcastSearchResponse::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:my.proto.package.ConnectionClientBroadcastSearchResponse)
+void ConnectionResponse::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:my.proto.package.ConnectionResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void ConnectionClientBroadcastSearchResponse::CopyFrom(const ConnectionClientBroadcastSearchResponse& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:my.proto.package.ConnectionClientBroadcastSearchResponse)
+void ConnectionResponse::CopyFrom(const ConnectionResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:my.proto.package.ConnectionResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ConnectionClientBroadcastSearchResponse::IsInitialized() const {
+bool ConnectionResponse::IsInitialized() const {
   return true;
 }
 
-void ConnectionClientBroadcastSearchResponse::InternalSwap(ConnectionClientBroadcastSearchResponse* other) {
+void ConnectionResponse::InternalSwap(ConnectionResponse* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   ip_.Swap(&other->ip_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   swap(port_, other->port_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata ConnectionClientBroadcastSearchResponse::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata ConnectionResponse::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -510,11 +509,11 @@ void ConnectionClientBroadcastSearchResponse::InternalSwap(ConnectionClientBroad
 }  // namespace proto
 }  // namespace my
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::my::proto::package::ConnectionClientBroadcastSearchRequest* Arena::CreateMaybeMessage< ::my::proto::package::ConnectionClientBroadcastSearchRequest >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::my::proto::package::ConnectionClientBroadcastSearchRequest >(arena);
+template<> PROTOBUF_NOINLINE ::my::proto::package::ConnectionRequest* Arena::CreateMaybeMessage< ::my::proto::package::ConnectionRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::my::proto::package::ConnectionRequest >(arena);
 }
-template<> PROTOBUF_NOINLINE ::my::proto::package::ConnectionClientBroadcastSearchResponse* Arena::CreateMaybeMessage< ::my::proto::package::ConnectionClientBroadcastSearchResponse >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::my::proto::package::ConnectionClientBroadcastSearchResponse >(arena);
+template<> PROTOBUF_NOINLINE ::my::proto::package::ConnectionResponse* Arena::CreateMaybeMessage< ::my::proto::package::ConnectionResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::my::proto::package::ConnectionResponse >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

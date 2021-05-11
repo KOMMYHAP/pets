@@ -3,14 +3,14 @@ import "PacketsId.proto";
 
 package my.proto.package;
 
-message ConnectionClientBroadcastSearchRequest
+message ConnectionRequest
 {
-	option (package_id) = CONNECTION_CLIENT_BROADCAST_SEARCH_REQUEST;
+	option (package_id) = CONNECTION_REQUEST;
 }
 
-message ConnectionClientBroadcastSearchResponse
+message ConnectionResponse
 {
-	option (package_id) = CONNECTION_CLIENT_BROADCAST_SEARCH_RESPONSE;
+	option (package_id) = CONNECTION_RESPONSE;
 	string 				ip = 1;
 	uint32				port = 2;
 }

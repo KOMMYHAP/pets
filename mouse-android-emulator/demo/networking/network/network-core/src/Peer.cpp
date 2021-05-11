@@ -1,5 +1,8 @@
 #include "Peer.h"
 
+#include <SFML/Network/IpAddress.hpp>
+
+
 #include "PackageManager.h"
 #include "ReceivedPacket.h"
 #include "PeerConnection.h"
@@ -10,21 +13,32 @@ namespace Network
 	Peer::Peer(PackageManager& packageManager)
 		: _packageManager(packageManager)
 	{
+		_connection = std::make_unique<PeerConnection>(*this);
 	}
 
 	Peer::~Peer() = default;
 
-	void Peer::Connect(std::unique_ptr<PeerConnection> connection)
+	uint16_t Peer::OpenLocalConnection(const std::vector<uint16_t>& localPorts)
 	{
-		_connection = std::move(connection);
+		for (auto port : localPorts)
+		{
+			auto status = _connection->SetLocal(port, "0.0.0.0");
+			if (status == PeerConnectionStatus::Good)
+			{
+				return port;
+			}
+		}
+		return 0;
+	}
+
+	bool Peer::OpenRemoteConnection(uint16_t remotePort, const std::string& ip)
+	{
+		return _connection->SetRemote(remotePort, ip) != PeerConnectionStatus::IpAddressIsInvalid;
 	}
 
 	void Peer::ProcessReceivedPackets()
 	{
-		if (_connection)
-		{
-			_connection->ProcessReceivedPackets();
-		}
+		_connection->ProcessReceivedPackets();
 	}
 
 	void Peer::ReceivePacket(ReceivedPacket receivedPacket)
@@ -71,12 +85,6 @@ namespace Network
 
 	void Peer::SendPacket(uint32_t packageId, std::string data)
 	{
-		if (_connection)
-		{
-			_connection->SendPacket(packageId, std::move(data));
-			return;
-		}
-
-		std::cerr << "Peer must be connected before sending packet." << std::endl;
+		_connection->SendPacket(packageId, std::move(data));
 	}
 }

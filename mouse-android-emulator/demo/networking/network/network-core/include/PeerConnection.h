@@ -8,22 +8,24 @@
 
 #include "ReceivedPacket.h"
 
-namespace sf {
-	class UdpSocket;
-	class IpAddress;
-}
-
 namespace Network
 {
+	enum class PeerConnectionStatus
+	{
+		PortIsBusy,
+		IpAddressIsInvalid,
+		Good
+	};
 	class Peer;
 
 	class PeerConnection
 	{
 	public:
-		PeerConnection(std::unique_ptr<sf::UdpSocket> socket, Peer & peer);
+		PeerConnection(Peer & peer);
 		~PeerConnection();
 
-		void SetRemote(uint16_t remotePort, const sf::IpAddress & remoteAddress);
+		PeerConnectionStatus SetLocal(uint16_t localPort, const std::string & localAddress);
+		PeerConnectionStatus SetRemote(uint16_t remotePort, const std::string & remoteAddress);
 		void SendPacket(uint32_t id, const std::string & data);
 		void ProcessReceivedPackets();
 

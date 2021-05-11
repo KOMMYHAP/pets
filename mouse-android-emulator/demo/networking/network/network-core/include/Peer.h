@@ -26,7 +26,9 @@ namespace Network
 	public:
 		Peer(PackageManager & packageManager);
 		~Peer();
-		void Connect(std::unique_ptr<PeerConnection> connection);
+
+		uint16_t OpenLocalConnection(const std::vector<uint16_t> & localPorts);
+		bool OpenRemoteConnection(uint16_t remotePort, const std::string & ip); 
 
 		template <class T>
 		void SendPacket(const T & request);
@@ -42,7 +44,6 @@ namespace Network
 		void ReceivePacket(uint32_t packageId, const google::protobuf::Message & response);
 		
 		PackageManager &									_packageManager;
-		// std::map<uint32_t, ResponseCallback>				_responseCallbacks;
 		std::list<ResponseCallback>							_subscribers;
 		std::unique_ptr<PeerConnection>						_connection;
 		std::string											_buffer;

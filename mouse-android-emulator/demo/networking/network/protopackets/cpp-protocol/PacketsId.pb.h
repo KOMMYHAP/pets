@@ -61,16 +61,15 @@ namespace package {
 
 enum PackageId : int {
   UNKNOWN_MESSAGE_ID = 0,
-  CONNECTION_CLIENT_BROADCAST_SEARCH_REQUEST = 10,
-  CONNECTION_CLIENT_BROADCAST_SEARCH_RESPONSE = 11,
-  MOUSE_POSITION_MESSAGE_REQUEST = 100,
-  MOUSE_POSITION_MESSAGE_RESPONSE = 101,
+  CONNECTION_REQUEST = 10,
+  CONNECTION_RESPONSE = 11,
+  MOUSE_POSITION_MESSAGE = 100,
   PackageId_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   PackageId_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool PackageId_IsValid(int value);
 constexpr PackageId PackageId_MIN = UNKNOWN_MESSAGE_ID;
-constexpr PackageId PackageId_MAX = MOUSE_POSITION_MESSAGE_RESPONSE;
+constexpr PackageId PackageId_MAX = MOUSE_POSITION_MESSAGE;
 constexpr int PackageId_ARRAYSIZE = PackageId_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PackageId_descriptor();

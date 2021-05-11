@@ -20,10 +20,9 @@ namespace Network
 	void PackageManager::RegisterPackages()
 	{
 		using namespace my::proto::package;
-		RegisterPackage<ConnectionClientBroadcastSearchRequest>(_creators);
-		RegisterPackage<ConnectionClientBroadcastSearchResponse>(_creators);
-		RegisterPackage<MousePositionMessageRequest>(_creators);
-		RegisterPackage<MousePositionMessageResponse>(_creators);
+		RegisterPackage<ConnectionRequest>(_creators);
+		RegisterPackage<ConnectionResponse>(_creators);
+		RegisterPackage<MousePositionMessage>(_creators);
 	}
 
 	std::unique_ptr<google::protobuf::Message> PackageManager::Create(uint32_t id)

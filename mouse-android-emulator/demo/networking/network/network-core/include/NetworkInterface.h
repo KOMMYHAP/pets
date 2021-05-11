@@ -13,6 +13,15 @@ namespace Network {
 
 class NetworkOptions;
 
+struct NetworkConnection
+{
+	enum Status
+	{
+		Connected,
+		BusyPort,
+		InvalidIpAddress
+	};
+};
 
 class NetworkInterface
 {
@@ -20,12 +29,11 @@ public:
 	NetworkInterface(OperationManager & operationManager);
 	~NetworkInterface();
 
-	void TryConnect(const std::string & ip, uint16_t port, const TypedCallback<bool> & callback);
-	Network::Peer * GetPeer() const;
+	NetworkConnection::Status Initialize(uint16_t localPort);
+	void TryConnect(const std::string & ip, uint16_t port, const TypedCallback<NetworkConnection::Status> & callback);
+	Network::Peer & GetPeer() const;
 
 private:
-	void CreatePeer();
-
 	std::unique_ptr<Network::PackageManager>	_packageManager;
 	std::unique_ptr<Network::Peer>				_peer;
 	OperationManager &							_operationManager;

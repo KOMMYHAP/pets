@@ -29,15 +29,12 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances
 
 const char descriptor_table_protodef_PacketsId_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\017PacketsId.proto\022\020my.proto.package\032 goo"
-  "gle/protobuf/descriptor.proto*\315\001\n\tPackag"
-  "eId\022\026\n\022UNKNOWN_MESSAGE_ID\020\000\022.\n*CONNECTIO"
-  "N_CLIENT_BROADCAST_SEARCH_REQUEST\020\n\022/\n+C"
-  "ONNECTION_CLIENT_BROADCAST_SEARCH_RESPON"
-  "SE\020\013\022\"\n\036MOUSE_POSITION_MESSAGE_REQUEST\020d"
-  "\022#\n\037MOUSE_POSITION_MESSAGE_RESPONSE\020e:R\n"
-  "\npackage_id\022\037.google.protobuf.MessageOpt"
-  "ions\030\320\206\003 \001(\0162\033.my.proto.package.PackageI"
-  "db\006proto3"
+  "gle/protobuf/descriptor.proto*p\n\tPackage"
+  "Id\022\026\n\022UNKNOWN_MESSAGE_ID\020\000\022\026\n\022CONNECTION"
+  "_REQUEST\020\n\022\027\n\023CONNECTION_RESPONSE\020\013\022\032\n\026M"
+  "OUSE_POSITION_MESSAGE\020d:R\n\npackage_id\022\037."
+  "google.protobuf.MessageOptions\030\320\206\003 \001(\0162\033"
+  ".my.proto.package.PackageIdb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_PacketsId_2eproto_deps[1] = {
   &::descriptor_table_google_2fprotobuf_2fdescriptor_2eproto,
@@ -46,7 +43,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Pac
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_PacketsId_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_PacketsId_2eproto = {
-  false, false, descriptor_table_protodef_PacketsId_2eproto, "PacketsId.proto", 369,
+  false, false, descriptor_table_protodef_PacketsId_2eproto, "PacketsId.proto", 275,
   &descriptor_table_PacketsId_2eproto_once, descriptor_table_PacketsId_2eproto_sccs, descriptor_table_PacketsId_2eproto_deps, 0, 1,
   schemas, file_default_instances, TableStruct_PacketsId_2eproto::offsets,
   file_level_metadata_PacketsId_2eproto, 0, file_level_enum_descriptors_PacketsId_2eproto, file_level_service_descriptors_PacketsId_2eproto,
@@ -67,7 +64,6 @@ bool PackageId_IsValid(int value) {
     case 10:
     case 11:
     case 100:
-    case 101:
       return true;
     default:
       return false;

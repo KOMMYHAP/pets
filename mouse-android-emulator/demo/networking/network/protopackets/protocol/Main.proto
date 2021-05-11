@@ -3,14 +3,9 @@ import "PacketsId.proto";
 
 package my.proto.package;
 
-message MousePositionMessageRequest
+message MousePositionMessage
 {
-	option (package_id) = MOUSE_POSITION_MESSAGE_REQUEST;
-}
-
-message MousePositionMessageResponse
-{
-	option (package_id) = MOUSE_POSITION_MESSAGE_RESPONSE;
-	int32 x = 2;
-	int32 y = 3;
+	option (package_id) = MOUSE_POSITION_MESSAGE;
+	int32 x = 1;
+	int32 y = 2;
 }

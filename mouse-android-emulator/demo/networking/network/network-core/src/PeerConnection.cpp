@@ -15,29 +15,49 @@ namespace Network
 	class PeerConnection::Impl
 	{
 	public:
-		Impl(std::unique_ptr<sf::UdpSocket> socket, PeerConnection & super)
-			: _socket(std::move(socket))
-			, _super(super)
+		Impl(PeerConnection & super)
+			: _super(super)
 		{
-			if (_socket->isBlocking())
-			{
-				_socket->setBlocking(false);
-				std::cerr << "Socket has been set in non-blocking mode forcibly." << std::endl;
-			}
 			_thread = std::thread(NetworkFunc, this);
 		}
 
 		~Impl()
 		{
 			_aborted = true;
-			_condition.notify_one();
+			_packetsCondition.notify_one();
 			_thread.join();
 		}
 
-		void SetRemote(uint16_t remotePort, const sf::IpAddress & remoteAddress)
+		PeerConnectionStatus SetLocal(uint16_t localPort, const sf::IpAddress & localAddress)
 		{
+			if (localAddress == sf::IpAddress::None)
+			{
+				return PeerConnectionStatus::IpAddressIsInvalid;
+			}
+
+			auto socket = std::make_unique<sf::UdpSocket>();
+			socket->setBlocking(false);
+			auto status = socket->bind(localPort, localAddress);
+			if (status == sf::Socket::Done)
+			{
+				std::unique_lock lock(_mutex);
+				_socket = std::move(socket);
+				_socketCondition.notify_one();
+			}
+			return status == sf::Socket::Done ? 
+				PeerConnectionStatus::Good :
+				PeerConnectionStatus::PortIsBusy;
+		}
+		
+		PeerConnectionStatus SetRemote(uint16_t remotePort, const sf::IpAddress & remoteAddress)
+		{
+			if (remoteAddress == sf::IpAddress::None)
+			{
+				return PeerConnectionStatus::IpAddressIsInvalid;
+			}
 			_remotePort = remotePort;
 			_remoteAddress = remoteAddress;
+			return PeerConnectionStatus::Good;
 		}
 
 		void Send(uint32_t id, const std::string & data)
@@ -46,15 +66,24 @@ namespace Network
 				std::scoped_lock lock(_mutex);
 				_packetsToSend.emplace_back(sf::Packet() << id << data);
 			}
-			_condition.notify_one();
+			_packetsCondition.notify_one();
 		}
 
 	private:
 		static void NetworkFunc(Impl * impl)
 		{
+			{
+				std::unique_lock lock(impl->_mutex);
+				impl->_socketCondition.wait(lock, [impl]()
+				{
+					return impl->_aborted || impl->_socket != nullptr;
+				});
+			}
+			
 			bool workInProcess = false;
 			while (not impl->_aborted)
 			{
+				
 				auto waitTime = workInProcess ? std::chrono::milliseconds(0) : std::chrono::milliseconds(25);
 				workInProcess = false;
 
@@ -62,7 +91,7 @@ namespace Network
 					std::vector<sf::Packet> packetsToSend;
 					{
 						std::unique_lock lock(impl->_mutex);
-						auto status = impl->_condition.wait_for(lock, waitTime);
+						auto status = impl->_packetsCondition.wait_for(lock, waitTime);
 						workInProcess |= status == std::cv_status::no_timeout;
 						packetsToSend = std::move(impl->_packetsToSend);
 					}
@@ -119,7 +148,8 @@ namespace Network
 		}
 		
 		std::thread							_thread;
-		std::condition_variable				_condition;
+		std::condition_variable				_packetsCondition;
+		std::condition_variable				_socketCondition;
 		std::mutex							_mutex;
 		std::atomic_bool					_aborted {false};
 
@@ -133,17 +163,22 @@ namespace Network
 		PeerConnection &					_super;
 	};
 
-	PeerConnection::PeerConnection(std::unique_ptr<sf::UdpSocket> socket, Peer& peer)
+	PeerConnection::PeerConnection(Peer& peer)
 		: _peer(peer)
 	{
-		_impl = std::make_unique<Impl>(std::move(socket), *this);
+		_impl = std::make_unique<Impl>(*this);
 	}
 	
 	PeerConnection::~PeerConnection() = default;
 
-	void PeerConnection::SetRemote(uint16_t remotePort, const sf::IpAddress& remoteAddress)
+	PeerConnectionStatus PeerConnection::SetLocal(uint16_t localPort, const std::string & localAddress)
 	{
-		_impl->SetRemote(remotePort, remoteAddress);
+		return _impl->SetLocal(localPort, localAddress);
+	}
+
+	PeerConnectionStatus PeerConnection::SetRemote(uint16_t remotePort, const std::string & remoteAddress)
+	{
+		return _impl->SetRemote(remotePort, remoteAddress);
 	}
 
 	void PeerConnection::SendPacket(uint32_t id, const std::string& data)

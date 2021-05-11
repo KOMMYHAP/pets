@@ -57,18 +57,18 @@ extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table
 namespace my {
 namespace proto {
 namespace package {
-class ConnectionClientBroadcastSearchRequest;
-class ConnectionClientBroadcastSearchRequestDefaultTypeInternal;
-extern ConnectionClientBroadcastSearchRequestDefaultTypeInternal _ConnectionClientBroadcastSearchRequest_default_instance_;
-class ConnectionClientBroadcastSearchResponse;
-class ConnectionClientBroadcastSearchResponseDefaultTypeInternal;
-extern ConnectionClientBroadcastSearchResponseDefaultTypeInternal _ConnectionClientBroadcastSearchResponse_default_instance_;
+class ConnectionRequest;
+class ConnectionRequestDefaultTypeInternal;
+extern ConnectionRequestDefaultTypeInternal _ConnectionRequest_default_instance_;
+class ConnectionResponse;
+class ConnectionResponseDefaultTypeInternal;
+extern ConnectionResponseDefaultTypeInternal _ConnectionResponse_default_instance_;
 }  // namespace package
 }  // namespace proto
 }  // namespace my
 PROTOBUF_NAMESPACE_OPEN
-template<> ::my::proto::package::ConnectionClientBroadcastSearchRequest* Arena::CreateMaybeMessage<::my::proto::package::ConnectionClientBroadcastSearchRequest>(Arena*);
-template<> ::my::proto::package::ConnectionClientBroadcastSearchResponse* Arena::CreateMaybeMessage<::my::proto::package::ConnectionClientBroadcastSearchResponse>(Arena*);
+template<> ::my::proto::package::ConnectionRequest* Arena::CreateMaybeMessage<::my::proto::package::ConnectionRequest>(Arena*);
+template<> ::my::proto::package::ConnectionResponse* Arena::CreateMaybeMessage<::my::proto::package::ConnectionResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace my {
 namespace proto {
@@ -76,23 +76,23 @@ namespace package {
 
 // ===================================================================
 
-class ConnectionClientBroadcastSearchRequest PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:my.proto.package.ConnectionClientBroadcastSearchRequest) */ {
+class ConnectionRequest PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:my.proto.package.ConnectionRequest) */ {
  public:
-  inline ConnectionClientBroadcastSearchRequest() : ConnectionClientBroadcastSearchRequest(nullptr) {}
-  virtual ~ConnectionClientBroadcastSearchRequest();
+  inline ConnectionRequest() : ConnectionRequest(nullptr) {}
+  virtual ~ConnectionRequest();
 
-  ConnectionClientBroadcastSearchRequest(const ConnectionClientBroadcastSearchRequest& from);
-  ConnectionClientBroadcastSearchRequest(ConnectionClientBroadcastSearchRequest&& from) noexcept
-    : ConnectionClientBroadcastSearchRequest() {
+  ConnectionRequest(const ConnectionRequest& from);
+  ConnectionRequest(ConnectionRequest&& from) noexcept
+    : ConnectionRequest() {
     *this = ::std::move(from);
   }
 
-  inline ConnectionClientBroadcastSearchRequest& operator=(const ConnectionClientBroadcastSearchRequest& from) {
+  inline ConnectionRequest& operator=(const ConnectionRequest& from) {
     CopyFrom(from);
     return *this;
   }
-  inline ConnectionClientBroadcastSearchRequest& operator=(ConnectionClientBroadcastSearchRequest&& from) noexcept {
+  inline ConnectionRequest& operator=(ConnectionRequest&& from) noexcept {
     if (GetArena() == from.GetArena()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -110,19 +110,19 @@ class ConnectionClientBroadcastSearchRequest PROTOBUF_FINAL :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const ConnectionClientBroadcastSearchRequest& default_instance();
+  static const ConnectionRequest& default_instance();
 
-  static inline const ConnectionClientBroadcastSearchRequest* internal_default_instance() {
-    return reinterpret_cast<const ConnectionClientBroadcastSearchRequest*>(
-               &_ConnectionClientBroadcastSearchRequest_default_instance_);
+  static inline const ConnectionRequest* internal_default_instance() {
+    return reinterpret_cast<const ConnectionRequest*>(
+               &_ConnectionRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(ConnectionClientBroadcastSearchRequest& a, ConnectionClientBroadcastSearchRequest& b) {
+  friend void swap(ConnectionRequest& a, ConnectionRequest& b) {
     a.Swap(&b);
   }
-  inline void Swap(ConnectionClientBroadcastSearchRequest* other) {
+  inline void Swap(ConnectionRequest* other) {
     if (other == this) return;
     if (GetArena() == other->GetArena()) {
       InternalSwap(other);
@@ -130,7 +130,7 @@ class ConnectionClientBroadcastSearchRequest PROTOBUF_FINAL :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(ConnectionClientBroadcastSearchRequest* other) {
+  void UnsafeArenaSwap(ConnectionRequest* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -138,17 +138,17 @@ class ConnectionClientBroadcastSearchRequest PROTOBUF_FINAL :
 
   // implements Message ----------------------------------------------
 
-  inline ConnectionClientBroadcastSearchRequest* New() const final {
-    return CreateMaybeMessage<ConnectionClientBroadcastSearchRequest>(nullptr);
+  inline ConnectionRequest* New() const final {
+    return CreateMaybeMessage<ConnectionRequest>(nullptr);
   }
 
-  ConnectionClientBroadcastSearchRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<ConnectionClientBroadcastSearchRequest>(arena);
+  ConnectionRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ConnectionRequest>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const ConnectionClientBroadcastSearchRequest& from);
-  void MergeFrom(const ConnectionClientBroadcastSearchRequest& from);
+  void CopyFrom(const ConnectionRequest& from);
+  void MergeFrom(const ConnectionRequest& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -162,13 +162,13 @@ class ConnectionClientBroadcastSearchRequest PROTOBUF_FINAL :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(ConnectionClientBroadcastSearchRequest* other);
+  void InternalSwap(ConnectionRequest* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "my.proto.package.ConnectionClientBroadcastSearchRequest";
+    return "my.proto.package.ConnectionRequest";
   }
   protected:
-  explicit ConnectionClientBroadcastSearchRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  explicit ConnectionRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
   private:
   static void ArenaDtor(void* object);
   inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -187,7 +187,7 @@ class ConnectionClientBroadcastSearchRequest PROTOBUF_FINAL :
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:my.proto.package.ConnectionClientBroadcastSearchRequest)
+  // @@protoc_insertion_point(class_scope:my.proto.package.ConnectionRequest)
  private:
   class _Internal;
 
@@ -199,23 +199,23 @@ class ConnectionClientBroadcastSearchRequest PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
-class ConnectionClientBroadcastSearchResponse PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:my.proto.package.ConnectionClientBroadcastSearchResponse) */ {
+class ConnectionResponse PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:my.proto.package.ConnectionResponse) */ {
  public:
-  inline ConnectionClientBroadcastSearchResponse() : ConnectionClientBroadcastSearchResponse(nullptr) {}
-  virtual ~ConnectionClientBroadcastSearchResponse();
+  inline ConnectionResponse() : ConnectionResponse(nullptr) {}
+  virtual ~ConnectionResponse();
 
-  ConnectionClientBroadcastSearchResponse(const ConnectionClientBroadcastSearchResponse& from);
-  ConnectionClientBroadcastSearchResponse(ConnectionClientBroadcastSearchResponse&& from) noexcept
-    : ConnectionClientBroadcastSearchResponse() {
+  ConnectionResponse(const ConnectionResponse& from);
+  ConnectionResponse(ConnectionResponse&& from) noexcept
+    : ConnectionResponse() {
     *this = ::std::move(from);
   }
 
-  inline ConnectionClientBroadcastSearchResponse& operator=(const ConnectionClientBroadcastSearchResponse& from) {
+  inline ConnectionResponse& operator=(const ConnectionResponse& from) {
     CopyFrom(from);
     return *this;
   }
-  inline ConnectionClientBroadcastSearchResponse& operator=(ConnectionClientBroadcastSearchResponse&& from) noexcept {
+  inline ConnectionResponse& operator=(ConnectionResponse&& from) noexcept {
     if (GetArena() == from.GetArena()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -233,19 +233,19 @@ class ConnectionClientBroadcastSearchResponse PROTOBUF_FINAL :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const ConnectionClientBroadcastSearchResponse& default_instance();
+  static const ConnectionResponse& default_instance();
 
-  static inline const ConnectionClientBroadcastSearchResponse* internal_default_instance() {
-    return reinterpret_cast<const ConnectionClientBroadcastSearchResponse*>(
-               &_ConnectionClientBroadcastSearchResponse_default_instance_);
+  static inline const ConnectionResponse* internal_default_instance() {
+    return reinterpret_cast<const ConnectionResponse*>(
+               &_ConnectionResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     1;
 
-  friend void swap(ConnectionClientBroadcastSearchResponse& a, ConnectionClientBroadcastSearchResponse& b) {
+  friend void swap(ConnectionResponse& a, ConnectionResponse& b) {
     a.Swap(&b);
   }
-  inline void Swap(ConnectionClientBroadcastSearchResponse* other) {
+  inline void Swap(ConnectionResponse* other) {
     if (other == this) return;
     if (GetArena() == other->GetArena()) {
       InternalSwap(other);
@@ -253,7 +253,7 @@ class ConnectionClientBroadcastSearchResponse PROTOBUF_FINAL :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(ConnectionClientBroadcastSearchResponse* other) {
+  void UnsafeArenaSwap(ConnectionResponse* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -261,17 +261,17 @@ class ConnectionClientBroadcastSearchResponse PROTOBUF_FINAL :
 
   // implements Message ----------------------------------------------
 
-  inline ConnectionClientBroadcastSearchResponse* New() const final {
-    return CreateMaybeMessage<ConnectionClientBroadcastSearchResponse>(nullptr);
+  inline ConnectionResponse* New() const final {
+    return CreateMaybeMessage<ConnectionResponse>(nullptr);
   }
 
-  ConnectionClientBroadcastSearchResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<ConnectionClientBroadcastSearchResponse>(arena);
+  ConnectionResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ConnectionResponse>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const ConnectionClientBroadcastSearchResponse& from);
-  void MergeFrom(const ConnectionClientBroadcastSearchResponse& from);
+  void CopyFrom(const ConnectionResponse& from);
+  void MergeFrom(const ConnectionResponse& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -285,13 +285,13 @@ class ConnectionClientBroadcastSearchResponse PROTOBUF_FINAL :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(ConnectionClientBroadcastSearchResponse* other);
+  void InternalSwap(ConnectionResponse* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "my.proto.package.ConnectionClientBroadcastSearchResponse";
+    return "my.proto.package.ConnectionResponse";
   }
   protected:
-  explicit ConnectionClientBroadcastSearchResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  explicit ConnectionResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
   private:
   static void ArenaDtor(void* object);
   inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -339,7 +339,7 @@ class ConnectionClientBroadcastSearchResponse PROTOBUF_FINAL :
   void _internal_set_port(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:my.proto.package.ConnectionClientBroadcastSearchResponse)
+  // @@protoc_insertion_point(class_scope:my.proto.package.ConnectionResponse)
  private:
   class _Internal;
 
@@ -360,63 +360,63 @@ class ConnectionClientBroadcastSearchResponse PROTOBUF_FINAL :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// ConnectionClientBroadcastSearchRequest
+// ConnectionRequest
 
 // -------------------------------------------------------------------
 
-// ConnectionClientBroadcastSearchResponse
+// ConnectionResponse
 
 // string ip = 1;
-inline void ConnectionClientBroadcastSearchResponse::clear_ip() {
+inline void ConnectionResponse::clear_ip() {
   ip_.ClearToEmpty();
 }
-inline const std::string& ConnectionClientBroadcastSearchResponse::ip() const {
-  // @@protoc_insertion_point(field_get:my.proto.package.ConnectionClientBroadcastSearchResponse.ip)
+inline const std::string& ConnectionResponse::ip() const {
+  // @@protoc_insertion_point(field_get:my.proto.package.ConnectionResponse.ip)
   return _internal_ip();
 }
-inline void ConnectionClientBroadcastSearchResponse::set_ip(const std::string& value) {
+inline void ConnectionResponse::set_ip(const std::string& value) {
   _internal_set_ip(value);
-  // @@protoc_insertion_point(field_set:my.proto.package.ConnectionClientBroadcastSearchResponse.ip)
+  // @@protoc_insertion_point(field_set:my.proto.package.ConnectionResponse.ip)
 }
-inline std::string* ConnectionClientBroadcastSearchResponse::mutable_ip() {
-  // @@protoc_insertion_point(field_mutable:my.proto.package.ConnectionClientBroadcastSearchResponse.ip)
+inline std::string* ConnectionResponse::mutable_ip() {
+  // @@protoc_insertion_point(field_mutable:my.proto.package.ConnectionResponse.ip)
   return _internal_mutable_ip();
 }
-inline const std::string& ConnectionClientBroadcastSearchResponse::_internal_ip() const {
+inline const std::string& ConnectionResponse::_internal_ip() const {
   return ip_.Get();
 }
-inline void ConnectionClientBroadcastSearchResponse::_internal_set_ip(const std::string& value) {
+inline void ConnectionResponse::_internal_set_ip(const std::string& value) {
   
   ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
 }
-inline void ConnectionClientBroadcastSearchResponse::set_ip(std::string&& value) {
+inline void ConnectionResponse::set_ip(std::string&& value) {
   
   ip_.Set(
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:my.proto.package.ConnectionClientBroadcastSearchResponse.ip)
+  // @@protoc_insertion_point(field_set_rvalue:my.proto.package.ConnectionResponse.ip)
 }
-inline void ConnectionClientBroadcastSearchResponse::set_ip(const char* value) {
+inline void ConnectionResponse::set_ip(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:my.proto.package.ConnectionClientBroadcastSearchResponse.ip)
+  // @@protoc_insertion_point(field_set_char:my.proto.package.ConnectionResponse.ip)
 }
-inline void ConnectionClientBroadcastSearchResponse::set_ip(const char* value,
+inline void ConnectionResponse::set_ip(const char* value,
     size_t size) {
   
   ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:my.proto.package.ConnectionClientBroadcastSearchResponse.ip)
+  // @@protoc_insertion_point(field_set_pointer:my.proto.package.ConnectionResponse.ip)
 }
-inline std::string* ConnectionClientBroadcastSearchResponse::_internal_mutable_ip() {
+inline std::string* ConnectionResponse::_internal_mutable_ip() {
   
   return ip_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
 }
-inline std::string* ConnectionClientBroadcastSearchResponse::release_ip() {
-  // @@protoc_insertion_point(field_release:my.proto.package.ConnectionClientBroadcastSearchResponse.ip)
+inline std::string* ConnectionResponse::release_ip() {
+  // @@protoc_insertion_point(field_release:my.proto.package.ConnectionResponse.ip)
   return ip_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void ConnectionClientBroadcastSearchResponse::set_allocated_ip(std::string* ip) {
+inline void ConnectionResponse::set_allocated_ip(std::string* ip) {
   if (ip != nullptr) {
     
   } else {
@@ -424,27 +424,27 @@ inline void ConnectionClientBroadcastSearchResponse::set_allocated_ip(std::strin
   }
   ip_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ip,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:my.proto.package.ConnectionClientBroadcastSearchResponse.ip)
+  // @@protoc_insertion_point(field_set_allocated:my.proto.package.ConnectionResponse.ip)
 }
 
 // uint32 port = 2;
-inline void ConnectionClientBroadcastSearchResponse::clear_port() {
+inline void ConnectionResponse::clear_port() {
   port_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 ConnectionClientBroadcastSearchResponse::_internal_port() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 ConnectionResponse::_internal_port() const {
   return port_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 ConnectionClientBroadcastSearchResponse::port() const {
-  // @@protoc_insertion_point(field_get:my.proto.package.ConnectionClientBroadcastSearchResponse.port)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 ConnectionResponse::port() const {
+  // @@protoc_insertion_point(field_get:my.proto.package.ConnectionResponse.port)
   return _internal_port();
 }
-inline void ConnectionClientBroadcastSearchResponse::_internal_set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void ConnectionResponse::_internal_set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   port_ = value;
 }
-inline void ConnectionClientBroadcastSearchResponse::set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void ConnectionResponse::set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_port(value);
-  // @@protoc_insertion_point(field_set:my.proto.package.ConnectionClientBroadcastSearchResponse.port)
+  // @@protoc_insertion_point(field_set:my.proto.package.ConnectionResponse.port)
 }
 
 #ifdef __GNUC__

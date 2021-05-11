@@ -1,4 +1,7 @@
 #include "RemoteApplicationBridge.h"
+
+#include <memory>
+
 #include "RemoteApplication.h"
 #include "NetworkInterface.h"
 #include "tools/ParsedCommandLine.h"
@@ -11,14 +14,28 @@ RemoteApplicationBridge::RemoteApplicationBridge(OperationManager& operationMana
 
 RemoteApplicationBridge::~RemoteApplicationBridge() = default;
 
-void RemoteApplicationBridge::Initialize(const ParsedCommandLine& commandLine, std::weak_ptr<void> owner)
+void RemoteApplicationBridge::Initialize(uint16_t localPort, const std::string& remoteIp, uint16_t remotePort)
 {
-	const int16_t port = commandLine.GetIntOrDefault("port", 4242);
-	const std::string ip = commandLine.GetOrDefault("ip", "255.255.255.255");
+	_packetOwner = std::make_shared<int>(42);
 
-	_networkInterface->TryConnect(ip, port, TypedCallback<bool>(owner, [this](bool success)
+	auto status = _networkInterface->Initialize(localPort);
+	if (status == NetworkConnection::BusyPort)
 	{
-		_status = success ? RemoteBridgeStatus::Connected : RemoteBridgeStatus::Failed;
+		ChangeStatus(RemoteBridgeStatus::Failed);
+		return;
+	}
+
+	_networkInterface->TryConnect(remoteIp, remotePort, TypedCallback<NetworkConnection::Status>(_packetOwner, [this](NetworkConnection::Status status)
+	{
+		if (status == NetworkConnection::Connected)
+		{
+			_remoteApplication = std::make_unique<RemoteApplication>(*_networkInterface);
+			ChangeStatus(RemoteBridgeStatus::Connected);
+		}
+		else
+		{
+			ChangeStatus(RemoteBridgeStatus::Failed);
+		};
 	}));
 }
 

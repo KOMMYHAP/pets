@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <map>
+#include <SFML/Window/Window.hpp>
+
 
 
 #include "RemoteApplication.h"
@@ -18,6 +20,12 @@ ListenerApplication::ListenerApplication()
 
 ListenerApplication::~ListenerApplication() = default;
 
+void ListenerApplication::SetWindowSize(int32_t w, int32_t h)
+{
+	_width = w;
+	_height = h;
+}
+
 void ListenerApplication::ProcessCommandLine(int argc, char** argv)
 {
 	_commandLine = std::make_unique<ParsedCommandLine>(argc, argv);
@@ -30,19 +38,25 @@ void ListenerApplication::ProcessCommandLine(int argc, char** argv)
 			_shouldTerminate = true;
 		}
 	}));
-	_remoteBridge->Initialize(*_commandLine, _owner);
+
+	const int16_t localPort = _commandLine->GetIntOrDefault("local-port", 44332);
+	const int16_t remotePort = _commandLine->GetIntOrDefault("remote-port",44331);
+	const std::string remoteIp = _commandLine->GetOrDefault("remote-ip", "255.255.255.255");
+	_remoteBridge->Initialize(localPort,remoteIp, remotePort);
 }
 
 void ListenerApplication::ProcessEvent(const sf::Event& event)
 {
 	if (event.type != sf::Event::Closed)
 	{
-		if (auto remoteApp = _remoteBridge->GetRemoteApplication())
-		{
-			// remoteApp->SendMousePosition(0.0f, 0.0f);
-		}
 		if (event.type == sf::Event::MouseMoved)
 		{
+			if (auto remoteApp = _remoteBridge->GetRemoteApplication())
+			{
+				float x = event.mouseMove.x / static_cast<float>(_width);
+				float y = event.mouseMove.y / static_cast<float>(_height);
+				remoteApp->SendMousePosition(x, y);
+			}
 			std::cout << '(' << event.mouseMove.x << ';' << event.mouseMove.y << ")\n";
 		}
 	}

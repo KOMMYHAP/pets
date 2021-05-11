@@ -23,7 +23,7 @@ public:
 	RemoteApplicationBridge(OperationManager & operationManager);
 	~RemoteApplicationBridge();
 
-	void Initialize(const ParsedCommandLine & commandLine, std::weak_ptr<void> owner);
+	void Initialize(uint16_t localPort, const std::string & remoteIp, uint16_t remotePort);
 	void SubscribeOnStatusChanged(TypedCallback<RemoteBridgeStatus> callback);
 
 	RemoteBridgeStatus GetStatus() const { return _status; }
@@ -37,4 +37,5 @@ private:
 	std::unique_ptr<NetworkInterface>	_networkInterface;
 	std::unique_ptr<RemoteApplication> 	_remoteApplication;
 	OperationManager &					_operationManager;
+	std::shared_ptr<int>				_packetOwner;
 };
