@@ -1,10 +1,6 @@
 #include "ListenerApplication.h"
 
 #include <iostream>
-#include <map>
-#include <SFML/Window/Window.hpp>
-
-
 
 #include "RemoteApplication.h"
 #include "RemoteApplicationBridge.h"
@@ -42,7 +38,7 @@ void ListenerApplication::ProcessCommandLine(int argc, char** argv)
 	const int16_t localPort = _commandLine->GetIntOrDefault("local-port", 44332);
 	const int16_t remotePort = _commandLine->GetIntOrDefault("remote-port",44331);
 	const std::string remoteIp = _commandLine->GetOrDefault("remote-ip", "255.255.255.255");
-	_remoteBridge->Initialize(localPort,remoteIp, remotePort);
+	_remoteBridge->Initialize(localPort, remoteIp, remotePort);
 }
 
 void ListenerApplication::ProcessEvent(const sf::Event& event)

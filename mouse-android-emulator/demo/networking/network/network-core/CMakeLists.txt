@@ -1,17 +1,20 @@
 project(network-core)
 
 set(SRCS
+	include/NetworkErrorConstants.h
 	include/NetworkInterface.h
+	include/PackageManager.h
+	include/PacketHandlerOperation.h
 	include/Peer.h
 	include/PeerConnection.h
-	include/PackageManager.h
-	include/ReceivedPacket.h
 	include/ProtoPackagesNamespace.h
+	include/ReceivedPacket.h
 
 	src/NetworkInterface.cpp
+	src/PackageManager.cpp
+	src/PacketHandlerOperation.cpp
 	src/Peer.cpp
 	src/PeerConnection.cpp
-	src/PackageManager.cpp
 	src/ReceivedPacket.cpp
 )
 

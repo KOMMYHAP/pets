@@ -12,7 +12,7 @@ NetworkInterface::NetworkInterface(OperationManager& operationManager)
 	_packageManager = std::make_unique<Network::PackageManager>();
 	_packageManager->RegisterPackages();
 
-	_peer = std::make_unique<Network::Peer>(*_packageManager);
+	_peer = std::make_unique<Network::Peer>(*_packageManager, _operationManager);
 }
 NetworkInterface::~NetworkInterface() = default;
 

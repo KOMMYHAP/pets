@@ -7,7 +7,7 @@ void Operation::PreAction()
 		_state = State::Started;
 		PreActionImpl();
 	}
-	catch (const std::exception & e)
+	catch (const std::exception &)
 	{
 		_exception = std::current_exception();
 	}
@@ -22,7 +22,7 @@ Operation::Result Operation::Do()
 			return DoImpl();
 		}
 	}
-	catch (const std::exception & e)
+	catch (const std::exception &)
 	{
 		_exception = std::current_exception();
 	}
@@ -40,7 +40,7 @@ void Operation::PostAction()
 			PostActionImpl();
 		}
 	}
-	catch (const std::exception & e)
+	catch (const std::exception &)
 	{
 		_exception = std::current_exception();
 	}

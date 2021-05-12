@@ -14,7 +14,7 @@ RemoteApplicationBridge::RemoteApplicationBridge(OperationManager& operationMana
 
 RemoteApplicationBridge::~RemoteApplicationBridge() = default;
 
-void RemoteApplicationBridge::Initialize(uint16_t localPort, const std::string& remoteIp, uint16_t remotePort)
+void RemoteApplicationBridge::Initialize(uint16_t localPort, const std::string & remoteIp, uint16_t remotePort)
 {
 	_packetOwner = std::make_shared<int>(42);
 

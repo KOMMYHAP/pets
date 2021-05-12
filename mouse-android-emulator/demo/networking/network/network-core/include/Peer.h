@@ -5,6 +5,8 @@
 #include "tools/Callback.h"
 #include "PacketsId.pb.h"
 
+class OperationManager;
+
 namespace google {
 	namespace protobuf {
 		class Message;
@@ -24,7 +26,7 @@ namespace Network
 	class Peer
 	{
 	public:
-		Peer(PackageManager & packageManager);
+		Peer(PackageManager & packageManager, OperationManager & operationManager);
 		~Peer();
 
 		uint16_t OpenLocalConnection(const std::vector<uint16_t> & localPorts);
@@ -44,6 +46,7 @@ namespace Network
 		void ReceivePacket(uint32_t packageId, const google::protobuf::Message & response);
 		
 		PackageManager &									_packageManager;
+		OperationManager &									_operationManager;
 		std::list<ResponseCallback>							_subscribers;
 		std::unique_ptr<PeerConnection>						_connection;
 		std::string											_buffer;

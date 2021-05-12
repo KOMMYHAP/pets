@@ -10,10 +10,11 @@
 
 namespace Network
 {
-	Peer::Peer(PackageManager& packageManager)
+	Peer::Peer(PackageManager& packageManager, OperationManager & operationManager)
 		: _packageManager(packageManager)
+		, _operationManager(operationManager)
 	{
-		_connection = std::make_unique<PeerConnection>(*this);
+		_connection = std::make_unique<PeerConnection>(*this, _operationManager);
 	}
 
 	Peer::~Peer() = default;
@@ -23,7 +24,7 @@ namespace Network
 		for (auto port : localPorts)
 		{
 			auto status = _connection->SetLocal(port, "0.0.0.0");
-			if (status == PeerConnectionStatus::Good)
+			if (status == NetworkErrorConstants::NoError)
 			{
 				return port;
 			}
@@ -33,7 +34,7 @@ namespace Network
 
 	bool Peer::OpenRemoteConnection(uint16_t remotePort, const std::string& ip)
 	{
-		return _connection->SetRemote(remotePort, ip) != PeerConnectionStatus::IpAddressIsInvalid;
+		return _connection->SetRemote(remotePort, ip) != NetworkErrorConstants::InvalidIp;
 	}
 
 	void Peer::ProcessReceivedPackets()

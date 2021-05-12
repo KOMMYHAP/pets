@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <atomic>
 
 class Operation : public std::enable_shared_from_this<Operation>
 {
