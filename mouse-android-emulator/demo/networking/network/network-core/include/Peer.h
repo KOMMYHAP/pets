@@ -31,6 +31,7 @@ namespace Network
 
 		uint16_t OpenLocalConnection(const std::vector<uint16_t> & localPorts);
 		bool OpenRemoteConnection(uint16_t remotePort, const std::string & ip); 
+		void CloseRemoteConnection();
 
 		template <class T>
 		void SendPacket(const T & request);

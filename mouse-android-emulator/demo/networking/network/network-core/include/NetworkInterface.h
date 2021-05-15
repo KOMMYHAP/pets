@@ -1,8 +1,5 @@
 #pragma once
 #include <memory>
-#include <string>
-
-#include "tools/Callback.h"
 
 class OperationManager;
 
@@ -11,26 +8,16 @@ namespace Network {
 	class Peer;
 }
 
-class NetworkOptions;
 
-struct NetworkConnection
-{
-	enum Status
-	{
-		Connected,
-		BusyPort,
-		InvalidIpAddress
-	};
-};
-
-class NetworkInterface
+class NetworkInterface : public std::enable_shared_from_this<NetworkInterface>
 {
 public:
 	NetworkInterface(OperationManager & operationManager);
 	~NetworkInterface();
 
-	NetworkConnection::Status Initialize(uint16_t localPort);
-	void TryConnect(const std::string & ip, uint16_t port, const TypedCallback<NetworkConnection::Status> & callback);
+	// todo: initiatilize with custom package creator to encapsulate packets by application type: client/server
+	// void Initialize(PackageCreator);
+	
 	Network::Peer & GetPeer() const;
 
 private:

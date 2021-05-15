@@ -2,46 +2,75 @@
 
 #include <memory>
 
-#include "RemoteApplication.h"
+#include "Connection.pb.h"
 #include "NetworkInterface.h"
-#include "tools/ParsedCommandLine.h"
+#include "Peer.h"
+#include "RemoteApplication.h"
+#include "tools/Timer.h"
 
 RemoteApplicationBridge::RemoteApplicationBridge(OperationManager& operationManager)
 	: _operationManager(operationManager)
 {
-	_networkInterface = std::make_unique<NetworkInterface>(operationManager);
+	_networkInterface = std::make_shared<NetworkInterface>(operationManager);
+	
+	_networkInterface->GetPeer().Subscribe(TypedCallback<const ProtoPackets::ConnectionResponse &>(_networkInterface, this, &RemoteApplicationBridge::OnConnected));
+	
+	_timeoutTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &RemoteApplicationBridge::OnConnectionTimeout), TimeState::Seconds(5), _operationManager);
 }
 
 RemoteApplicationBridge::~RemoteApplicationBridge() = default;
 
-void RemoteApplicationBridge::Initialize(uint16_t localPort, const std::string & remoteIp, uint16_t remotePort)
+void RemoteApplicationBridge::Initialize(const std::vector<uint16_t>& localPorts, const TypedCallback<RemoteBridgeState>& callback)
 {
-	_packetOwner = std::make_shared<int>(42);
-
-	auto status = _networkInterface->Initialize(localPort);
-	if (status == NetworkConnection::BusyPort)
+	_stateChangedCallback = callback;
+	
+	uint16_t localPort = _networkInterface->GetPeer().OpenLocalConnection(localPorts);
+	if (localPort == 0)
 	{
-		ChangeStatus(RemoteBridgeStatus::Failed);
+		SetErrorState(RemoteBridgeError::LocalPortsBusy);
 		return;
 	}
 
-	_networkInterface->TryConnect(remoteIp, remotePort, TypedCallback<NetworkConnection::Status>(_packetOwner, [this](NetworkConnection::Status status)
-	{
-		if (status == NetworkConnection::Connected)
-		{
-			_remoteApplication = std::make_unique<RemoteApplication>(*_networkInterface);
-			ChangeStatus(RemoteBridgeStatus::Connected);
-		}
-		else
-		{
-			ChangeStatus(RemoteBridgeStatus::Failed);
-		};
-	}));
+	SetState(RemoteBridgeState::Initialized);
 }
 
-void RemoteApplicationBridge::SubscribeOnStatusChanged(TypedCallback<RemoteBridgeStatus> callback)
+void RemoteApplicationBridge::StartBroadcasting(const std::vector<uint16_t>& remotePorts)
 {
-	_subscriber = std::move(callback);
+	DirectConnect("255.255.255.255", remotePorts);
+}
+
+void RemoteApplicationBridge::DirectConnect(const std::string& remoteIp, const std::vector<uint16_t>& remotePorts)
+{
+	if (remotePorts.empty())
+	{
+		SetErrorState(RemoteBridgeError::RemotePortEmpty);
+		return;
+	}
+
+	_connectionStatus.ip = remoteIp;
+	_timeoutTimer->Start();
+	SetState(RemoteBridgeState::WaitingForConnect);
+
+	auto & peer = _networkInterface->GetPeer();
+	peer.OpenRemoteConnection(remotePorts[0], remoteIp);
+	ProtoPackets::ConnectionRequest request;
+	peer.SendPacket(request);
+}
+
+void RemoteApplicationBridge::CloseConnection()
+{
+	_networkInterface->GetPeer().CloseRemoteConnection();
+	_remoteApplication.reset();
+	SetState(RemoteBridgeState::Disconnected);
+}
+
+void RemoteApplicationBridge::Reconnect()
+{
+	if (_connectionStatus.wasConnected)
+	{
+		std::vector<uint16_t> ports = {_connectionStatus.port};
+		DirectConnect(_connectionStatus.ip, ports);
+	}
 }
 
 RemoteApplication* RemoteApplicationBridge::GetRemoteApplication() const
@@ -49,8 +78,38 @@ RemoteApplication* RemoteApplicationBridge::GetRemoteApplication() const
 	return _remoteApplication.get();
 }
 
-void RemoteApplicationBridge::ChangeStatus(RemoteBridgeStatus status)
+RemoteBridgeError RemoteApplicationBridge::GetError() const
 {
-	_status = status;
-	_subscriber(std::move(status));
+	return _error;
+}
+
+void RemoteApplicationBridge::OnConnected(const ProtoPackets::ConnectionResponse& response)
+{
+	_timeoutTimer->Reset();
+	_connectionStatus.wasConnected = true;
+	_connectionStatus.ip = response.ip();
+	_connectionStatus.port = response.port();
+	_remoteApplication = std::make_unique<RemoteApplication>(_networkInterface);
+	SetState(RemoteBridgeState::Connected);
+}
+
+void RemoteApplicationBridge::OnConnectionTimeout()
+{
+	SetState(RemoteBridgeState::ConnectionTimedOut);
+}
+
+void RemoteApplicationBridge::SetState(RemoteBridgeState state)
+{
+	_state = state;
+	if (state != RemoteBridgeState::ErrorOccured)
+	{
+		_error = RemoteBridgeError::NoError;
+	}
+	_stateChangedCallback(state);
+}
+
+void RemoteApplicationBridge::SetErrorState(RemoteBridgeError error)
+{
+	_error = error;
+	SetState(RemoteBridgeState::ErrorOccured);
 }

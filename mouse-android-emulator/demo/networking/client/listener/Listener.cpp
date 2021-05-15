@@ -13,14 +13,16 @@ int main(int argc, char **argv)
 	application->ProcessCommandLine(argc, argv);
 
 	sf::Window window(sf::VideoMode(600, 400), "Pseudo Android App");
+	// window.setFramerateLimit(25);
 
 	sf::Clock clock;
 	sf::Time timeOnFrame = sf::milliseconds(15);
-	sf::Time elapsedTimeFromLastFrame;
+	sf::Time elapsedTimeOnFrame;
 	
 	bool shouldClose = false;
 	while (not shouldClose)
 	{
+
 		sf::Event event;
 		while (!shouldClose && window.pollEvent(event))
 		{
@@ -28,16 +30,14 @@ int main(int argc, char **argv)
 			shouldClose = application->ShouldTerminate();
 		}
 
-		auto elapsedTimeInternal = TimeState::Milliseconds(elapsedTimeFromLastFrame.asMilliseconds());
+		auto elapsedTimeInternal = TimeState::Milliseconds(elapsedTimeOnFrame.asMilliseconds());
 		application->ProcessElapsedTime(elapsedTimeInternal);
 
-		sf::Time elapsedTime = clock.getElapsedTime();
-		elapsedTimeFromLastFrame = elapsedTime;
-		if (elapsedTime < timeOnFrame)
+		elapsedTimeOnFrame = clock.restart();
+		if (elapsedTimeOnFrame < timeOnFrame)
 		{
-			sf::sleep(timeOnFrame - elapsedTime);
+			sf::sleep(timeOnFrame - elapsedTimeOnFrame);
 		}
-		clock.restart();
 	}
 
 	window.close();

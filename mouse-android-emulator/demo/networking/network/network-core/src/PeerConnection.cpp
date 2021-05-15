@@ -29,23 +29,22 @@ namespace Network
 		return _packetHandler->SetRemote(remotePort, remoteAddress);
 	}
 
+	void PeerConnection::ResetRemote()
+	{
+		_packetHandler->ResetRemote();
+	}
+
 	void PeerConnection::SendPacket(uint32_t id, const std::string& data)
 	{
-		if (_packetHandler)
-		{
-			_packetHandler->Queue(id, data);
-		}
+		_packetHandler->Queue(id, data);
 	}
 
 	void PeerConnection::ProcessReceivedPackets()
 	{
-		if (_packetHandler)
+		auto packets = _packetHandler->ExtractReceivedPackets();
+		for (const auto & packet : packets)
 		{
-			auto packets = _packetHandler->ExtractReceivedPackets();
-			for (const auto & packet : packets)
-			{
-				_peer.ReceivePacket(packet);
-			}
+			_peer.ReceivePacket(packet);
 		}
 	}
 }

@@ -37,6 +37,11 @@ namespace Network
 		return _connection->SetRemote(remotePort, ip) != NetworkErrorConstants::InvalidIp;
 	}
 
+	void Peer::CloseRemoteConnection()
+	{
+		_connection->ResetRemote();
+	}
+
 	void Peer::ProcessReceivedPackets()
 	{
 		_connection->ProcessReceivedPackets();

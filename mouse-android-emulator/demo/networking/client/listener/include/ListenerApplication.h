@@ -3,6 +3,8 @@
 
 #include "application/ApplicationBase.h"
 
+enum class RemoteBridgeState;
+class NetworkInterface;
 class OperationManager;
 class RemoteApplicationBridge;
 class ParsedCommandLine;
@@ -22,15 +24,16 @@ public:
 private:
 	void OnActivated() override;
 	void OnDeactivated() override;
+	void OnRemoteBridgeStatusChanged(RemoteBridgeState state);
 
 	std::unique_ptr<ParsedCommandLine>			_commandLine;
 	std::unique_ptr<OperationManager>			_operationManager;
 	std::unique_ptr<RemoteApplicationBridge>	_remoteBridge;
-	
+
 	std::shared_ptr<int>						_owner;
 	int32_t										_width = 0;
 	int32_t										_height = 0;
-	
+
 	bool										_shouldTerminate = false;
 	
 };

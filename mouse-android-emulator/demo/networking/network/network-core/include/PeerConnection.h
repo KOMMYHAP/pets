@@ -23,6 +23,7 @@ namespace Network
 
 		NetworkErrorConstants SetLocal(uint16_t localPort, const std::string & localAddress);
 		NetworkErrorConstants SetRemote(uint16_t remotePort, const std::string & remoteAddress);
+		void ResetRemote();
 
 		void SendPacket(uint32_t id, const std::string & data);
 		void ProcessReceivedPackets();

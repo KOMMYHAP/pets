@@ -11,7 +11,9 @@
 
 struct PacketHandlerOperation::Impl
 {
-	std::mutex									packetMutex;
+	bool IsTargetHost(uint16_t port, const sf::IpAddress & ip) const;
+	
+	std::mutex									mutex;
 	std::unique_ptr<sf::UdpSocket> 				socket;
 	std::vector<sf::Packet>						packetsToSend;
 	sf::IpAddress								remoteAddress;
@@ -20,6 +22,13 @@ struct PacketHandlerOperation::Impl
 	std::vector<Network::ReceivedPacket>		unprocessedPackets;
 	std::optional<sf::Packet>					partiallyProcessedPacket;
 };
+
+bool PacketHandlerOperation::Impl::IsTargetHost(uint16_t port, const sf::IpAddress& ip) const
+{
+	return
+		remotePort == port &&
+		(remoteAddress == sf::IpAddress::Broadcast || remoteAddress == ip);
+}
 
 PacketHandlerOperation::PacketHandlerOperation()
 	: _impl(std::make_unique<Impl>())
@@ -42,7 +51,11 @@ NetworkErrorConstants PacketHandlerOperation::SetLocal(uint16_t localPort, const
 	{
 		return NetworkErrorConstants::BusyPort;
 	}
-	_impl->socket = std::move(socket);
+
+	{
+		std::scoped_lock lock(_impl->mutex);
+		_impl->socket = std::move(socket);
+	}
 	return NetworkErrorConstants::NoError;
 }
 
@@ -53,20 +66,31 @@ NetworkErrorConstants PacketHandlerOperation::SetRemote(uint16_t remotePort, con
 	{
 		return NetworkErrorConstants::InvalidIp;
 	}
-	_impl->remotePort = remotePort;
-	_impl->remoteAddress = remoteAddress;
+
+	{
+		std::scoped_lock lock(_impl->mutex);
+		_impl->remotePort = remotePort;
+		_impl->remoteAddress = remoteAddress;
+	}
 	return NetworkErrorConstants::NoError;
+}
+
+void PacketHandlerOperation::ResetRemote()
+{
+	std::scoped_lock lock(_impl->mutex);
+	_impl->remotePort = 0;
+	_impl->remoteAddress = sf::IpAddress::None;
 }
 
 void PacketHandlerOperation::Queue(uint32_t id, const std::string& data)
 {
-	std::scoped_lock lock(_impl->packetMutex);
+	std::scoped_lock lock(_impl->mutex);
 	_impl->packetsToSend.emplace_back(sf::Packet() << id << data);
 }
 
 std::vector<Network::ReceivedPacket> PacketHandlerOperation::ExtractReceivedPackets()
 {
-	std::scoped_lock lock(_impl->packetMutex);
+	std::scoped_lock lock(_impl->mutex);
 	return std::move(_impl->unprocessedPackets);
 }
 
@@ -87,7 +111,7 @@ void PacketHandlerOperation::SendPackets()
 {
 	std::vector<sf::Packet> packetsToSend;
 	{
-		std::scoped_lock lock(_impl->packetMutex);
+		std::scoped_lock lock(_impl->mutex);
 		packetsToSend = std::move(_impl->packetsToSend);
 	}
 	auto end = std::remove_if(packetsToSend.begin(), packetsToSend.end(), [&](sf::Packet & packet)
@@ -98,7 +122,7 @@ void PacketHandlerOperation::SendPackets()
 
 	if (end != packetsToSend.end())
 	{
-		std::scoped_lock lock(_impl->packetMutex);
+		std::scoped_lock lock(_impl->mutex);
 		_impl->packetsToSend.insert(_impl->packetsToSend.begin(),
 			std::make_move_iterator(packetsToSend.begin()),
 			std::make_move_iterator(end));
@@ -121,7 +145,7 @@ void PacketHandlerOperation::ReceivePackets()
 	uint16_t port = 0;
 	const auto status = _impl->socket->receive(*packetPtr, address, port);
 	const bool packetProcessed = status == sf::Socket::Done;
-	const bool fromKnownUser = IsTargetHost(port, address.toString());
+	const bool fromKnownUser = _impl->IsTargetHost(port, address.toString());
 	if (packetProcessed && fromKnownUser)
 	{
 		uint32_t id;
@@ -129,7 +153,7 @@ void PacketHandlerOperation::ReceivePackets()
 		if (*packetPtr >> id >> data)
 		{
 			// packet has been successfully received and contains id and data
-			std::scoped_lock lock(_impl->packetMutex);
+			std::scoped_lock lock(_impl->mutex);
 			_impl->unprocessedPackets.emplace_back(id, std::move(data));
 		}
 		if (partialPacketCompleting)
@@ -153,12 +177,5 @@ void PacketHandlerOperation::OnCompleted(std::exception_ptr exception)
 			std::cerr << e.what() << std::endl;
 		}
 	}
-}
-
-bool PacketHandlerOperation::IsTargetHost(uint16_t port, const std::string& ip) const
-{
-	return
-		_impl->remotePort == port &&
-		(_impl->remoteAddress == sf::IpAddress::Broadcast || _impl->remoteAddress == ip);
 }
 
