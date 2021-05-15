@@ -3,5 +3,6 @@
 enum class OperationThreadIds
 {
 	MainThread,
-	NetworkThread
+	NetworkThread,
+	HelperThread
 };
