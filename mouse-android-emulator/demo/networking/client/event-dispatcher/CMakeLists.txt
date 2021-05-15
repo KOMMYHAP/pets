@@ -1,7 +1,7 @@
 project(network-listener)
 
 set(SRCS
-	Listener.cpp
+	EventDispatcher.cpp
 
 	include/EventDispatcherApplication.h
 	include/EventDispatcherRemoteApplication.h
