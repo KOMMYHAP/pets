@@ -3,13 +3,11 @@ project(network-listener)
 set(SRCS
 	Listener.cpp
 
-	include/ListenerApplication.h
-	include/RemoteApplication.h
-	include/RemoteApplicationBridge.h
+	include/EventDispatcherApplication.h
+	include/EventDispatcherRemoteApplication.h
 
-	src/ListenerApplication.cpp
-	src/RemoteApplication.cpp
-	src/RemoteApplicationBridge.cpp
+	src/EventDispatcherApplication.cpp
+	src/EventDispatcherRemoteApplication.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SRCS})
@@ -21,5 +19,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE include)
 target_link_libraries(${PROJECT_NAME}
 	PRIVATE
 		PETS::core
+		client-core
 		network-core
 )

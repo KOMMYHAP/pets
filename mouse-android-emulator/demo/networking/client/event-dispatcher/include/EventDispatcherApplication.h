@@ -3,17 +3,18 @@
 
 #include "application/ApplicationBase.h"
 
+class EventDispatcherRemoteApplication;
 enum class RemoteBridgeState;
 class NetworkInterface;
 class OperationManager;
 class RemoteApplicationBridge;
 class ParsedCommandLine;
 
-class ListenerApplication : public ApplicationDelegate
+class EventDispatcherApplication : public ApplicationDelegate
 {
 public:
-	ListenerApplication();
-	~ListenerApplication() override;
+	EventDispatcherApplication();
+	~EventDispatcherApplication() override;
 
 	void SetWindowSize(int32_t w, int32_t h);
 	void ProcessCommandLine(int argc, char** argv) override;
@@ -24,7 +25,9 @@ public:
 private:
 	void OnActivated() override;
 	void OnDeactivated() override;
+	
 	void OnRemoteBridgeStatusChanged(RemoteBridgeState state);
+	EventDispatcherRemoteApplication * GetRemoteApplication() const;
 
 	std::unique_ptr<ParsedCommandLine>			_commandLine;
 	std::unique_ptr<OperationManager>			_operationManager;

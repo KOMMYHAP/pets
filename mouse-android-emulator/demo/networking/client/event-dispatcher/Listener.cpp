@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SFML/Window.hpp>
 #include "SFML/System.hpp"
-#include "ListenerApplication.h"
+#include "EventDispatcherApplication.h"
 
 int main(int argc, char **argv)
 {
@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 		<< "Hello from preudo android application!" << std::endl
 		<< "I'll be listen to system events: mouse moving and clicking and send it to another application." << std::endl;
 
-	auto application = std::make_unique<ListenerApplication>();
+	auto application = std::make_unique<EventDispatcherApplication>();
 	application->ProcessCommandLine(argc, argv);
 
 	sf::Window window(sf::VideoMode(600, 400), "Pseudo Android App");
@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 	sf::Clock clock;
 	sf::Time timeOnFrame = sf::milliseconds(15);
 	sf::Time elapsedTimeOnFrame;
-	
+
 	bool shouldClose = false;
 	while (not shouldClose)
 	{
@@ -41,6 +41,6 @@ int main(int argc, char **argv)
 	}
 
 	window.close();
-	
+
 	return 0;
 }
