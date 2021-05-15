@@ -96,6 +96,7 @@ void PacketHandlerOperation::SendPackets()
 		return status == sf::Socket::Done;
 	});
 
+	if (end != packetsToSend.end())
 	{
 		std::scoped_lock lock(_impl->packetMutex);
 		_impl->packetsToSend.insert(_impl->packetsToSend.begin(),
