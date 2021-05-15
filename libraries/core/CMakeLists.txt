@@ -29,11 +29,13 @@ set(SRCS
 	include/tools/ParsedCommandLine.h
 	include/tools/JsonConfig.h
 	include/tools/TemplateUtils.h
+	include/tools/Timer.h
 	include/tools/TimeState.h
 	include/tools/Utils.h
 
 	src/tools/ParsedCommandLine.cpp
 	src/tools/JsonConfig.cpp
+	src/tools/Timer.cpp
 	src/tools/TimeState.cpp
 	src/tools/Utils.cpp
 
