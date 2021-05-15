@@ -33,6 +33,26 @@ class TypedCallback : public CallbackBase
 public:
 	TypedCallback() = default;
 
+	template<class Base, class Derived>
+	TypedCallback(std::weak_ptr<void> owner, Base * base, void (Derived::*f)(Args...)) noexcept
+		: _owner(std::move(owner))
+	{
+		_function = [base, f](const Args &... args)
+		{
+			std::invoke(f, base, args...);
+		};
+	}
+
+	template<class Base, class Derived>
+	TypedCallback(std::weak_ptr<Base> owner, void (Derived::*f)(Args...)) noexcept
+		: _owner(std::move(owner))
+	{
+		_function = [f, this](const Args &... args)
+		{
+			std::invoke(f, _owner.lock(), args...);
+		};
+	}
+	
 	TypedCallback(std::weak_ptr<void> owner, std::function<void(Args...)> f) noexcept
 		: _owner(std::move(owner))
 		, _function(std::move(f))
@@ -42,11 +62,11 @@ public:
 	 * \brief Directly passes args to the function if owner is still alive.
 	 * \param args Arguments to be passed to the function.
 	 */
-	void operator()(Args &&... args) const
+	void operator()(const Args &... args) const
 	{
-		if (not _owner.expired() && _function)
+		if (Valid())
 		{
-			std::invoke(_function, std::forward<Args>(args)...);
+			std::invoke(_function, args...);
 		}
 	}
 
@@ -57,7 +77,7 @@ public:
 	 */
 	void Do(std::any args) const override
 	{
-		if (not _owner.expired() && _function)
+		if (Valid())
 		{
 			bool canCasted = std::any_cast<std::tuple<Args...>>(&args) != nullptr;
 			if (canCasted)
@@ -80,7 +100,7 @@ public:
 
 private:
 	std::weak_ptr<void> _owner;
-	std::function<void(Args&&...)> _function;
+	std::function<void(Args...)> _function;
 };
 
 class Callback
