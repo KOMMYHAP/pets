@@ -1,7 +1,13 @@
 project(network-writer)
 
 set(SRCS
-  Writer.cpp
+	include/EventReceiverApplication.h
+	include/EventReceiverRemoteApplication.h
+
+	src/EventReceiverApplication.cpp
+	src/EventReceiverRemoteApplication.cpp
+
+	EventReceiver.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SRCS})
