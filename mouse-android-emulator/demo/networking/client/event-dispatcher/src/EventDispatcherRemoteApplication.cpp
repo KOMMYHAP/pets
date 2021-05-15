@@ -6,9 +6,9 @@
 #include "ProtoPackagesNamespace.h"
 #include "Main.pb.h"
 
-EventDispatcherRemoteApplication::EventDispatcherRemoteApplication(const std::shared_ptr<NetworkInterface>& networkInterface)
-	: _networkInterface(networkInterface)
+void EventDispatcherRemoteApplication::Configurate(const std::shared_ptr<NetworkInterface>& networkInterface)
 {
+	_networkInterface = networkInterface;
 }
 
 void EventDispatcherRemoteApplication::SendMousePosition(float x, float y)

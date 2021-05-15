@@ -12,7 +12,7 @@ class NetworkInterface;
 class EventDispatcherRemoteApplication : public RemoteApplicationBase
 {
 public:
-	EventDispatcherRemoteApplication(const std::shared_ptr<NetworkInterface> & networkInterface);
+	void Configurate(const std::shared_ptr<NetworkInterface> & networkInterface) override;
 
 	void SendMousePosition(float x, float y);
 

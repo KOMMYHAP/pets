@@ -31,6 +31,7 @@ void EventDispatcherApplication::ProcessCommandLine(int argc, char** argv)
 	auto remotePort = static_cast<uint16_t>(_commandLine->GetIntOrDefault("remote-port",44331));
 	const std::string remoteIp = _commandLine->GetOrDefault("remote-ip", "255.255.255.255");
 
+	_remoteBridge->Initialize(std::make_unique<EventDispatcherRemoteApplication>());
 	_remoteBridge->OpenLocalConnection({localPort}, TypedCallback<RemoteBridgeState>(_owner, this, &EventDispatcherApplication::OnRemoteBridgeStatusChanged));
 	_remoteBridge->DirectConnect(remoteIp, {remotePort});
 }
@@ -74,7 +75,7 @@ void EventDispatcherApplication::OnDeactivated()
 void EventDispatcherApplication::OnRemoteBridgeStatusChanged(RemoteBridgeState state)
 {
 	static RemoteBridgeState s_lastState = RemoteBridgeState::NotInitialized;
-	auto ToString = [](RemoteBridgeState state)
+	auto StateToString = [](RemoteBridgeState state)
 	{
 		switch (state)
 		{
@@ -97,7 +98,28 @@ void EventDispatcherApplication::OnRemoteBridgeStatusChanged(RemoteBridgeState s
 		}
 	};
 
-	std::cout << "Remote bridge's state has been updated: " << ToString(s_lastState) << " -> " << ToString(state) << '\n';
+	auto ErrorToString = [](RemoteBridgeError error)
+	{
+		switch (error)
+		{
+		case RemoteBridgeError::NotInitialized: 
+			return "NotInitialized";
+		case RemoteBridgeError::LocalPortsBusy:
+			return "LocalPortsBusy";
+		case RemoteBridgeError::RemotePortEmpty:
+			return "RemotePortEmpty";
+		case RemoteBridgeError::NoError:
+			return "NoError";
+		default: 
+			return "Unknown";
+		}
+	};
+
+	std::cout << "Remote bridge's state has been updated: " << StateToString(s_lastState) << " -> " << StateToString(state) << '\n';
+	if (state == RemoteBridgeState::ErrorOccured)
+	{
+		std::cout << "Remote bridge's error: " << ErrorToString(_remoteBridge->GetError()) << '\n';
+	}
 	s_lastState = state;
 }
 

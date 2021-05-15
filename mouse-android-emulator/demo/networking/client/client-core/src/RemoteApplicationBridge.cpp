@@ -22,6 +22,7 @@ RemoteApplicationBridge::~RemoteApplicationBridge() = default;
 void RemoteApplicationBridge::Initialize(std::unique_ptr<RemoteApplicationBase> remoteApplication)
 {
 	_remoteApplication = std::move(remoteApplication);
+	_remoteApplication->Configurate(_networkInterface);
 	SetState(RemoteBridgeState::Initialized);
 }
 
