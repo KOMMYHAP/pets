@@ -1,4 +1,4 @@
-project(network-writer)
+project(event-receiver)
 
 set(SRCS
 	include/EventReceiverApplication.h

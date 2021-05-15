@@ -1,4 +1,4 @@
-project(network-listener)
+project(event-dispatcher)
 
 set(SRCS
 	EventDispatcher.cpp
