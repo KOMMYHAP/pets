@@ -5,11 +5,12 @@
 #include "ProtoPackagesNamespace.h"
 #include "tools/Callback.h"
 
+class RemoteApplicationBase;
 class Timer;
 class ParsedCommandLine;
 class OperationManager;
 class NetworkInterface;
-class RemoteApplication;
+class EventDispatcherRemoteApplication;
 
 namespace my::proto::package
 {
@@ -29,6 +30,7 @@ enum class RemoteBridgeState
 
 enum class RemoteBridgeError
 {
+	NotInitialized,
 	LocalPortsBusy,
 	RemotePortEmpty,
 	NoError,
@@ -47,31 +49,35 @@ public:
 	RemoteApplicationBridge(OperationManager & operationManager);
 	~RemoteApplicationBridge();
 
-	void Initialize(const std::vector<uint16_t> & localPorts, const TypedCallback<RemoteBridgeState> & callback);
+	void Initialize(std::unique_ptr<RemoteApplicationBase> remoteApplication);
+	void OpenLocalConnection(const std::vector<uint16_t> & localPorts, const TypedCallback<RemoteBridgeState> & callback);
 	void StartBroadcasting(const std::vector<uint16_t> & remotePorts);
 	void DirectConnect(const std::string & remoteIp, const std::vector<uint16_t> & remotePorts);
 
 	void CloseConnection();
 	void Reconnect();
 
-	RemoteApplication * GetRemoteApplication() const;
+	RemoteApplicationBase * GetRemoteApplication() const;
 	RemoteBridgeError GetError() const;
 
 private:
+	void Connect(const std::string & remoteIp, const std::vector<uint16_t> & remotePorts);
+	
 	void OnConnected(const ProtoPackets::ConnectionResponse & response);
 	void OnConnectionTimeout();
 
 	void SetState(RemoteBridgeState state);
+	bool SetErrorStateIfNotInitialized();
 	void SetErrorState(RemoteBridgeError error);
 
-	RemoteBridgeState					_state = RemoteBridgeState::NotInitialized;
-	RemoteBridgeError					_error = RemoteBridgeError::NoError;
-	ConnectionStatus					_connectionStatus;
-	TypedCallback<RemoteBridgeState>	_stateChangedCallback;
+	RemoteBridgeState						_state = RemoteBridgeState::NotInitialized;
+	RemoteBridgeError						_error = RemoteBridgeError::NoError;
+	ConnectionStatus						_connectionStatus;
+	TypedCallback<RemoteBridgeState>		_stateChangedCallback;
 
-	std::unique_ptr<Timer>				_timeoutTimer;
+	std::unique_ptr<Timer>					_timeoutTimer;
 	
-	std::shared_ptr<NetworkInterface>	_networkInterface;
-	std::unique_ptr<RemoteApplication> 	_remoteApplication;
-	OperationManager &					_operationManager;
+	std::shared_ptr<NetworkInterface>		_networkInterface;
+	std::unique_ptr<RemoteApplicationBase> 	_remoteApplication;
+	OperationManager &						_operationManager;
 };
