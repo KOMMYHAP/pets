@@ -10,6 +10,7 @@
 EventDispatcherApplication::EventDispatcherApplication()
 	: _operationManager(std::make_unique<OperationManager>())
 {
+	_remoteApplication = std::make_unique<EventDispatcherRemoteApplication>(*_operationManager);
 	_owner = std::make_shared<int>(42);
 }
 

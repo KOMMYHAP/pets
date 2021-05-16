@@ -54,6 +54,7 @@ void EventDispatcherRemoteApplication::TryConnect(TimeState timeout, uint32_t re
 		_connectionHandler.retries = retries;
 		_connectionRequestTimeoutTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &EventDispatcherRemoteApplication::OnConnectionRequestTimedOut), timeout, _operationManager);
 		TryConnect();
+		return;
 	}
 	std::cout << "EventDispatcherRemoteApplication::TryConnect called from incorrect state " << static_cast<int>(_state) << ".\n";
 }
@@ -90,7 +91,7 @@ void EventDispatcherRemoteApplication::TryConnectAgain()
 	if (_connectionHandler.retries > 0)
 	{
 		_connectionHandler.retries -= 1;
-		TryConnectAgain();
+		TryConnect();
 	}
 }
 
