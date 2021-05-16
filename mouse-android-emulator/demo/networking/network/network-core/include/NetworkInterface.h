@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <string>
 
 class OperationManager;
 
@@ -7,7 +8,6 @@ namespace Network {
 	class PackageManager;
 	class Peer;
 }
-
 
 class NetworkInterface : public std::enable_shared_from_this<NetworkInterface>
 {

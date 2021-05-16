@@ -21,7 +21,12 @@ namespace Network
 
 	NetworkErrorConstants PeerConnection::SetLocal(uint16_t localPort, const std::string & localAddress)
 	{
-		return _packetHandler->SetLocal(localPort, localAddress);
+		auto error = _packetHandler->SetLocal(localPort, localAddress);
+		if (error == NetworkErrorConstants::NoError)
+		{
+			_localPort = localPort;
+		}
+		return error;
 	}
 
 	NetworkErrorConstants PeerConnection::SetRemote(uint16_t remotePort, const std::string & remoteAddress)
@@ -32,6 +37,11 @@ namespace Network
 	void PeerConnection::ResetRemote()
 	{
 		_packetHandler->ResetRemote();
+	}
+
+	uint16_t PeerConnection::GetLocalPort() const
+	{
+		return _localPort;
 	}
 
 	void PeerConnection::SendPacket(uint32_t id, const std::string& data)

@@ -14,3 +14,18 @@ message ConnectionResponse
 	string 				ip = 1;
 	uint32				port = 2;
 }
+
+message ConnectionPing
+{
+	option (package_id) = CONNECTION_PING;
+}
+
+message ConnectionPong
+{
+	option (package_id) = CONNECTION_PONG;
+}
+
+message ConnectionDisconnect
+{
+	option (package_id) = CONNECTION_DISCONNECT;
+}

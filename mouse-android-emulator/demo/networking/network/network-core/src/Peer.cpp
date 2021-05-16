@@ -42,6 +42,11 @@ namespace Network
 		_connection->ResetRemote();
 	}
 
+	uint16_t Peer::GetLocalPort() const
+	{
+		return _connection->GetLocalPort();
+	}
+
 	void Peer::ProcessReceivedPackets()
 	{
 		_connection->ProcessReceivedPackets();
@@ -49,7 +54,7 @@ namespace Network
 
 	void Peer::ReceivePacket(ReceivedPacket receivedPacket)
 	{
-		std::cout << "Received package with id " << receivedPacket.id << "." << std::endl;
+		std::cout << "Packet has been received: " << my::proto::package::PackageId_Name(receivedPacket.id) << '\n';
 
 		auto package = _packageManager.Create(receivedPacket.id);
 		if (not package)
@@ -62,6 +67,10 @@ namespace Network
 			std::cerr << "Cannot parse received package." << std::endl;
 			return;
 		}
+
+		std::cout
+			<< "Packet's message:\n"
+			<< package->DebugString() << '\n';
 		
 		ReceivePacket(receivedPacket.id, *package);
 	}
@@ -89,8 +98,15 @@ namespace Network
 		}
 	}
 
-	void Peer::SendPacket(uint32_t packageId, std::string data)
+	void Peer::SendPacket(uint32_t packageId, const google::protobuf::Message& request)
 	{
-		_connection->SendPacket(packageId, std::move(data));
+		std::cout
+			<< "Packet will be sent: " << my::proto::package::PackageId_Name(packageId) << ":\n"
+			<< request.DebugString() << '\n';
+
+		if (request.SerializeToString(&_buffer))
+		{
+			_connection->SendPacket(packageId, _buffer);
+		}
 	}
 }

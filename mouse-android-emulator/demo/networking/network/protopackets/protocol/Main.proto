@@ -6,6 +6,6 @@ package my.proto.package;
 message MousePositionMessage
 {
 	option (package_id) = MOUSE_POSITION_MESSAGE;
-	int32 x = 1;
-	int32 y = 2;
+	float x = 1;
+	float y = 2;
 }

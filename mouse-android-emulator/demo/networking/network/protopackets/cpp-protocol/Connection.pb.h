@@ -47,7 +47,7 @@ struct TableStruct_Connection_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -57,6 +57,15 @@ extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table
 namespace my {
 namespace proto {
 namespace package {
+class ConnectionDisconnect;
+class ConnectionDisconnectDefaultTypeInternal;
+extern ConnectionDisconnectDefaultTypeInternal _ConnectionDisconnect_default_instance_;
+class ConnectionPing;
+class ConnectionPingDefaultTypeInternal;
+extern ConnectionPingDefaultTypeInternal _ConnectionPing_default_instance_;
+class ConnectionPong;
+class ConnectionPongDefaultTypeInternal;
+extern ConnectionPongDefaultTypeInternal _ConnectionPong_default_instance_;
 class ConnectionRequest;
 class ConnectionRequestDefaultTypeInternal;
 extern ConnectionRequestDefaultTypeInternal _ConnectionRequest_default_instance_;
@@ -67,6 +76,9 @@ extern ConnectionResponseDefaultTypeInternal _ConnectionResponse_default_instanc
 }  // namespace proto
 }  // namespace my
 PROTOBUF_NAMESPACE_OPEN
+template<> ::my::proto::package::ConnectionDisconnect* Arena::CreateMaybeMessage<::my::proto::package::ConnectionDisconnect>(Arena*);
+template<> ::my::proto::package::ConnectionPing* Arena::CreateMaybeMessage<::my::proto::package::ConnectionPing>(Arena*);
+template<> ::my::proto::package::ConnectionPong* Arena::CreateMaybeMessage<::my::proto::package::ConnectionPong>(Arena*);
 template<> ::my::proto::package::ConnectionRequest* Arena::CreateMaybeMessage<::my::proto::package::ConnectionRequest>(Arena*);
 template<> ::my::proto::package::ConnectionResponse* Arena::CreateMaybeMessage<::my::proto::package::ConnectionResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -351,6 +363,375 @@ class ConnectionResponse PROTOBUF_FINAL :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Connection_2eproto;
 };
+// -------------------------------------------------------------------
+
+class ConnectionPing PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:my.proto.package.ConnectionPing) */ {
+ public:
+  inline ConnectionPing() : ConnectionPing(nullptr) {}
+  virtual ~ConnectionPing();
+
+  ConnectionPing(const ConnectionPing& from);
+  ConnectionPing(ConnectionPing&& from) noexcept
+    : ConnectionPing() {
+    *this = ::std::move(from);
+  }
+
+  inline ConnectionPing& operator=(const ConnectionPing& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ConnectionPing& operator=(ConnectionPing&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const ConnectionPing& default_instance();
+
+  static inline const ConnectionPing* internal_default_instance() {
+    return reinterpret_cast<const ConnectionPing*>(
+               &_ConnectionPing_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(ConnectionPing& a, ConnectionPing& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ConnectionPing* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ConnectionPing* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ConnectionPing* New() const final {
+    return CreateMaybeMessage<ConnectionPing>(nullptr);
+  }
+
+  ConnectionPing* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ConnectionPing>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const ConnectionPing& from);
+  void MergeFrom(const ConnectionPing& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ConnectionPing* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "my.proto.package.ConnectionPing";
+  }
+  protected:
+  explicit ConnectionPing(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_Connection_2eproto);
+    return ::descriptor_table_Connection_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:my.proto.package.ConnectionPing)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Connection_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ConnectionPong PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:my.proto.package.ConnectionPong) */ {
+ public:
+  inline ConnectionPong() : ConnectionPong(nullptr) {}
+  virtual ~ConnectionPong();
+
+  ConnectionPong(const ConnectionPong& from);
+  ConnectionPong(ConnectionPong&& from) noexcept
+    : ConnectionPong() {
+    *this = ::std::move(from);
+  }
+
+  inline ConnectionPong& operator=(const ConnectionPong& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ConnectionPong& operator=(ConnectionPong&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const ConnectionPong& default_instance();
+
+  static inline const ConnectionPong* internal_default_instance() {
+    return reinterpret_cast<const ConnectionPong*>(
+               &_ConnectionPong_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(ConnectionPong& a, ConnectionPong& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ConnectionPong* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ConnectionPong* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ConnectionPong* New() const final {
+    return CreateMaybeMessage<ConnectionPong>(nullptr);
+  }
+
+  ConnectionPong* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ConnectionPong>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const ConnectionPong& from);
+  void MergeFrom(const ConnectionPong& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ConnectionPong* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "my.proto.package.ConnectionPong";
+  }
+  protected:
+  explicit ConnectionPong(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_Connection_2eproto);
+    return ::descriptor_table_Connection_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:my.proto.package.ConnectionPong)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Connection_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ConnectionDisconnect PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:my.proto.package.ConnectionDisconnect) */ {
+ public:
+  inline ConnectionDisconnect() : ConnectionDisconnect(nullptr) {}
+  virtual ~ConnectionDisconnect();
+
+  ConnectionDisconnect(const ConnectionDisconnect& from);
+  ConnectionDisconnect(ConnectionDisconnect&& from) noexcept
+    : ConnectionDisconnect() {
+    *this = ::std::move(from);
+  }
+
+  inline ConnectionDisconnect& operator=(const ConnectionDisconnect& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ConnectionDisconnect& operator=(ConnectionDisconnect&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const ConnectionDisconnect& default_instance();
+
+  static inline const ConnectionDisconnect* internal_default_instance() {
+    return reinterpret_cast<const ConnectionDisconnect*>(
+               &_ConnectionDisconnect_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(ConnectionDisconnect& a, ConnectionDisconnect& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ConnectionDisconnect* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ConnectionDisconnect* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ConnectionDisconnect* New() const final {
+    return CreateMaybeMessage<ConnectionDisconnect>(nullptr);
+  }
+
+  ConnectionDisconnect* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ConnectionDisconnect>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const ConnectionDisconnect& from);
+  void MergeFrom(const ConnectionDisconnect& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ConnectionDisconnect* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "my.proto.package.ConnectionDisconnect";
+  }
+  protected:
+  explicit ConnectionDisconnect(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_Connection_2eproto);
+    return ::descriptor_table_Connection_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:my.proto.package.ConnectionDisconnect)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Connection_2eproto;
+};
 // ===================================================================
 
 
@@ -447,9 +828,27 @@ inline void ConnectionResponse::set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) 
   // @@protoc_insertion_point(field_set:my.proto.package.ConnectionResponse.port)
 }
 
+// -------------------------------------------------------------------
+
+// ConnectionPing
+
+// -------------------------------------------------------------------
+
+// ConnectionPong
+
+// -------------------------------------------------------------------
+
+// ConnectionDisconnect
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

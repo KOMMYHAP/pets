@@ -25,9 +25,60 @@ class ConnectionResponseDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ConnectionResponse> _instance;
 } _ConnectionResponse_default_instance_;
+class ConnectionPingDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ConnectionPing> _instance;
+} _ConnectionPing_default_instance_;
+class ConnectionPongDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ConnectionPong> _instance;
+} _ConnectionPong_default_instance_;
+class ConnectionDisconnectDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ConnectionDisconnect> _instance;
+} _ConnectionDisconnect_default_instance_;
 }  // namespace package
 }  // namespace proto
 }  // namespace my
+static void InitDefaultsscc_info_ConnectionDisconnect_Connection_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::my::proto::package::_ConnectionDisconnect_default_instance_;
+    new (ptr) ::my::proto::package::ConnectionDisconnect();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ConnectionDisconnect_Connection_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ConnectionDisconnect_Connection_2eproto}, {}};
+
+static void InitDefaultsscc_info_ConnectionPing_Connection_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::my::proto::package::_ConnectionPing_default_instance_;
+    new (ptr) ::my::proto::package::ConnectionPing();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ConnectionPing_Connection_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ConnectionPing_Connection_2eproto}, {}};
+
+static void InitDefaultsscc_info_ConnectionPong_Connection_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::my::proto::package::_ConnectionPong_default_instance_;
+    new (ptr) ::my::proto::package::ConnectionPong();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ConnectionPong_Connection_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ConnectionPong_Connection_2eproto}, {}};
+
 static void InitDefaultsscc_info_ConnectionRequest_Connection_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -54,7 +105,7 @@ static void InitDefaultsscc_info_ConnectionResponse_Connection_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ConnectionResponse_Connection_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ConnectionResponse_Connection_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Connection_2eproto[2];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Connection_2eproto[5];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_Connection_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_Connection_2eproto = nullptr;
 
@@ -71,36 +122,62 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Connection_2eproto::offsets[] 
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionResponse, ip_),
   PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionResponse, port_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionPing, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionPong, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionDisconnect, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::my::proto::package::ConnectionRequest)},
   { 5, -1, sizeof(::my::proto::package::ConnectionResponse)},
+  { 12, -1, sizeof(::my::proto::package::ConnectionPing)},
+  { 17, -1, sizeof(::my::proto::package::ConnectionPong)},
+  { 22, -1, sizeof(::my::proto::package::ConnectionDisconnect)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::my::proto::package::_ConnectionRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::my::proto::package::_ConnectionResponse_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::my::proto::package::_ConnectionPing_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::my::proto::package::_ConnectionPong_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::my::proto::package::_ConnectionDisconnect_default_instance_),
 };
 
 const char descriptor_table_protodef_Connection_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\020Connection.proto\022\020my.proto.package\032\017Pa"
   "cketsId.proto\"\031\n\021ConnectionRequest:\004\200\265\030\n"
   "\"4\n\022ConnectionResponse\022\n\n\002ip\030\001 \001(\t\022\014\n\004po"
-  "rt\030\002 \001(\r:\004\200\265\030\013b\006proto3"
+  "rt\030\002 \001(\r:\004\200\265\030\013\"\026\n\016ConnectionPing:\004\200\265\030\014\"\026"
+  "\n\016ConnectionPong:\004\200\265\030\r\"\034\n\024ConnectionDisc"
+  "onnect:\004\200\265\030\016b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Connection_2eproto_deps[1] = {
   &::descriptor_table_PacketsId_2eproto,
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Connection_2eproto_sccs[2] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Connection_2eproto_sccs[5] = {
+  &scc_info_ConnectionDisconnect_Connection_2eproto.base,
+  &scc_info_ConnectionPing_Connection_2eproto.base,
+  &scc_info_ConnectionPong_Connection_2eproto.base,
   &scc_info_ConnectionRequest_Connection_2eproto.base,
   &scc_info_ConnectionResponse_Connection_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Connection_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Connection_2eproto = {
-  false, false, descriptor_table_protodef_Connection_2eproto, "Connection.proto", 142,
-  &descriptor_table_Connection_2eproto_once, descriptor_table_Connection_2eproto_sccs, descriptor_table_Connection_2eproto_deps, 2, 1,
+  false, false, descriptor_table_protodef_Connection_2eproto, "Connection.proto", 220,
+  &descriptor_table_Connection_2eproto_once, descriptor_table_Connection_2eproto_sccs, descriptor_table_Connection_2eproto_deps, 5, 1,
   schemas, file_default_instances, TableStruct_Connection_2eproto::offsets,
-  file_level_metadata_Connection_2eproto, 2, file_level_enum_descriptors_Connection_2eproto, file_level_service_descriptors_Connection_2eproto,
+  file_level_metadata_Connection_2eproto, 5, file_level_enum_descriptors_Connection_2eproto, file_level_service_descriptors_Connection_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -504,6 +581,492 @@ void ConnectionResponse::InternalSwap(ConnectionResponse* other) {
 }
 
 
+// ===================================================================
+
+class ConnectionPing::_Internal {
+ public:
+};
+
+ConnectionPing::ConnectionPing(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:my.proto.package.ConnectionPing)
+}
+ConnectionPing::ConnectionPing(const ConnectionPing& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:my.proto.package.ConnectionPing)
+}
+
+void ConnectionPing::SharedCtor() {
+}
+
+ConnectionPing::~ConnectionPing() {
+  // @@protoc_insertion_point(destructor:my.proto.package.ConnectionPing)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void ConnectionPing::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void ConnectionPing::ArenaDtor(void* object) {
+  ConnectionPing* _this = reinterpret_cast< ConnectionPing* >(object);
+  (void)_this;
+}
+void ConnectionPing::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void ConnectionPing::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ConnectionPing& ConnectionPing::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ConnectionPing_Connection_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void ConnectionPing::Clear() {
+// @@protoc_insertion_point(message_clear_start:my.proto.package.ConnectionPing)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* ConnectionPing::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* ConnectionPing::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:my.proto.package.ConnectionPing)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:my.proto.package.ConnectionPing)
+  return target;
+}
+
+size_t ConnectionPing::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:my.proto.package.ConnectionPing)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void ConnectionPing::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:my.proto.package.ConnectionPing)
+  GOOGLE_DCHECK_NE(&from, this);
+  const ConnectionPing* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ConnectionPing>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:my.proto.package.ConnectionPing)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:my.proto.package.ConnectionPing)
+    MergeFrom(*source);
+  }
+}
+
+void ConnectionPing::MergeFrom(const ConnectionPing& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:my.proto.package.ConnectionPing)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void ConnectionPing::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:my.proto.package.ConnectionPing)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ConnectionPing::CopyFrom(const ConnectionPing& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:my.proto.package.ConnectionPing)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ConnectionPing::IsInitialized() const {
+  return true;
+}
+
+void ConnectionPing::InternalSwap(ConnectionPing* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata ConnectionPing::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+class ConnectionPong::_Internal {
+ public:
+};
+
+ConnectionPong::ConnectionPong(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:my.proto.package.ConnectionPong)
+}
+ConnectionPong::ConnectionPong(const ConnectionPong& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:my.proto.package.ConnectionPong)
+}
+
+void ConnectionPong::SharedCtor() {
+}
+
+ConnectionPong::~ConnectionPong() {
+  // @@protoc_insertion_point(destructor:my.proto.package.ConnectionPong)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void ConnectionPong::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void ConnectionPong::ArenaDtor(void* object) {
+  ConnectionPong* _this = reinterpret_cast< ConnectionPong* >(object);
+  (void)_this;
+}
+void ConnectionPong::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void ConnectionPong::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ConnectionPong& ConnectionPong::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ConnectionPong_Connection_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void ConnectionPong::Clear() {
+// @@protoc_insertion_point(message_clear_start:my.proto.package.ConnectionPong)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* ConnectionPong::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* ConnectionPong::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:my.proto.package.ConnectionPong)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:my.proto.package.ConnectionPong)
+  return target;
+}
+
+size_t ConnectionPong::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:my.proto.package.ConnectionPong)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void ConnectionPong::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:my.proto.package.ConnectionPong)
+  GOOGLE_DCHECK_NE(&from, this);
+  const ConnectionPong* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ConnectionPong>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:my.proto.package.ConnectionPong)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:my.proto.package.ConnectionPong)
+    MergeFrom(*source);
+  }
+}
+
+void ConnectionPong::MergeFrom(const ConnectionPong& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:my.proto.package.ConnectionPong)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void ConnectionPong::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:my.proto.package.ConnectionPong)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ConnectionPong::CopyFrom(const ConnectionPong& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:my.proto.package.ConnectionPong)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ConnectionPong::IsInitialized() const {
+  return true;
+}
+
+void ConnectionPong::InternalSwap(ConnectionPong* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata ConnectionPong::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+class ConnectionDisconnect::_Internal {
+ public:
+};
+
+ConnectionDisconnect::ConnectionDisconnect(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:my.proto.package.ConnectionDisconnect)
+}
+ConnectionDisconnect::ConnectionDisconnect(const ConnectionDisconnect& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:my.proto.package.ConnectionDisconnect)
+}
+
+void ConnectionDisconnect::SharedCtor() {
+}
+
+ConnectionDisconnect::~ConnectionDisconnect() {
+  // @@protoc_insertion_point(destructor:my.proto.package.ConnectionDisconnect)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void ConnectionDisconnect::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void ConnectionDisconnect::ArenaDtor(void* object) {
+  ConnectionDisconnect* _this = reinterpret_cast< ConnectionDisconnect* >(object);
+  (void)_this;
+}
+void ConnectionDisconnect::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void ConnectionDisconnect::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ConnectionDisconnect& ConnectionDisconnect::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ConnectionDisconnect_Connection_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void ConnectionDisconnect::Clear() {
+// @@protoc_insertion_point(message_clear_start:my.proto.package.ConnectionDisconnect)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* ConnectionDisconnect::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* ConnectionDisconnect::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:my.proto.package.ConnectionDisconnect)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:my.proto.package.ConnectionDisconnect)
+  return target;
+}
+
+size_t ConnectionDisconnect::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:my.proto.package.ConnectionDisconnect)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void ConnectionDisconnect::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:my.proto.package.ConnectionDisconnect)
+  GOOGLE_DCHECK_NE(&from, this);
+  const ConnectionDisconnect* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ConnectionDisconnect>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:my.proto.package.ConnectionDisconnect)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:my.proto.package.ConnectionDisconnect)
+    MergeFrom(*source);
+  }
+}
+
+void ConnectionDisconnect::MergeFrom(const ConnectionDisconnect& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:my.proto.package.ConnectionDisconnect)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void ConnectionDisconnect::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:my.proto.package.ConnectionDisconnect)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ConnectionDisconnect::CopyFrom(const ConnectionDisconnect& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:my.proto.package.ConnectionDisconnect)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ConnectionDisconnect::IsInitialized() const {
+  return true;
+}
+
+void ConnectionDisconnect::InternalSwap(ConnectionDisconnect* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata ConnectionDisconnect::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace package
 }  // namespace proto
@@ -514,6 +1077,15 @@ template<> PROTOBUF_NOINLINE ::my::proto::package::ConnectionRequest* Arena::Cre
 }
 template<> PROTOBUF_NOINLINE ::my::proto::package::ConnectionResponse* Arena::CreateMaybeMessage< ::my::proto::package::ConnectionResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::my::proto::package::ConnectionResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::my::proto::package::ConnectionPing* Arena::CreateMaybeMessage< ::my::proto::package::ConnectionPing >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::my::proto::package::ConnectionPing >(arena);
+}
+template<> PROTOBUF_NOINLINE ::my::proto::package::ConnectionPong* Arena::CreateMaybeMessage< ::my::proto::package::ConnectionPong >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::my::proto::package::ConnectionPong >(arena);
+}
+template<> PROTOBUF_NOINLINE ::my::proto::package::ConnectionDisconnect* Arena::CreateMaybeMessage< ::my::proto::package::ConnectionDisconnect >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::my::proto::package::ConnectionDisconnect >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

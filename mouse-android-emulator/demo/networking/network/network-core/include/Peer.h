@@ -33,6 +33,8 @@ namespace Network
 		bool OpenRemoteConnection(uint16_t remotePort, const std::string & ip); 
 		void CloseRemoteConnection();
 
+		uint16_t GetLocalPort() const;
+
 		template <class T>
 		void SendPacket(const T & request);
 		
@@ -43,7 +45,7 @@ namespace Network
 		void ReceivePacket(ReceivedPacket receivedPacket);
 
 	private:
-		void SendPacket(uint32_t packageId, std::string data);
+		void SendPacket(uint32_t packageId, const google::protobuf::Message & request);
 		void ReceivePacket(uint32_t packageId, const google::protobuf::Message & response);
 		
 		PackageManager &									_packageManager;
@@ -56,11 +58,11 @@ namespace Network
 	template <class T>
 	void Peer::SendPacket(const T & request)
 	{
-		using namespace my::proto::package;
-		PackageId packageId = T::GetDescriptor()->options().GetExtension(package_id);
-		if (request.SerializeToString(&_buffer))
+		if constexpr (std::is_base_of_v<google::protobuf::Message, T>)
 		{
-			SendPacket(static_cast<uint32_t>(packageId), _buffer);
+			using namespace my::proto::package;
+			PackageId packageId = T::GetDescriptor()->options().GetExtension(package_id);
+			SendPacket(static_cast<uint32_t>(packageId), *static_cast<const google::protobuf::Message *>(&request));
 		}
 	}
 
