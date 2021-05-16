@@ -29,7 +29,7 @@ public:
 		WaitingForConnectionRequest,
 		Connected,
 		Disconnected,
-		DisconnectedByTimeout,
+		DisconnectedByIdle,
 		ErrorOccured
 	};
 
@@ -44,18 +44,17 @@ public:
 	~EventReceiverRemoteApplication();
 
 	void SubscribeOnStatusChange(TypedCallback<State> callback);
-	void Initialize(uint16_t localPort, uint16_t remotePort, TimeState connectionTimeout);
+	void Initialize(uint16_t localPort, uint16_t remotePort, TimeState idleTimeout);
 
 	Error GetError() const;
 
 private:
 	Network::Peer & GetPeer() const;
 
-	void DisconnectByTimeout();
+	void DisconnectByIdle();
 	
 	void OnConnectionRequested(const ProtoPackets::ConnectionRequest & connectionRequest);
 	void OnPing(const ProtoPackets::ConnectionPing & connectionPing);
-	void OnPingTimeout();
 
 	void OnMouseMoved(const ProtoPackets::MousePositionMessage & mousePosition);
 
@@ -65,9 +64,9 @@ private:
 	State									_state = State::NotInitialized;
 	Error									_error = Error::NoError;
 	TypedCallback<State>					_stateChangedCallback;
-	TimeState								_pingTimeout;
+	TimeState								_idleTimeout;
 	
 	OperationManager &						_operationManager;
-	std::unique_ptr<Timer>					_pingTimeoutTimer;
+	std::unique_ptr<Timer>					_idleTimer;
 	std::shared_ptr<NetworkInterface>		_networkInterface;
 };

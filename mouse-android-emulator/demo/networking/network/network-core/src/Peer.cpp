@@ -2,7 +2,6 @@
 
 #include <SFML/Network/IpAddress.hpp>
 
-
 #include "PackageManager.h"
 #include "ReceivedPacket.h"
 #include "PeerConnection.h"
@@ -69,40 +68,32 @@ namespace Network
 		}
 
 		std::cout
-			<< "Packet's message:\n"
-			<< package->DebugString() << '\n';
+			<< "Packet's message: {\n"
+			<< package->DebugString() << "}\n";
 		
 		ReceivePacket(receivedPacket.id, *package);
 	}
 
 	void Peer::ReceivePacket(uint32_t packageId, const google::protobuf::Message& response)
 	{
-		// auto it = _responseCallbacks.find(packageId);
-		// if (it != _responseCallbacks.end())
-		// {
-		// 	auto & callback = it->second;
-		// 	callback(response);
-		// }
-		for (auto it = _subscribers.begin(); it != _subscribers.end();)
+		auto it = _subscribers.find(packageId);
+		if (it !=  _subscribers.end())
 		{
-			auto & callback = *it;
-			if (callback.Valid())
+			std::vector<ResponseCallback> oldCallbacks = std::move(it->second);
+			auto invalidCallbackIt = std::remove_if(oldCallbacks.begin(), oldCallbacks.end(), [&response](const ResponseCallback & callback)
 			{
 				callback(response);
-				++it;
-			}
-			else
-			{
-				it = _subscribers.erase(it);
-			}
+				return !callback.Valid();
+			});
+			oldCallbacks.erase(invalidCallbackIt, oldCallbacks.end());
+			oldCallbacks.insert(oldCallbacks.end(), std::make_move_iterator(it->second.begin()), std::make_move_iterator(it->second.end()));
+			it->second = std::move(oldCallbacks);
 		}
 	}
 
 	void Peer::SendPacket(uint32_t packageId, const google::protobuf::Message& request)
 	{
-		std::cout
-			<< "Packet will be sent: " << my::proto::package::PackageId_Name(packageId) << ":\n"
-			<< request.DebugString() << '\n';
+		std::cout << "Packet will be sent: " << my::proto::package::PackageId_Name(packageId) << '\n';
 
 		if (request.SerializeToString(&_buffer))
 		{

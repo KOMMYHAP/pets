@@ -28,7 +28,7 @@ void EventReceiverRemoteApplication::SubscribeOnStatusChange(TypedCallback<State
 	_stateChangedCallback = std::move(callback);
 }
 
-void EventReceiverRemoteApplication::Initialize(uint16_t localPort, uint16_t remotePort, TimeState connectionTimeout)
+void EventReceiverRemoteApplication::Initialize(uint16_t localPort, uint16_t remotePort, TimeState idleTimeout)
 {
 	if (localPort != GetPeer().OpenLocalConnection({localPort}))
 	{
@@ -37,7 +37,7 @@ void EventReceiverRemoteApplication::Initialize(uint16_t localPort, uint16_t rem
 	}
 
 	GetPeer().OpenRemoteConnection(remotePort, "255.255.255.255");
-	_pingTimeout = connectionTimeout;
+	_idleTimeout = idleTimeout;
 	SetState(State::WaitingForConnectionRequest);
 
 	_networkInterface->StartPacketProcessing();
@@ -53,12 +53,15 @@ Network::Peer & EventReceiverRemoteApplication::GetPeer() const
 	return _networkInterface->GetPeer();
 }
 
-void EventReceiverRemoteApplication::DisconnectByTimeout()
+void EventReceiverRemoteApplication::DisconnectByIdle()
 {
 	if (_state == State::Connected)
 	{
+		ProtoPackets::ConnectionDisconnect disconnect;
+		GetPeer().SendPacket(disconnect);
 		GetPeer().CloseRemoteConnection();
-		SetState(State::DisconnectedByTimeout);
+		SetState(State::DisconnectedByIdle);
+
 		SetState(State::WaitingForConnectionRequest);
 		return;
 	}
@@ -70,20 +73,25 @@ void EventReceiverRemoteApplication::OnConnectionRequested([[maybe_unused]] cons
 {
 	if (_state == State::WaitingForConnectionRequest)
 	{
-		const bool remoteChanged = GetPeer().OpenRemoteConnection(connectionRequest.port(), connectionRequest.ip());
-		if (!remoteChanged)
+		bool debugOnLocalHost = true;
+		if (!debugOnLocalHost ||
+			debugOnLocalHost && connectionRequest.ip() != sf::IpAddress::getLocalAddress().toString())
 		{
-			SetErrorState(Error::RemoteIpInvalid);
-			return;
+			const bool remoteChanged = GetPeer().OpenRemoteConnection(connectionRequest.port(), connectionRequest.ip());
+			if (!remoteChanged)
+			{
+				SetErrorState(Error::RemoteIpInvalid);
+				return;
+			}
 		}
 
 		ProtoPackets::ConnectionResponse response;
 		response.set_ip(sf::IpAddress::getLocalAddress().toString());
 		response.set_port(GetPeer().GetLocalPort());
 		GetPeer().SendPacket(response);
-
-		_pingTimeoutTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &EventReceiverRemoteApplication::OnPingTimeout), _pingTimeout, _operationManager);
-		_pingTimeoutTimer->Restart();
+		
+		_idleTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &EventReceiverRemoteApplication::DisconnectByIdle), _idleTimeout, _operationManager);
+		_idleTimer->Restart();
 
 		SetState(State::Connected);
 		return;
@@ -101,25 +109,24 @@ void EventReceiverRemoteApplication::OnPing([[maybe_unused]] const ProtoPackets:
 {
 	if (_state == State::Connected)
 	{
+		_idleTimer->Restart();
+
 		ProtoPackets::ConnectionPong pong;
 		GetPeer().SendPacket(pong);
-
-		_pingTimeoutTimer->Restart();
 		return;
 	}
 	std::cout << "EventReceiverRemoteApplication::OnPing called from incorrect state " << static_cast<int>(_state) << ".\n";
 }
 
-void EventReceiverRemoteApplication::OnPingTimeout()
-{
-	DisconnectByTimeout();
-}
-
 void EventReceiverRemoteApplication::OnMouseMoved(const ProtoPackets::MousePositionMessage& mousePosition)
 {
-	float x = mousePosition.x();
-	float y = mousePosition.y();
-	std::cout << '(' << x << ", " << y << ')' << '\n';
+	if (_state == State::Connected)
+	{
+		_idleTimer->Restart();
+		float x = mousePosition.x();
+		float y = mousePosition.y();
+		// std::cout << '(' << x << ", " << y << ')' << '\n';
+	}
 }
 
 void EventReceiverRemoteApplication::SetState(State state)

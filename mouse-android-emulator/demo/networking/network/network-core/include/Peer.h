@@ -50,10 +50,17 @@ namespace Network
 		
 		PackageManager &									_packageManager;
 		OperationManager &									_operationManager;
-		std::list<ResponseCallback>							_subscribers;
+		std::map<uint32_t, std::vector<ResponseCallback>>	_subscribers;
 		std::unique_ptr<PeerConnection>						_connection;
 		std::string											_buffer;
 	};
+
+	template<class Packet>
+	uint32_t GetPackageId()
+	{
+		using namespace my::proto::package;
+		return static_cast<uint32_t>(Packet::GetDescriptor()->options().GetExtension(package_id));
+	}
 
 	template <class T>
 	void Peer::SendPacket(const T & request)
@@ -61,8 +68,7 @@ namespace Network
 		if constexpr (std::is_base_of_v<google::protobuf::Message, T>)
 		{
 			using namespace my::proto::package;
-			PackageId packageId = T::GetDescriptor()->options().GetExtension(package_id);
-			SendPacket(static_cast<uint32_t>(packageId), *static_cast<const google::protobuf::Message *>(&request));
+			SendPacket(GetPackageId<T>(), *static_cast<const google::protobuf::Message *>(&request));
 		}
 	}
 
@@ -77,6 +83,8 @@ namespace Network
 				response(*castedMsg);
 			}
 		});
-		_subscribers.emplace_back(std::move(upcastedResponse));
+
+		std::vector<ResponseCallback> & callbacks = _subscribers[GetPackageId<T>()];
+		callbacks.emplace_back(std::move(upcastedResponse));
 	}
 }

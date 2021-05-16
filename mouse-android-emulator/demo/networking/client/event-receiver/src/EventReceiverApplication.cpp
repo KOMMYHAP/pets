@@ -23,10 +23,10 @@ void EventReceiverApplication::ProcessCommandLine(int argc, char** argv)
 
 	auto localPort = static_cast<uint16_t>(_commandLine->GetIntOrDefault("local-port", 44331));
 	auto remotePort = static_cast<uint16_t>(_commandLine->GetIntOrDefault("remote-port",44332));
-	auto pingTimeout = static_cast<uint16_t>(_commandLine->GetIntOrDefault("ping-timeout", 5));
+	auto idleTimeout = static_cast<uint16_t>(_commandLine->GetIntOrDefault("idle-timeout", 5));
 
 	_remoteApplication->SubscribeOnStatusChange(TypedCallback<EventReceiverRemoteApplication::State>(_owner, this, &EventReceiverApplication::OnStateChanged));
-	_remoteApplication->Initialize(localPort, remotePort, TimeState::Seconds(pingTimeout));
+	_remoteApplication->Initialize(localPort, remotePort, TimeState::Seconds(idleTimeout));
 }
 
 void EventReceiverApplication::ProcessEvent(const sf::Event& event)
@@ -67,8 +67,8 @@ void EventReceiverApplication::OnStateChanged(EventReceiverRemoteApplication::St
 			return "Error";
 		case EventReceiverRemoteApplication::State::WaitingForConnectionRequest:
 			return "WaitingForConnectionRequest";
-		case EventReceiverRemoteApplication::State::DisconnectedByTimeout:
-			return "DisconnectedByTimeout";
+		case EventReceiverRemoteApplication::State::DisconnectedByIdle:
+			return "DisconnectedByIdle";
 		default:
 			return "Unknown";
 		}

@@ -25,7 +25,7 @@ void EventDispatcherApplication::ProcessCommandLine(int argc, char** argv)
 	const std::string remoteIp = _commandLine->GetOrDefault("remote-ip", "255.255.255.255");
 	
 	auto pingTime = static_cast<uint16_t>(_commandLine->GetIntOrDefault("ping",3));
-	auto pongTimeout = static_cast<uint16_t>(_commandLine->GetIntOrDefault("pong-timeout",5));
+	auto pongTimeout = static_cast<uint16_t>(_commandLine->GetIntOrDefault("pong-timeout",10));
 	
 	auto retries = static_cast<uint16_t>(_commandLine->GetIntOrDefault("connection-request-retries", 12));
 	auto timeout = static_cast<uint16_t>(_commandLine->GetIntOrDefault("connection-request-timeout", 5));
