@@ -1,5 +1,8 @@
 #include "EventDispatcherRemoteApplication.h"
 
+#include <SFML/Network/IpAddress.hpp>
+
+
 #include "NetworkInterface.h"
 #include "Peer.h"
 
@@ -92,6 +95,8 @@ void EventDispatcherRemoteApplication::TryConnect()
 	SetState(State::WaitingForConnect);
 	
 	ProtoPackets::ConnectionRequest request;
+	request.set_ip(sf::IpAddress::getLocalAddress().toString());
+	request.set_port(GetPeer().GetLocalPort());
 	GetPeer().SendPacket(request);
 }
 
