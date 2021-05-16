@@ -133,7 +133,8 @@ Operation::Result PacketHandlerOperation::DoImpl()
 		std::unique_lock lock(_impl->mutex);
 		hasPacketsToSend = _impl->condition.wait_for(lock, std::chrono::milliseconds(25), [this]()
 		{
-			return _impl->shouldCheckMorePackets || !_impl->packetsToSend.empty();
+			bool shouldSkipSleeping = _impl->shouldCheckMorePackets || !_impl->packetsToSend.empty();
+			return shouldSkipSleeping;
 		});
 	}
 	if (hasPacketsToSend)
