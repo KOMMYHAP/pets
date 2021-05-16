@@ -21,6 +21,8 @@ public:
 	void ResetRemote();
 
 	void Queue(uint32_t id, const std::string & data);
+
+	bool HasUnprocessedPackets() const;
 	std::vector<Network::ReceivedPacket> ExtractReceivedPackets();
 
 protected:

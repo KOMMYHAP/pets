@@ -51,10 +51,13 @@ namespace Network
 
 	void PeerConnection::ProcessReceivedPackets()
 	{
-		auto packets = _packetHandler->ExtractReceivedPackets();
-		for (const auto & packet : packets)
+		if (_packetHandler->HasUnprocessedPackets())
 		{
-			_peer.ReceivePacket(packet);
+			auto packets = _packetHandler->ExtractReceivedPackets();
+			for (const auto & packet : packets)
+			{
+				_peer.ReceivePacket(packet);
+			}
 		}
 	}
 }
