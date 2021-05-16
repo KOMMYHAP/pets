@@ -173,6 +173,7 @@ void PacketHandlerOperation::SendPackets()
 
 void PacketHandlerOperation::ReceivePackets()
 {
+	_impl->shouldCheckMorePackets = false;
 	int32_t maxPacketsToReceive = static_cast<int32_t>(_impl->maxPacketsToReceive);
 	while (maxPacketsToReceive > 0 && ReceivePacket())
 	{
