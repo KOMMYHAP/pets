@@ -12,22 +12,32 @@
 struct PacketHandlerOperation::Impl
 {
 	bool IsTargetHost(uint16_t port, const sf::IpAddress & ip) const;
-	
+
 	std::mutex									mutex;
+	std::condition_variable						condition;
 	std::unique_ptr<sf::UdpSocket> 				socket;
 	std::vector<sf::Packet>						packetsToSend;
 	sf::IpAddress								remoteAddress;
 	uint16_t									remotePort;
-	
+
+	std::atomic_bool							hasUnprocessedPackets = false;
 	std::vector<Network::ReceivedPacket>		unprocessedPackets;
 	std::optional<sf::Packet>					partiallyProcessedPacket;
 };
 
 bool PacketHandlerOperation::Impl::IsTargetHost(uint16_t port, const sf::IpAddress& ip) const
 {
-	return
-		remotePort == port &&
-		(remoteAddress == sf::IpAddress::Broadcast || remoteAddress == ip);
+	const bool isTargetPort = remotePort == port;
+	const bool isTargetIp = remoteAddress == ip;
+	if (isTargetPort && isTargetIp)
+	{
+		return true;
+	}
+
+	const bool isCommonIp = 
+		remoteAddress == sf::IpAddress::Broadcast || 
+		remoteAddress == sf::IpAddress::LocalHost;
+	return isTargetPort && isCommonIp;
 }
 
 PacketHandlerOperation::PacketHandlerOperation()
@@ -88,9 +98,15 @@ void PacketHandlerOperation::Queue(uint32_t id, const std::string& data)
 	_impl->packetsToSend.emplace_back(sf::Packet() << id << data);
 }
 
+bool PacketHandlerOperation::HasUnprocessedPackets() const
+{
+	return _impl->hasUnprocessedPackets;
+}
+
 std::vector<Network::ReceivedPacket> PacketHandlerOperation::ExtractReceivedPackets()
 {
 	std::scoped_lock lock(_impl->mutex);
+	_impl->hasUnprocessedPackets = false;
 	return std::move(_impl->unprocessedPackets);
 }
 
@@ -101,9 +117,18 @@ Operation::Result PacketHandlerOperation::DoImpl()
 		return Result::InProcess;
 	}
 
-	SendPackets();
 	ReceivePackets();
 
+	{
+		std::unique_lock lock(_impl->mutex);
+		auto status = _impl->condition.wait_for(lock, std::chrono::milliseconds(25));
+		if (status == std::cv_status::timeout)
+		{
+			return Result::InProcess;
+		}
+	}
+
+	SendPackets();
 	return Result::InProcess;
 }
 
@@ -154,6 +179,7 @@ void PacketHandlerOperation::ReceivePackets()
 		{
 			// packet has been successfully received and contains id and data
 			std::scoped_lock lock(_impl->mutex);
+			_impl->hasUnprocessedPackets = true;
 			_impl->unprocessedPackets.emplace_back(id, std::move(data));
 		}
 		if (partialPacketCompleting)
