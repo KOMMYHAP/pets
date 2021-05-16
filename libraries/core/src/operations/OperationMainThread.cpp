@@ -20,7 +20,15 @@ void OperationMainThread::Dispatch(std::weak_ptr<Operation> weakOperation)
 		operation->PreAction();
 		_operations.emplace_back(weakOperation);
 	}
+}
 
+std::thread::id OperationMainThread::GetId() const
+{
+	return _id;
+}
+
+void OperationMainThread::Update()
+{
 	auto completedIt = std::remove_if(_operations.begin(), _operations.end(), [](const std::weak_ptr<Operation> & weakoperation)
 	{
 		auto operation = weakoperation.lock();
@@ -37,9 +45,4 @@ void OperationMainThread::Dispatch(std::weak_ptr<Operation> weakOperation)
 		return false;
 	});
 	_operations.erase(completedIt, _operations.end());
-}
-
-std::thread::id OperationMainThread::GetId() const
-{
-	return _id;
 }

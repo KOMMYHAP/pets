@@ -72,7 +72,8 @@ void OperationManager::UpdateOperations(TimeState elapsedTime)
 
 void OperationManager::Update(TimeState elapsedTime)
 {
-	PerformCompletedOperations();
+	_dispatcher->UpdateMainThread();
+	UpdateDispatchedOperations();
 	RemoveCompletedStickyOperations();
 	UpdateOperations(elapsedTime);
 }
@@ -92,7 +93,7 @@ void OperationManager::RemoveCompletedStickyOperations()
 	_stickyOperations.erase(stickyEndIt, _stickyOperations.end());
 }
 
-void OperationManager::PerformCompletedOperations()
+void OperationManager::UpdateDispatchedOperations()
 {
 	// call OnCompleted callback for all completed operations
 	auto completedIt = std::remove_if(_dispatchedOperations.begin(), _dispatchedOperations.end(), [](const std::weak_ptr<Operation> & weakOperation)

@@ -36,7 +36,7 @@ private:
 	void Dispatch(const OperationStatus & status);
 
 	void RemoveCompletedStickyOperations();
-	void PerformCompletedOperations();
+	void UpdateDispatchedOperations();
 	void UpdateOperations(TimeState elapsedTime);
 
 	std::vector<std::shared_ptr<Operation>>	_stickyOperations;

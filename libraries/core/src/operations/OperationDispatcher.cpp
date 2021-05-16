@@ -27,23 +27,34 @@ void OperationDispatcher::RegisterThread(OperationThreadIds where, const std::st
 	thread->SetName(name);
 	auto threadId = thread->GetId();
 	
-	_threadIds[where] = threadId;
-	_threads[threadId] = std::move(thread);
+	_threadIds[where] = std::move(thread);
 }
 
 void OperationDispatcher::Dispath(std::weak_ptr<Operation> operation, OperationThreadIds where)
 {
-	auto it = _threadIds.find(where);
-	if (it != _threadIds.end())
+	if (auto thread = GetThread(where))
 	{
-		auto threadId = it->second;
-		auto threadIt = _threads.find(threadId);
-		if (threadIt != _threads.end())
-		{
-			const auto & thread = threadIt->second;
-			thread->Dispatch(operation);
-			return;
-		}
+		thread->Dispatch(operation);
+		return;
 	}
 	std::cerr << "Cannot dispatch specified operation: thread id " << static_cast<int>(where) << " is unknown!" << std::endl;
+}
+
+void OperationDispatcher::UpdateMainThread()
+{
+	auto mainThread = dynamic_cast<OperationMainThread *>(GetThread(OperationThreadIds::MainThread));
+	if (mainThread)
+	{
+		mainThread->Update();
+	}
+}
+
+OperationThreadBase* OperationDispatcher::GetThread(OperationThreadIds ids) const
+{
+	auto it = _threadIds.find(ids);
+	if (it != _threadIds.end())
+	{
+		return it->second.get();
+	}
+	return nullptr;
 }

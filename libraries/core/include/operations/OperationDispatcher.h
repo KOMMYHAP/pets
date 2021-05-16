@@ -16,8 +16,10 @@ public:
 
 	void RegisterThread(OperationThreadIds where, const std::string & name);
 	void Dispath(std::weak_ptr<Operation> operation, OperationThreadIds where);
+	void UpdateMainThread();
 
 private:
-	std::map<OperationThreadIds, std::thread::id>	_threadIds;
-	std::map<std::thread::id, std::unique_ptr<OperationThreadBase>> _threads;
+	OperationThreadBase * GetThread(OperationThreadIds ids) const;
+	
+	std::map<OperationThreadIds, std::unique_ptr<OperationThreadBase>>	_threadIds;
 };

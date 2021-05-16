@@ -12,6 +12,8 @@ public:
 	void Dispatch(std::weak_ptr<Operation> operation) override;
 	std::thread::id GetId() const override;
 
+	void Update();
+
 private:
 	std::thread::id		_id;
 	std::vector<std::weak_ptr<Operation>>	_operations;
