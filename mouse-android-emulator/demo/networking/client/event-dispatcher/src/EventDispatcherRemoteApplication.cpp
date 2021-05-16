@@ -40,9 +40,15 @@ void EventDispatcherRemoteApplication::Initialize(uint16_t localPort, const std:
 		return;
 	}
 
+	_networkInterface->StartPacketProcessing();
 	_connectionStatus.ip = remoteIp;
+
 	_pingTime = pingTime;
+	_pingTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &EventDispatcherRemoteApplication::Ping), _pingTime, _operationManager);
+	
 	_pongTimeout = pongTimeout;
+	_pongTimeoutTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &EventDispatcherRemoteApplication::OnPongTimedOut), _pongTimeout, _operationManager);
+
 	SetState(State::Initialized);
 }
 
@@ -61,10 +67,13 @@ void EventDispatcherRemoteApplication::TryConnect(TimeState timeout, uint32_t re
 
 void EventDispatcherRemoteApplication::SendMousePosition(float x, float y)
 {
-	ProtoPackets::MousePositionMessage message;
-	message.set_x(x);
-	message.set_y(y);
-	GetPeer().SendPacket(message);
+	if (_state == State::Connected)
+	{
+		ProtoPackets::MousePositionMessage message;
+		message.set_x(x);
+		message.set_y(y);
+		GetPeer().SendPacket(message);
+	}
 }
 
 EventDispatcherRemoteApplication::Error EventDispatcherRemoteApplication::GetError() const
@@ -107,18 +116,7 @@ void EventDispatcherRemoteApplication::DisconnectByTimeout()
 
 void EventDispatcherRemoteApplication::Ping()
 {
-	if (!_pingTimer)
-	{
-		_pingTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &EventDispatcherRemoteApplication::Ping), _pingTime, _operationManager);
-	}
-	_pingTimer->Restart();
-
-	if (!_pongTimeoutTimer)
-	{
-		_pongTimeoutTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &EventDispatcherRemoteApplication::OnPongTimedOut), _pongTimeout, _operationManager);
-	}
 	_pongTimeoutTimer->Restart();
-	
 	ProtoPackets::ConnectionPing ping;
 	GetPeer().SendPacket(ping);
 }
@@ -143,6 +141,7 @@ void EventDispatcherRemoteApplication::OnPong([[maybe_unused]] const ProtoPacket
 {
 	if (_state == State::Connected)
 	{
+		_pingTimer->Restart();
 		_pongTimeoutTimer->Reset();
 		return;
 	}
