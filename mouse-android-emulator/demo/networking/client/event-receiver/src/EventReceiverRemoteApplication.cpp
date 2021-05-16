@@ -69,6 +69,13 @@ void EventReceiverRemoteApplication::OnConnectionRequested([[maybe_unused]] cons
 {
 	if (_state == State::WaitingForConnectionRequest)
 	{
+		const bool remoteChanged = GetPeer().OpenRemoteConnection(connectionRequest.port(), connectionRequest.ip());
+		if (!remoteChanged)
+		{
+			SetErrorState(Error::RemoteIpInvalid);
+			return;
+		}
+
 		ProtoPackets::ConnectionResponse response;
 		response.set_ip(sf::IpAddress::getLocalAddress().toString());
 		response.set_port(GetPeer().GetLocalPort());
@@ -81,6 +88,11 @@ void EventReceiverRemoteApplication::OnConnectionRequested([[maybe_unused]] cons
 		return;
 	}
 
+	if (_state == State::Connected)
+	{
+		std::cout << "Another connection request has been ignored due to already established connection.\n";
+		return;
+	}
 	std::cout << "EventReceiverRemoteApplication::OnConnectionRequested called from incorrect state " << static_cast<int>(_state) << ".\n";
 }
 

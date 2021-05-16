@@ -36,6 +36,7 @@ public:
 	enum class Error
 	{
 		LocalPortBusy,
+		RemoteIpInvalid,
 		NoError,
 	};
 	

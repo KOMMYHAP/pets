@@ -6,6 +6,8 @@ package my.proto.package;
 message ConnectionRequest
 {
 	option (package_id) = CONNECTION_REQUEST;
+	string 				ip = 1;
+	uint32				port = 2;
 }
 
 message ConnectionResponse

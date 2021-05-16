@@ -199,6 +199,35 @@ class ConnectionRequest PROTOBUF_FINAL :
 
   // accessors -------------------------------------------------------
 
+  enum : int {
+    kIpFieldNumber = 1,
+    kPortFieldNumber = 2,
+  };
+  // string ip = 1;
+  void clear_ip();
+  const std::string& ip() const;
+  void set_ip(const std::string& value);
+  void set_ip(std::string&& value);
+  void set_ip(const char* value);
+  void set_ip(const char* value, size_t size);
+  std::string* mutable_ip();
+  std::string* release_ip();
+  void set_allocated_ip(std::string* ip);
+  private:
+  const std::string& _internal_ip() const;
+  void _internal_set_ip(const std::string& value);
+  std::string* _internal_mutable_ip();
+  public:
+
+  // uint32 port = 2;
+  void clear_port();
+  ::PROTOBUF_NAMESPACE_ID::uint32 port() const;
+  void set_port(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_port() const;
+  void _internal_set_port(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:my.proto.package.ConnectionRequest)
  private:
   class _Internal;
@@ -206,6 +235,8 @@ class ConnectionRequest PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 port_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Connection_2eproto;
 };
@@ -742,6 +773,87 @@ class ConnectionDisconnect PROTOBUF_FINAL :
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
 // ConnectionRequest
+
+// string ip = 1;
+inline void ConnectionRequest::clear_ip() {
+  ip_.ClearToEmpty();
+}
+inline const std::string& ConnectionRequest::ip() const {
+  // @@protoc_insertion_point(field_get:my.proto.package.ConnectionRequest.ip)
+  return _internal_ip();
+}
+inline void ConnectionRequest::set_ip(const std::string& value) {
+  _internal_set_ip(value);
+  // @@protoc_insertion_point(field_set:my.proto.package.ConnectionRequest.ip)
+}
+inline std::string* ConnectionRequest::mutable_ip() {
+  // @@protoc_insertion_point(field_mutable:my.proto.package.ConnectionRequest.ip)
+  return _internal_mutable_ip();
+}
+inline const std::string& ConnectionRequest::_internal_ip() const {
+  return ip_.Get();
+}
+inline void ConnectionRequest::_internal_set_ip(const std::string& value) {
+  
+  ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void ConnectionRequest::set_ip(std::string&& value) {
+  
+  ip_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:my.proto.package.ConnectionRequest.ip)
+}
+inline void ConnectionRequest::set_ip(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:my.proto.package.ConnectionRequest.ip)
+}
+inline void ConnectionRequest::set_ip(const char* value,
+    size_t size) {
+  
+  ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:my.proto.package.ConnectionRequest.ip)
+}
+inline std::string* ConnectionRequest::_internal_mutable_ip() {
+  
+  return ip_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* ConnectionRequest::release_ip() {
+  // @@protoc_insertion_point(field_release:my.proto.package.ConnectionRequest.ip)
+  return ip_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void ConnectionRequest::set_allocated_ip(std::string* ip) {
+  if (ip != nullptr) {
+    
+  } else {
+    
+  }
+  ip_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ip,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:my.proto.package.ConnectionRequest.ip)
+}
+
+// uint32 port = 2;
+inline void ConnectionRequest::clear_port() {
+  port_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 ConnectionRequest::_internal_port() const {
+  return port_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 ConnectionRequest::port() const {
+  // @@protoc_insertion_point(field_get:my.proto.package.ConnectionRequest.port)
+  return _internal_port();
+}
+inline void ConnectionRequest::_internal_set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  port_ = value;
+}
+inline void ConnectionRequest::set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_port(value);
+  // @@protoc_insertion_point(field_set:my.proto.package.ConnectionRequest.port)
+}
 
 // -------------------------------------------------------------------
 

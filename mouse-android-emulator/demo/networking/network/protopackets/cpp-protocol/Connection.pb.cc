@@ -115,6 +115,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Connection_2eproto::offsets[] 
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionRequest, ip_),
+  PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionRequest, port_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::my::proto::package::ConnectionResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -140,10 +142,10 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Connection_2eproto::offsets[] 
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::my::proto::package::ConnectionRequest)},
-  { 5, -1, sizeof(::my::proto::package::ConnectionResponse)},
-  { 12, -1, sizeof(::my::proto::package::ConnectionPing)},
-  { 17, -1, sizeof(::my::proto::package::ConnectionPong)},
-  { 22, -1, sizeof(::my::proto::package::ConnectionDisconnect)},
+  { 7, -1, sizeof(::my::proto::package::ConnectionResponse)},
+  { 14, -1, sizeof(::my::proto::package::ConnectionPing)},
+  { 19, -1, sizeof(::my::proto::package::ConnectionPong)},
+  { 24, -1, sizeof(::my::proto::package::ConnectionDisconnect)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -156,11 +158,12 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_Connection_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\020Connection.proto\022\020my.proto.package\032\017Pa"
-  "cketsId.proto\"\031\n\021ConnectionRequest:\004\200\265\030\n"
-  "\"4\n\022ConnectionResponse\022\n\n\002ip\030\001 \001(\t\022\014\n\004po"
-  "rt\030\002 \001(\r:\004\200\265\030\013\"\026\n\016ConnectionPing:\004\200\265\030\014\"\026"
-  "\n\016ConnectionPong:\004\200\265\030\r\"\034\n\024ConnectionDisc"
-  "onnect:\004\200\265\030\016b\006proto3"
+  "cketsId.proto\"3\n\021ConnectionRequest\022\n\n\002ip"
+  "\030\001 \001(\t\022\014\n\004port\030\002 \001(\r:\004\200\265\030\n\"4\n\022Connection"
+  "Response\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(\r:\004\200\265\030\013"
+  "\"\026\n\016ConnectionPing:\004\200\265\030\014\"\026\n\016ConnectionPo"
+  "ng:\004\200\265\030\r\"\034\n\024ConnectionDisconnect:\004\200\265\030\016b\006"
+  "proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Connection_2eproto_deps[1] = {
   &::descriptor_table_PacketsId_2eproto,
@@ -174,7 +177,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Con
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Connection_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Connection_2eproto = {
-  false, false, descriptor_table_protodef_Connection_2eproto, "Connection.proto", 220,
+  false, false, descriptor_table_protodef_Connection_2eproto, "Connection.proto", 246,
   &descriptor_table_Connection_2eproto_once, descriptor_table_Connection_2eproto_sccs, descriptor_table_Connection_2eproto_deps, 5, 1,
   schemas, file_default_instances, TableStruct_Connection_2eproto::offsets,
   file_level_metadata_Connection_2eproto, 5, file_level_enum_descriptors_Connection_2eproto, file_level_service_descriptors_Connection_2eproto,
@@ -201,10 +204,19 @@ ConnectionRequest::ConnectionRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 ConnectionRequest::ConnectionRequest(const ConnectionRequest& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_ip().empty()) {
+    ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_ip(), 
+      GetArena());
+  }
+  port_ = from.port_;
   // @@protoc_insertion_point(copy_constructor:my.proto.package.ConnectionRequest)
 }
 
 void ConnectionRequest::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_ConnectionRequest_Connection_2eproto.base);
+  ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  port_ = 0u;
 }
 
 ConnectionRequest::~ConnectionRequest() {
@@ -215,6 +227,7 @@ ConnectionRequest::~ConnectionRequest() {
 
 void ConnectionRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
+  ip_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void ConnectionRequest::ArenaDtor(void* object) {
@@ -238,6 +251,8 @@ void ConnectionRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  ip_.ClearToEmpty();
+  port_ = 0u;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -247,6 +262,25 @@ const char* ConnectionRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
+    switch (tag >> 3) {
+      // string ip = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_ip();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "my.proto.package.ConnectionRequest.ip"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 port = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
         if ((tag & 7) == 4 || tag == 0) {
           ctx->SetLastTag(tag);
           goto success;
@@ -256,6 +290,8 @@ const char* ConnectionRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
             ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
+      }
+    }  // switch
   }  // while
 success:
   return ptr;
@@ -270,6 +306,22 @@ failure:
   // @@protoc_insertion_point(serialize_to_array_start:my.proto.package.ConnectionRequest)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
+
+  // string ip = 1;
+  if (this->ip().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "my.proto.package.ConnectionRequest.ip");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_ip(), target);
+  }
+
+  // uint32 port = 2;
+  if (this->port() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_port(), target);
+  }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -286,6 +338,20 @@ size_t ConnectionRequest::ByteSizeLong() const {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // string ip = 1;
+  if (this->ip().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_ip());
+  }
+
+  // uint32 port = 2;
+  if (this->port() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_port());
+  }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
@@ -318,6 +384,12 @@ void ConnectionRequest::MergeFrom(const ConnectionRequest& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.ip().size() > 0) {
+    _internal_set_ip(from._internal_ip());
+  }
+  if (from.port() != 0) {
+    _internal_set_port(from._internal_port());
+  }
 }
 
 void ConnectionRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -341,6 +413,8 @@ bool ConnectionRequest::IsInitialized() const {
 void ConnectionRequest::InternalSwap(ConnectionRequest* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  ip_.Swap(&other->ip_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  swap(port_, other->port_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ConnectionRequest::GetMetadata() const {
