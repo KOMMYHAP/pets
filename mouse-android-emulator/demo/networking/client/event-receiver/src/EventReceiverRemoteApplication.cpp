@@ -82,7 +82,7 @@ void EventReceiverRemoteApplication::OnConnectionRequested([[maybe_unused]] cons
 	std::cout << "EventReceiverRemoteApplication::OnConnectionRequested called from incorrect state " << static_cast<int>(_state) << ".\n";
 }
 
-void EventReceiverRemoteApplication::OnPing(const ProtoPackets::ConnectionPing& connectionPing)
+void EventReceiverRemoteApplication::OnPing([[maybe_unused]] const ProtoPackets::ConnectionPing& connectionPing)
 {
 	if (_state == State::Connected)
 	{
