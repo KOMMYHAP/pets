@@ -18,8 +18,6 @@ endif()
 set(IMGUI_SFML_IMGUI_DEMO OFF)
 add_subdirectory(imgui-sfml)
 
-# Protobuf
 add_subdirectory(protobuf)
-
-# jsoncpp
 add_subdirectory(json)
+add_subdirectory(tracy)

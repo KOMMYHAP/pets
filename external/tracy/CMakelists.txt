@@ -1,0 +1,12 @@
+project(tracy)
+set(TRACY_DIR "tracy-0.7.7")
+
+add_library(${PROJECT_NAME} STATIC ${TRACY_DIR}/TracyClient.cpp)
+
+option(TRACY_ENABLED OFF)
+if (TRACY_ENABLED)
+	target_compile_definitions(${PROJECT_NAME} PUBLIC TRACY_ENABLE)
+endif()
+
+target_precompile_headers(${PROJECT_NAME} PUBLIC TracyPch.h)
+target_include_directories(${PROJECT_NAME} PUBLIC ${TRACY_DIR})
