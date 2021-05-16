@@ -3,7 +3,6 @@
 #include <string>
 
 #include "ProtoPackagesNamespace.h"
-#include "RemoteApplicationBase.h"
 #include "tools/Callback.h"
 #include "tools/TimeState.h"
 
@@ -14,6 +13,8 @@ class NetworkInterface;
 namespace my::proto::package
 {
 	class ConnectionResponse;
+	class ConnectionPong;
+	class ConnectionDisconnect;
 }
 
 namespace Network {
@@ -42,8 +43,9 @@ public:
 		Initialized,
 		WaitingForConnect,
 		Connected,
-		ConnectionTimedOut,
+		ConnectionRequestTimeout,
 		Disconnected,
+		DisconnectedByTimeout,
 		ErrorOccured
 	};
 
@@ -57,9 +59,10 @@ public:
 	};
 	
 	EventDispatcherRemoteApplication(OperationManager & operationManager);
+	~EventDispatcherRemoteApplication();
 
 	void SubscribeOnStatusChange(TypedCallback<State> callback);
-	void Initialize(uint16_t localPort, const std::string & remoteIp, uint16_t remotePort);
+	void Initialize(uint16_t localPort, const std::string & remoteIp, uint16_t remotePort, TimeState pingTime, TimeState pongTimeout);
 
 	void TryConnect(TimeState timeout, uint32_t retries);
 	void SendMousePosition(float x, float y);
@@ -69,13 +72,20 @@ public:
 private:
 	Network::Peer & GetPeer() const;
 
-	void ReconnectByTimeout();
+	void TryConnect();
+	void TryConnectAgain();
+	
+	void Disconnect();
+	void DisconnectByTimeout();
+	void Ping();
 	
 	void OnConnectionResponse(const ProtoPackets::ConnectionResponse & connectionResponse);
+	void OnPong(const ProtoPackets::ConnectionPong & pong);
+	void OnDisconnect(const ProtoPackets::ConnectionDisconnect & disconnect);
+	void OnPongTimedOut();
 	void OnConnectionRequestTimedOut();
 
 	void SetState(State state);
-	// bool SetErrorStateIfNotInitialized();
 	void SetErrorState(Error error);
 
 	State									_state = State::NotInitialized;
@@ -84,7 +94,12 @@ private:
 	ConnectionHandler						_connectionHandler;
 	TypedCallback<State>					_stateChangedCallback;
 	
+	std::unique_ptr<Timer>					_connectionRequestTimeoutTimer;
+	TimeState								_pingTime;
+	std::unique_ptr<Timer>					_pingTimer;
+	TimeState								_pongTimeout;
+	std::unique_ptr<Timer>					_pongTimeoutTimer;
+	
 	OperationManager &						_operationManager;
-	std::unique_ptr<Timer>					_connectionTimedOutTimer;
 	std::shared_ptr<NetworkInterface>		_networkInterface;
 };

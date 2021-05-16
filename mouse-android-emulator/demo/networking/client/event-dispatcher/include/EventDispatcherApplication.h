@@ -24,7 +24,7 @@ public:
 private:
 	void OnActivated() override;
 	void OnDeactivated() override;
-	void OnRemoteBridgeStatusChanged(EventDispatcherRemoteApplication::State state);
+	void OnStateChanged(EventDispatcherRemoteApplication::State state);
 
 	std::unique_ptr<ParsedCommandLine>							_commandLine;
 	std::unique_ptr<OperationManager>							_operationManager;

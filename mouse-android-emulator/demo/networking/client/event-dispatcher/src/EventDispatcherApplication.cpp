@@ -4,7 +4,6 @@
 
 #include "NetworkInterface.h"
 #include "EventDispatcherRemoteApplication.h"
-#include "RemoteApplicationBridge.h"
 #include "operations/OperationManager.h"
 #include "tools/ParsedCommandLine.h"
 
@@ -23,10 +22,16 @@ void EventDispatcherApplication::ProcessCommandLine(int argc, char** argv)
 	auto localPort = static_cast<uint16_t>(_commandLine->GetIntOrDefault("local-port", 44332));
 	auto remotePort = static_cast<uint16_t>(_commandLine->GetIntOrDefault("remote-port",44331));
 	const std::string remoteIp = _commandLine->GetOrDefault("remote-ip", "255.255.255.255");
+	
+	auto pingTime = static_cast<uint16_t>(_commandLine->GetIntOrDefault("ping",3));
+	auto pongTimeout = static_cast<uint16_t>(_commandLine->GetIntOrDefault("pong-timeout",5));
+	
+	auto retries = static_cast<uint16_t>(_commandLine->GetIntOrDefault("connection-request-retries", 12));
+	auto timeout = static_cast<uint16_t>(_commandLine->GetIntOrDefault("connection-request-timeout", 5));
 
-	_remoteApplication->SubscribeOnStatusChange(TypedCallback<EventDispatcherRemoteApplication::State>(_owner, this, &EventDispatcherApplication::OnRemoteBridgeStatusChanged));
-	_remoteApplication->Initialize(localPort, remoteIp, remotePort);
-	_remoteApplication->TryConnect(TimeState::Seconds(5), 12);
+	_remoteApplication->SubscribeOnStatusChange(TypedCallback<EventDispatcherRemoteApplication::State>(_owner, this, &EventDispatcherApplication::OnStateChanged));
+	_remoteApplication->Initialize(localPort, remoteIp, remotePort, TimeState::Seconds(pingTime), TimeState::Seconds(pongTimeout));
+	_remoteApplication->TryConnect(TimeState::Seconds(timeout), retries);
 }
 
 void EventDispatcherApplication::ProcessEvent(const sf::Event& event)
@@ -59,7 +64,7 @@ void EventDispatcherApplication::OnDeactivated()
 {
 }
 
-void EventDispatcherApplication::OnRemoteBridgeStatusChanged(EventDispatcherRemoteApplication::State state)
+void EventDispatcherApplication::OnStateChanged(EventDispatcherRemoteApplication::State state)
 {
 	static EventDispatcherRemoteApplication::State s_lastState = EventDispatcherRemoteApplication::State::NotInitialized;
 	auto StateToString = [](EventDispatcherRemoteApplication::State state)
@@ -74,12 +79,14 @@ void EventDispatcherApplication::OnRemoteBridgeStatusChanged(EventDispatcherRemo
 			return "WaitingForConnect";
 		case EventDispatcherRemoteApplication::State::Connected:
 			return "Connected";
-		case EventDispatcherRemoteApplication::State::ConnectionTimedOut:
+		case EventDispatcherRemoteApplication::State::ConnectionRequestTimeout:
 			return "ConnectionTimedOut";
 		case EventDispatcherRemoteApplication::State::Disconnected:
 			return "Disconnected";
 		case EventDispatcherRemoteApplication::State::ErrorOccured:
 			return "Error";
+		case EventDispatcherRemoteApplication::State::DisconnectedByTimeout:
+			return "DisconnectedByTimeout";
 		default:
 			return "Unknown";
 		}
@@ -89,23 +96,25 @@ void EventDispatcherApplication::OnRemoteBridgeStatusChanged(EventDispatcherRemo
 	{
 		switch (error)
 		{
-		case RemoteBridgeError::NotInitialized:
+		case EventDispatcherRemoteApplication::Error::NotInitialized:
 			return "NotInitialized";
-		case RemoteBridgeError::LocalPortsBusy:
+		case EventDispatcherRemoteApplication::Error::LocalPortBusy:
 			return "LocalPortsBusy";
-		case RemoteBridgeError::RemotePortEmpty:
+		case EventDispatcherRemoteApplication::Error::RemotePortEmpty:
 			return "RemotePortEmpty";
-		case RemoteBridgeError::NoError:
+		case EventDispatcherRemoteApplication::Error::NoError:
 			return "NoError";
+		case EventDispatcherRemoteApplication::Error::InvalidIp: 
+			return "InvalidIp";
 		default:
 			return "Unknown";
 		}
 	};
 
-	std::cout << "Remote bridge's state has been updated: " << StateToString(s_lastState) << " -> " << StateToString(state) << '\n';
+	std::cout << "State has been updated: " << StateToString(s_lastState) << " -> " << StateToString(state) << '\n';
 	if (state == EventDispatcherRemoteApplication::State::ErrorOccured)
 	{
-		std::cout << "Remote bridge's error: " << ErrorToString(_remoteApplication->GetError()) << '\n';
+		std::cout << "... with error: " << ErrorToString(_remoteApplication->GetError()) << '\n';
 	}
 	s_lastState = state;
 }
