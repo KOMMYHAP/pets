@@ -57,6 +57,7 @@ void EventReceiverRemoteApplication::DisconnectByTimeout()
 {
 	if (_state == State::Connected)
 	{
+		GetPeer().CloseRemoteConnection();
 		SetState(State::DisconnectedByTimeout);
 		SetState(State::WaitingForConnectionRequest);
 		return;
