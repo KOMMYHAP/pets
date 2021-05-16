@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <mutex>
+#include <condition_variable>
 #include <optional>
 #include <SFML/Network/Packet.hpp>
 #include <SFML/Network/UdpSocket.hpp>
@@ -14,8 +15,9 @@ struct PacketHandlerOperation::Impl
 {
 	bool IsTargetHost(uint16_t port, const sf::IpAddress & ip) const;
 
-	std::mutex									mutex;
-	std::condition_variable						condition;
+	TracyLockable(std::mutex,				mutex);
+	
+	std::condition_variable_any					condition;
 	std::unique_ptr<sf::UdpSocket> 				socket;
 	std::vector<sf::Packet>						packetsToSend;
 	sf::IpAddress								remoteAddress;
@@ -24,6 +26,8 @@ struct PacketHandlerOperation::Impl
 	std::atomic_bool							hasUnprocessedPackets = false;
 	std::vector<Network::ReceivedPacket>		unprocessedPackets;
 	std::optional<sf::Packet>					partiallyProcessedPacket;
+	bool										shouldCheckMorePackets = false;
+	uint32_t									maxPacketsToReceive = 42;
 };
 
 bool PacketHandlerOperation::Impl::IsTargetHost(uint16_t port, const sf::IpAddress& ip) const
@@ -95,6 +99,7 @@ void PacketHandlerOperation::ResetRemote()
 
 void PacketHandlerOperation::Queue(uint32_t id, const std::string& data)
 {
+	ZoneScopedN("Queue Packet");
 	std::scoped_lock lock(_impl->mutex);
 	_impl->packetsToSend.emplace_back(sf::Packet() << id << data);
 	_impl->condition.notify_one();
@@ -107,6 +112,7 @@ bool PacketHandlerOperation::HasUnprocessedPackets() const
 
 std::vector<Network::ReceivedPacket> PacketHandlerOperation::ExtractReceivedPackets()
 {
+	ZoneScopedN("Extract Received Packets");
 	std::scoped_lock lock(_impl->mutex);
 	_impl->hasUnprocessedPackets = false;
 	return std::move(_impl->unprocessedPackets);
@@ -114,6 +120,8 @@ std::vector<Network::ReceivedPacket> PacketHandlerOperation::ExtractReceivedPack
 
 Operation::Result PacketHandlerOperation::DoImpl()
 {
+	ZoneScopedN("Packet Processing");
+
 	if (not _impl->socket)
 	{
 		return Result::InProcess;
@@ -121,16 +129,18 @@ Operation::Result PacketHandlerOperation::DoImpl()
 
 	bool hasPacketsToSend;
 	{
+		ZoneScopedN("Check Packets to Send")
 		std::unique_lock lock(_impl->mutex);
 		hasPacketsToSend = _impl->condition.wait_for(lock, std::chrono::milliseconds(25), [this]()
 		{
-			return !_impl->packetsToSend.empty();
+			return _impl->shouldCheckMorePackets || !_impl->packetsToSend.empty();
 		});
 	}
 	if (hasPacketsToSend)
 	{
 		SendPackets();
 	}
+
 	ReceivePackets();
 	
 	return Result::InProcess;
@@ -138,6 +148,8 @@ Operation::Result PacketHandlerOperation::DoImpl()
 
 void PacketHandlerOperation::SendPackets()
 {
+	ZoneScopedN("Sending Packets");
+	
 	std::vector<sf::Packet> packetsToSend;
 	{
 		std::scoped_lock lock(_impl->mutex);
@@ -160,6 +172,24 @@ void PacketHandlerOperation::SendPackets()
 
 void PacketHandlerOperation::ReceivePackets()
 {
+	int32_t maxPacketsToReceive = static_cast<int32_t>(_impl->maxPacketsToReceive);
+	while (maxPacketsToReceive > 0 && ReceivePacket())
+	{
+		maxPacketsToReceive -= 1;
+	}
+	
+	if (maxPacketsToReceive == 0)
+	{
+		// All available number of packets have been received,
+		// so we should check more packets at the next frame
+		_impl->shouldCheckMorePackets = true;
+	}
+}
+
+bool PacketHandlerOperation::ReceivePacket()
+{
+	ZoneScopedN("Receiving Packets");
+	
 	sf::Packet clearPacket;
 	sf::Packet * packetPtr = &clearPacket;
 	bool partialPacketCompleting = false;
@@ -192,6 +222,8 @@ void PacketHandlerOperation::ReceivePackets()
 			_impl->partiallyProcessedPacket.reset();
 		}
 	}
+
+	return packetProcessed;
 }
 
 void PacketHandlerOperation::OnCompleted(std::exception_ptr exception)

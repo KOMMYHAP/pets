@@ -120,6 +120,7 @@ void EventReceiverRemoteApplication::OnPing([[maybe_unused]] const ProtoPackets:
 
 void EventReceiverRemoteApplication::OnMouseMoved(const ProtoPackets::MousePositionMessage& mousePosition)
 {
+	ZoneScopedN("On Mouse Moved");
 	if (_state == State::Connected)
 	{
 		_idleTimer->Restart();

@@ -21,6 +21,7 @@ int main(int argc, char **argv)
 	bool shouldClose = false;
 	while (not shouldClose)
 	{
+		FrameMarkNamed("Frame");
 		sf::Event event;
 		while (!shouldClose && window.pollEvent(event))
 		{

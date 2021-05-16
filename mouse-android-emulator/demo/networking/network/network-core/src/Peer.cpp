@@ -48,11 +48,14 @@ namespace Network
 
 	void Peer::ProcessReceivedPackets()
 	{
+		ZoneScopedN("Process Received Packets");
 		_connection->ProcessReceivedPackets();
 	}
 
 	void Peer::ReceivePacket(ReceivedPacket receivedPacket)
 	{
+		ZoneScopedN("Receive Packet");
+
 		std::cout << "Packet has been received: " << my::proto::package::PackageId_Name(receivedPacket.id) << '\n';
 
 		auto package = _packageManager.Create(receivedPacket.id);
@@ -76,6 +79,7 @@ namespace Network
 
 	void Peer::ReceivePacket(uint32_t packageId, const google::protobuf::Message& response)
 	{
+		ZoneScopedN("Call Packet's Subscribers");
 		auto it = _subscribers.find(packageId);
 		if (it !=  _subscribers.end())
 		{
@@ -93,6 +97,7 @@ namespace Network
 
 	void Peer::SendPacket(uint32_t packageId, const google::protobuf::Message& request)
 	{
+		ZoneScopedN("Send Packet");
 		std::cout << "Packet will be sent: " << my::proto::package::PackageId_Name(packageId) << '\n';
 
 		if (request.SerializeToString(&_buffer))

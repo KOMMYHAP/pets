@@ -46,10 +46,12 @@ add_library(${PROJECT_NAME} STATIC ${SRCS})
 add_library(PETS::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_compile_options(${PROJECT_NAME} PRIVATE /permissive- /std:c++17)
-target_precompile_headers(${PROJECT_NAME} PRIVATE include/stddefs.h)
 
 target_link_libraries(${PROJECT_NAME}
 	PUBLIC
 		SFML
+		tracy
 	PRIVATE
 		jsoncpp)
+
+target_precompile_headers(${PROJECT_NAME} PRIVATE include/stddefs.h)

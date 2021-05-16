@@ -72,6 +72,7 @@ void OperationManager::UpdateOperations(TimeState elapsedTime)
 
 void OperationManager::Update(TimeState elapsedTime)
 {
+	ZoneScopedN("Operation Manager Update");
 	_dispatcher->UpdateMainThread();
 	UpdateDispatchedOperations();
 	RemoveCompletedStickyOperations();

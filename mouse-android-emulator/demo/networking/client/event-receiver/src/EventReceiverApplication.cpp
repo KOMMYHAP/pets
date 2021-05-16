@@ -87,6 +87,8 @@ void EventReceiverApplication::OnStateChanged(EventReceiverRemoteApplication::St
 		}
 	};
 
+	TracyMessageL(StateToString(state));
+
 	std::cout << "State has been updated: " << StateToString(s_lastState) << " -> " << StateToString(state) << '\n';
 	if (state == EventReceiverRemoteApplication::State::ErrorOccured)
 	{

@@ -42,6 +42,7 @@ void OperationDispatcher::Dispath(std::weak_ptr<Operation> operation, OperationT
 
 void OperationDispatcher::UpdateMainThread()
 {
+	ZoneScopedN("Update Main Thread");
 	auto mainThread = dynamic_cast<OperationMainThread *>(GetThread(OperationThreadIds::MainThread));
 	if (mainThread)
 	{

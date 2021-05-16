@@ -29,6 +29,7 @@ protected:
 	Result DoImpl() override;
 	void SendPackets();
 	void ReceivePackets();
+	bool ReceivePacket();
 	
 	void OnCompleted(std::exception_ptr exception) override;
 
