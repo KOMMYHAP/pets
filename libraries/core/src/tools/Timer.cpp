@@ -13,8 +13,8 @@ Timer::Timer(const TypedCallback<> & callback, TimeState delay, OperationManager
 
 void Timer::Restart()
 {
-	_operation = std::make_shared<SimpleOperation>(_callback, SimpleOperation::SafeOperationTag{});
-	_operationManager.Schedule(_operation, _delay, OperationThreadIds::HelperThread);
+	_operation = std::make_shared<SimpleOperation>(_callback);
+	_operationManager.Schedule(_operation, _delay, OperationThreadIds::MainThread);
 }
 
 void Timer::Reset()
