@@ -39,6 +39,8 @@ void EventReceiverRemoteApplication::Initialize(uint16_t localPort, uint16_t rem
 	GetPeer().OpenRemoteConnection(remotePort, "255.255.255.255");
 	_pingTimeout = connectionTimeout;
 	SetState(State::WaitingForConnectionRequest);
+
+	_networkInterface->StartPacketProcessing();
 }
 
 EventReceiverRemoteApplication::Error EventReceiverRemoteApplication::GetError() const

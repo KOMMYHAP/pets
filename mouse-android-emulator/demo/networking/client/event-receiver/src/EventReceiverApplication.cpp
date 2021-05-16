@@ -90,7 +90,7 @@ void EventReceiverApplication::OnStateChanged(EventReceiverRemoteApplication::St
 	std::cout << "State has been updated: " << StateToString(s_lastState) << " -> " << StateToString(state) << '\n';
 	if (state == EventReceiverRemoteApplication::State::ErrorOccured)
 	{
-		std::cout << "...with error: " << ErrorToString(_remoteApplication->GetError()) << '\n';
+		std::cout << "... with error: " << ErrorToString(_remoteApplication->GetError()) << '\n';
 	}
 	s_lastState = state;
 }
