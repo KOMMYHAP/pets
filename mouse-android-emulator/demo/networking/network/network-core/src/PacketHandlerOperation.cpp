@@ -6,6 +6,7 @@
 #include <optional>
 #include <SFML/Network/Packet.hpp>
 #include <SFML/Network/UdpSocket.hpp>
+#include <SFML/Network/IpAddress.hpp>
 
 #include "ReceivedPacket.h"
 
@@ -96,6 +97,7 @@ void PacketHandlerOperation::Queue(uint32_t id, const std::string& data)
 {
 	std::scoped_lock lock(_impl->mutex);
 	_impl->packetsToSend.emplace_back(sf::Packet() << id << data);
+	_impl->condition.notify_one();
 }
 
 bool PacketHandlerOperation::HasUnprocessedPackets() const
@@ -117,18 +119,20 @@ Operation::Result PacketHandlerOperation::DoImpl()
 		return Result::InProcess;
 	}
 
-	ReceivePackets();
-
+	bool hasPacketsToSend;
 	{
 		std::unique_lock lock(_impl->mutex);
-		auto status = _impl->condition.wait_for(lock, std::chrono::milliseconds(25));
-		if (status == std::cv_status::timeout)
+		hasPacketsToSend = _impl->condition.wait_for(lock, std::chrono::milliseconds(25), [this]()
 		{
-			return Result::InProcess;
-		}
+			return !_impl->packetsToSend.empty();
+		});
 	}
-
-	SendPackets();
+	if (hasPacketsToSend)
+	{
+		SendPackets();
+	}
+	ReceivePackets();
+	
 	return Result::InProcess;
 }
 
