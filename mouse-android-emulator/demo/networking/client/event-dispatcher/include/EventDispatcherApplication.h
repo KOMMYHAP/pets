@@ -1,10 +1,10 @@
 #pragma once
 #include <memory>
 
+#include "EventDispatcherRemoteApplication.h"
 #include "application/ApplicationBase.h"
 
 class EventDispatcherRemoteApplication;
-enum class RemoteBridgeState;
 class NetworkInterface;
 class OperationManager;
 class RemoteApplicationBridge;
@@ -16,7 +16,6 @@ public:
 	EventDispatcherApplication();
 	~EventDispatcherApplication() override;
 
-	void SetWindowSize(int32_t w, int32_t h);
 	void ProcessCommandLine(int argc, char** argv) override;
 	void ProcessEvent(const sf::Event & event) override;
 	void ProcessElapsedTime(TimeState elapsedTime) override;
@@ -25,18 +24,14 @@ public:
 private:
 	void OnActivated() override;
 	void OnDeactivated() override;
-	
-	void OnRemoteBridgeStatusChanged(RemoteBridgeState state);
-	EventDispatcherRemoteApplication * GetRemoteApplication() const;
+	void OnRemoteBridgeStatusChanged(EventDispatcherRemoteApplication::State state);
 
-	std::unique_ptr<ParsedCommandLine>			_commandLine;
-	std::unique_ptr<OperationManager>			_operationManager;
-	std::unique_ptr<RemoteApplicationBridge>	_remoteBridge;
+	std::unique_ptr<ParsedCommandLine>							_commandLine;
+	std::unique_ptr<OperationManager>							_operationManager;
 
-	std::shared_ptr<int>						_owner;
-	int32_t										_width = 0;
-	int32_t										_height = 0;
+	std::shared_ptr<int>										_owner;
+	std::unique_ptr<EventDispatcherRemoteApplication>			_remoteApplication;
 
-	bool										_shouldTerminate = false;
+	bool														_shouldTerminate = false;
 	
 };

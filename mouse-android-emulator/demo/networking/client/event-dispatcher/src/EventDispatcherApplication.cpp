@@ -11,17 +11,10 @@
 EventDispatcherApplication::EventDispatcherApplication()
 	: _operationManager(std::make_unique<OperationManager>())
 {
-	_remoteBridge = std::make_unique<RemoteApplicationBridge>(*_operationManager);
 	_owner = std::make_shared<int>(42);
 }
 
 EventDispatcherApplication::~EventDispatcherApplication() = default;
-
-void EventDispatcherApplication::SetWindowSize(int32_t w, int32_t h)
-{
-	_width = w;
-	_height = h;
-}
 
 void EventDispatcherApplication::ProcessCommandLine(int argc, char** argv)
 {
@@ -31,9 +24,9 @@ void EventDispatcherApplication::ProcessCommandLine(int argc, char** argv)
 	auto remotePort = static_cast<uint16_t>(_commandLine->GetIntOrDefault("remote-port",44331));
 	const std::string remoteIp = _commandLine->GetOrDefault("remote-ip", "255.255.255.255");
 
-	_remoteBridge->Initialize(std::make_unique<EventDispatcherRemoteApplication>());
-	_remoteBridge->OpenLocalConnection({localPort}, TypedCallback<RemoteBridgeState>(_owner, this, &EventDispatcherApplication::OnRemoteBridgeStatusChanged));
-	_remoteBridge->DirectConnect(remoteIp, {remotePort});
+	_remoteApplication->SubscribeOnStatusChange(TypedCallback<EventDispatcherRemoteApplication::State>(_owner, this, &EventDispatcherApplication::OnRemoteBridgeStatusChanged));
+	_remoteApplication->Initialize(localPort, remoteIp, remotePort);
+	_remoteApplication->TryConnect(TimeState::Seconds(5), 12);
 }
 
 void EventDispatcherApplication::ProcessEvent(const sf::Event& event)
@@ -42,13 +35,9 @@ void EventDispatcherApplication::ProcessEvent(const sf::Event& event)
 	{
 		if (event.type == sf::Event::MouseMoved)
 		{
-			if (auto remoteApp = GetRemoteApplication())
-			{
-				float x = event.mouseMove.x / static_cast<float>(_width);
-				float y = event.mouseMove.y / static_cast<float>(_height);
-				remoteApp->SendMousePosition(x, y);
-			}
-			// std::cout << '(' << event.mouseMove.x << ';' << event.mouseMove.y << ")\n";
+			float x = event.mouseMove.x;
+			float y = event.mouseMove.y;
+			_remoteApplication->SendMousePosition(x, y);
 		}
 	}
 	else
@@ -64,45 +53,43 @@ void EventDispatcherApplication::ProcessElapsedTime(TimeState elapsedTime)
 
 void EventDispatcherApplication::OnActivated()
 {
-	_remoteBridge->Reconnect();
 }
 
 void EventDispatcherApplication::OnDeactivated()
 {
-	_remoteBridge->CloseConnection();
 }
 
-void EventDispatcherApplication::OnRemoteBridgeStatusChanged(RemoteBridgeState state)
+void EventDispatcherApplication::OnRemoteBridgeStatusChanged(EventDispatcherRemoteApplication::State state)
 {
-	static RemoteBridgeState s_lastState = RemoteBridgeState::NotInitialized;
-	auto StateToString = [](RemoteBridgeState state)
+	static EventDispatcherRemoteApplication::State s_lastState = EventDispatcherRemoteApplication::State::NotInitialized;
+	auto StateToString = [](EventDispatcherRemoteApplication::State state)
 	{
 		switch (state)
 		{
-		case RemoteBridgeState::NotInitialized:
+		case EventDispatcherRemoteApplication::State::NotInitialized:
 			return "NotInitialized";
-		case RemoteBridgeState::Initialized:
+		case EventDispatcherRemoteApplication::State::Initialized:
 			return "Initialized";
-		case RemoteBridgeState::WaitingForConnect:
+		case EventDispatcherRemoteApplication::State::WaitingForConnect:
 			return "WaitingForConnect";
-		case RemoteBridgeState::Connected: 
+		case EventDispatcherRemoteApplication::State::Connected:
 			return "Connected";
-		case RemoteBridgeState::ConnectionTimedOut: 
+		case EventDispatcherRemoteApplication::State::ConnectionTimedOut:
 			return "ConnectionTimedOut";
-		case RemoteBridgeState::Disconnected:
+		case EventDispatcherRemoteApplication::State::Disconnected:
 			return "Disconnected";
-		case RemoteBridgeState::ErrorOccured:
+		case EventDispatcherRemoteApplication::State::ErrorOccured:
 			return "Error";
 		default:
 			return "Unknown";
 		}
 	};
 
-	auto ErrorToString = [](RemoteBridgeError error)
+	auto ErrorToString = [](EventDispatcherRemoteApplication::Error error)
 	{
 		switch (error)
 		{
-		case RemoteBridgeError::NotInitialized: 
+		case RemoteBridgeError::NotInitialized:
 			return "NotInitialized";
 		case RemoteBridgeError::LocalPortsBusy:
 			return "LocalPortsBusy";
@@ -110,20 +97,15 @@ void EventDispatcherApplication::OnRemoteBridgeStatusChanged(RemoteBridgeState s
 			return "RemotePortEmpty";
 		case RemoteBridgeError::NoError:
 			return "NoError";
-		default: 
+		default:
 			return "Unknown";
 		}
 	};
 
 	std::cout << "Remote bridge's state has been updated: " << StateToString(s_lastState) << " -> " << StateToString(state) << '\n';
-	if (state == RemoteBridgeState::ErrorOccured)
+	if (state == EventDispatcherRemoteApplication::State::ErrorOccured)
 	{
-		std::cout << "Remote bridge's error: " << ErrorToString(_remoteBridge->GetError()) << '\n';
+		std::cout << "Remote bridge's error: " << ErrorToString(_remoteApplication->GetError()) << '\n';
 	}
 	s_lastState = state;
-}
-
-EventDispatcherRemoteApplication* EventDispatcherApplication::GetRemoteApplication() const
-{
-	return dynamic_cast<EventDispatcherRemoteApplication*>(_remoteBridge->GetRemoteApplication());
 }

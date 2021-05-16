@@ -1,11 +1,13 @@
 project(client-core)
 
 set(SRCS
-	include/RemoteApplicationBase.h
-	include/RemoteApplicationBridge.h
+	# include/RemoteApplicationBase.h
+	# include/RemoteApplicationBridge.h
+	include/ConnectionStatus.h
 
-	src/RemoteApplicationBase.cpp
-	src/RemoteApplicationBridge.cpp
+	# src/RemoteApplicationBase.cpp
+	# src/RemoteApplicationBridge.cpp
+	src/ConnectionStatus.cpp
 )
 
 add_library(${PROJECT_NAME} ${SRCS})

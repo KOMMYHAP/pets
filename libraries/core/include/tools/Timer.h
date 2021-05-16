@@ -10,7 +10,6 @@ class Timer
 public:
 	Timer(const TypedCallback<> & callback, TimeState delay, OperationManager & operationManager);
 
-	void Start();
 	void Restart();
 	void Reset();
 
