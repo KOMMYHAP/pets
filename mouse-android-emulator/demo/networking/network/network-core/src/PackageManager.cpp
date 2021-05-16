@@ -22,6 +22,9 @@ namespace Network
 		using namespace my::proto::package;
 		RegisterPackage<ConnectionRequest>(_creators);
 		RegisterPackage<ConnectionResponse>(_creators);
+		RegisterPackage<ConnectionPing>(_creators);
+		RegisterPackage<ConnectionPong>(_creators);
+		RegisterPackage<ConnectionDisconnect>(_creators);
 		RegisterPackage<MousePositionMessage>(_creators);
 	}
 
