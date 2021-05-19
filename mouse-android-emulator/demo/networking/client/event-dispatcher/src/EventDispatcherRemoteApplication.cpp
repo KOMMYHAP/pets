@@ -11,6 +11,9 @@
 #include "Main.pb.h"
 #include "tools/Timer.h"
 
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+
 EventDispatcherRemoteApplication::EventDispatcherRemoteApplication(OperationManager & operationManager)
 	: _operationManager(operationManager)
 {
@@ -72,10 +75,20 @@ void EventDispatcherRemoteApplication::SendMousePosition(float x, float y)
 {
 	if (_state == State::Connected)
 	{
-		ProtoPackets::MousePositionMessage message;
-		message.set_x(x);
-		message.set_y(y);
-		GetPeer().SendPacket(message);
+		static int s_width = GetSystemMetrics(SM_CXSCREEN);
+		static int s_height = GetSystemMetrics(SM_CYSCREEN);
+
+		POINT point;
+		if (GetCursorPos(&point))
+		{
+			x = static_cast<float>(point.x);
+			y = static_cast<float>(point.y);
+
+			ProtoPackets::MousePositionMessage message;
+			message.set_x(x / s_width);
+			message.set_y(y / s_height);
+			GetPeer().SendPacket(message);
+		}
 	}
 }
 

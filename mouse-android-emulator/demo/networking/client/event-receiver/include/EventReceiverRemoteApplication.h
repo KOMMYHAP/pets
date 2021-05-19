@@ -20,6 +20,11 @@ namespace Network {
 	class Peer;
 }
 
+struct ConnectionStatus
+{
+	uint16_t		remotePort = 0;
+};
+
 class EventReceiverRemoteApplication
 {
 public:
@@ -58,11 +63,14 @@ private:
 
 	void OnMouseMoved(const ProtoPackets::MousePositionMessage & mousePosition);
 
+	void ChangeStateWaitingForConnect();
+	
 	void SetState(State state);
 	void SetErrorState(Error error);
 
 	State									_state = State::NotInitialized;
 	Error									_error = Error::NoError;
+	ConnectionStatus						_connectionStatus;
 	TypedCallback<State>					_stateChangedCallback;
 	TimeState								_idleTimeout;
 	

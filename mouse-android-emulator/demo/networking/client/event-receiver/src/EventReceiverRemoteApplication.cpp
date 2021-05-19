@@ -10,6 +10,9 @@
 #include "Connection.pb.h"
 #include "tools/Timer.h"
 
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+
 EventReceiverRemoteApplication::EventReceiverRemoteApplication(OperationManager& operationManager)
 	: _operationManager(operationManager)
 {
@@ -36,9 +39,10 @@ void EventReceiverRemoteApplication::Initialize(uint16_t localPort, uint16_t rem
 		return;
 	}
 
-	GetPeer().OpenRemoteConnection(remotePort, "255.255.255.255");
+	_connectionStatus.remotePort = remotePort;
 	_idleTimeout = idleTimeout;
-	SetState(State::WaitingForConnectionRequest);
+
+	ChangeStateWaitingForConnect();
 
 	_networkInterface->StartPacketProcessing();
 }
@@ -57,12 +61,14 @@ void EventReceiverRemoteApplication::DisconnectByIdle()
 {
 	if (_state == State::Connected)
 	{
-		ProtoPackets::ConnectionDisconnect disconnect;
-		GetPeer().SendPacket(disconnect);
-		GetPeer().CloseRemoteConnection();
+		// bug: Packet sending won't be performed because CloseRemoteConnection will close connection earlier.
+		// ProtoPackets::ConnectionDisconnect disconnect;
+		// GetPeer().SendPacket(disconnect);
+		// GetPeer().CloseRemoteConnection();
+
 		SetState(State::DisconnectedByIdle);
 
-		SetState(State::WaitingForConnectionRequest);
+		ChangeStateWaitingForConnect();
 		return;
 	}
 
@@ -124,10 +130,21 @@ void EventReceiverRemoteApplication::OnMouseMoved(const ProtoPackets::MousePosit
 	if (_state == State::Connected)
 	{
 		_idleTimer->Restart();
+
+		static int s_width = GetSystemMetrics(SM_CXSCREEN);
+		static int s_height = GetSystemMetrics(SM_CYSCREEN);
+		
 		float x = mousePosition.x();
 		float y = mousePosition.y();
-		// std::cout << '(' << x << ", " << y << ')' << '\n';
+
+		SetCursorPos(x * s_width, y * s_height);
 	}
+}
+
+void EventReceiverRemoteApplication::ChangeStateWaitingForConnect()
+{
+	GetPeer().OpenRemoteConnection(_connectionStatus.remotePort, "255.255.255.255");
+	SetState(State::WaitingForConnectionRequest);
 }
 
 void EventReceiverRemoteApplication::SetState(State state)
