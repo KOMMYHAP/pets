@@ -56,7 +56,10 @@ namespace Network
 	{
 		ZoneScopedN("Receive Packet");
 
-		std::cout << "Packet has been received: " << my::proto::package::PackageId_Name(receivedPacket.id) << '\n';
+		if (receivedPacket.id != my::proto::package::MOUSE_POSITION_MESSAGE)
+		{
+			std::cout << "Packet has been received: " << my::proto::package::PackageId_Name(receivedPacket.id) << '\n';
+		}
 
 		auto package = _packageManager.Create(receivedPacket.id);
 		if (not package)
@@ -70,9 +73,12 @@ namespace Network
 			return;
 		}
 
-		std::cout
-			<< "Packet's message: {\n"
-			<< package->DebugString() << "}\n";
+		if (receivedPacket.id != my::proto::package::MOUSE_POSITION_MESSAGE)
+		{
+			std::cout
+				<< "Packet's message: {\n"
+				<< package->DebugString() << "}\n";
+		}
 		
 		ReceivePacket(receivedPacket.id, *package);
 	}
@@ -98,7 +104,10 @@ namespace Network
 	void Peer::SendPacket(uint32_t packageId, const google::protobuf::Message& request)
 	{
 		ZoneScopedN("Send Packet");
-		std::cout << "Packet will be sent: " << my::proto::package::PackageId_Name(packageId) << '\n';
+		if (packageId != my::proto::package::MOUSE_POSITION_MESSAGE)
+		{
+			std::cout << "Packet will be sent: " << my::proto::package::PackageId_Name(packageId) << '\n';
+		}
 
 		if (request.SerializeToString(&_buffer))
 		{
