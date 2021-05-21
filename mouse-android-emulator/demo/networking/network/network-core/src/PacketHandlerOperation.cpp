@@ -27,7 +27,7 @@ struct PacketHandlerOperation::Impl
 	std::vector<Network::ReceivedPacket>		unprocessedPackets;
 	std::optional<sf::Packet>					partiallyProcessedPacket;
 	bool										shouldCheckMorePackets = false;
-	uint32_t									maxPacketsToReceive = 42;
+	uint32_t									maxPacketsToReceive = 5;
 };
 
 bool PacketHandlerOperation::Impl::IsTargetHost(uint16_t port, const sf::IpAddress& ip) const
@@ -129,7 +129,7 @@ Operation::Result PacketHandlerOperation::DoImpl()
 
 	bool hasPacketsToSend;
 	{
-		ZoneScopedN("Check Packets to Send")
+		ZoneScopedN("Sleeping")
 		std::unique_lock lock(_impl->mutex);
 		hasPacketsToSend = _impl->condition.wait_for(lock, std::chrono::milliseconds(25), [this]()
 		{
