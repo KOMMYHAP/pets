@@ -18,9 +18,10 @@ public:
 private:
 	struct State
 	{
-		std::atomic_bool			stopped {false};
-		std::condition_variable		condition;
-		std::mutex					mutex;
+		std::atomic_bool						stopped {false};
+		std::condition_variable					condition;
+		std::mutex								mutex;
+		std::optional<std::string>				changedName;
 		std::vector<std::weak_ptr<Operation>>	operations;
 	};
 

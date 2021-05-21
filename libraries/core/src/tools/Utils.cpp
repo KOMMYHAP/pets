@@ -38,13 +38,12 @@ namespace
 
 namespace Utils
 {
-	void SetThreadName(std::thread::native_handle_type handle, const std::string& name)
+	void SetThreadName(const std::string& name)
 	{
-		SetThreadNameImpl(handle, name);
-	}
-
-	void SetCurrentThreadName(const std::string& name)
-	{
+#ifdef TRACY_ENABLE
+		tracy::SetThreadName(name.c_str());
+#else
 		SetThreadNameImpl(GetCurrentThread(), name);
+#endif	
 	}
 }

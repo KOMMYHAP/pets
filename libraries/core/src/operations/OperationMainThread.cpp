@@ -10,7 +10,7 @@ OperationMainThread::OperationMainThread()
 
 void OperationMainThread::SetName(const std::string& name)
 {
-	Utils::SetCurrentThreadName(name);
+	Utils::SetThreadName(name);
 }
 
 void OperationMainThread::Dispatch(std::weak_ptr<Operation> weakOperation)

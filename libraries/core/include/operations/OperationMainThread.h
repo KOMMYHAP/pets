@@ -15,6 +15,6 @@ public:
 	void Update();
 
 private:
-	std::thread::id		_id;
+	std::thread::id							_id;
 	std::vector<std::weak_ptr<Operation>>	_operations;
 };

@@ -24,7 +24,8 @@ OperationThread::~OperationThread()
 
 void OperationThread::SetName(const std::string& name)
 {
-	Utils::SetThreadName(_thread.native_handle(), name);
+	std::scoped_lock lock(_state->mutex);
+	_state->changedName = name;
 }
 
 void OperationThread::Dispatch(std::weak_ptr<Operation> operation)
@@ -54,6 +55,11 @@ void OperationThread::ThreadFunc(std::weak_ptr<State> weakState)
 		decltype(state->operations) operationsToStart;
 		{
 			std::unique_lock lock(state->mutex);
+			if (state->changedName)
+			{
+				Utils::SetThreadName(*state->changedName);
+				state->changedName.reset();
+			}
 			if (state->operations.empty() && operationsInProcess.empty())
 			{
 				state->condition.wait(lock);
