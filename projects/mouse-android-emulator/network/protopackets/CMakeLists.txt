@@ -9,8 +9,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 	${PROTOBUF_DIR}/include
 )
 
-find_library(libprotobuf_LIBRARY_RELEASE libprotobuf-lite ${PROTOBUF_LIB_DIR})
-find_library(libprotobuf_LIBRARY_DEBUG libprotobuf-lited ${PROTOBUF_LIB_DIR})
+if (WIN32)
+	find_library(libprotobuf_LIBRARY_RELEASE libprotobuf-lite ${PROTOBUF_LIB_DIR})
+	find_library(libprotobuf_LIBRARY_DEBUG libprotobuf-lited ${PROTOBUF_LIB_DIR})
+else()
+	find_library(libprotobuf_LIBRARY libprotobuf-lite ${PROTOBUF_LIB_DIR})
+endif()
 
 set(libprotobuf_LIBRARY
 	debug ${libprotobuf_LIBRARY_DEBUG}
