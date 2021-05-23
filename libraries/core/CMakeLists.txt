@@ -5,9 +5,9 @@ set(SRCS
 
 	src/application/ApplicationBase.cpp
 
-	include/files/FileManager.h
+	# include/files/FileManager.h
 
-	src/files/FileManager.cpp
+	# src/files/FileManager.cpp
 
 	include/operations/Operation.h
 	include/operations/OperationDispatcher.h
@@ -27,14 +27,14 @@ set(SRCS
 
 	include/tools/Callback.h
 	include/tools/ParsedCommandLine.h
-	include/tools/JsonConfig.h
+	# include/tools/JsonConfig.h
 	include/tools/TemplateUtils.h
 	include/tools/Timer.h
 	include/tools/TimeState.h
 	include/tools/Utils.h
 
 	src/tools/ParsedCommandLine.cpp
-	src/tools/JsonConfig.cpp
+	# src/tools/JsonConfig.cpp
 	src/tools/Timer.cpp
 	src/tools/TimeState.cpp
 	src/tools/Utils.cpp
@@ -45,13 +45,9 @@ set(SRCS
 add_library(${PROJECT_NAME} STATIC ${SRCS})
 add_library(PETS::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME} PUBLIC include)
-target_compile_options(${PROJECT_NAME} PRIVATE /permissive- /std:c++17)
-
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_link_libraries(${PROJECT_NAME}
 	PUBLIC
-		SFML
-		tracy
-	PRIVATE
-		jsoncpp)
+		tracy)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE include/stddefs.h)

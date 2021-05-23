@@ -4,5 +4,9 @@ set(PETS_REQUIRE_TRACY ON)
 set(PETS_REQUIRE_PROTOBUF ON)
 
 add_subdirectory(network)
-add_subdirectory(event-dispatcher)
-add_subdirectory(event-receiver)
+
+if (ANDROID_PLATFORM)
+	add_subdirectory(event-dispatcher)
+else()
+	add_subdirectory(event-receiver)
+endif()

@@ -23,10 +23,10 @@ void EventDispatcherApplication::ProcessCommandLine(int argc, char** argv)
 	auto localPort = static_cast<uint16_t>(_commandLine->GetIntOrDefault("local-port", 44332));
 	auto remotePort = static_cast<uint16_t>(_commandLine->GetIntOrDefault("remote-port",44331));
 	const std::string remoteIp = _commandLine->GetOrDefault("remote-ip", "255.255.255.255");
-	
+
 	auto pingTime = static_cast<uint16_t>(_commandLine->GetIntOrDefault("ping",3));
 	auto pongTimeout = static_cast<uint16_t>(_commandLine->GetIntOrDefault("pong-timeout",10));
-	
+
 	auto retries = static_cast<uint16_t>(_commandLine->GetIntOrDefault("connection-request-retries", 12));
 	auto timeout = static_cast<uint16_t>(_commandLine->GetIntOrDefault("connection-request-timeout", 5));
 
@@ -35,21 +35,21 @@ void EventDispatcherApplication::ProcessCommandLine(int argc, char** argv)
 	_remoteApplication->TryConnect(TimeState::Seconds(timeout), retries);
 }
 
-void EventDispatcherApplication::ProcessEvent(const sf::Event& event)
+void EventDispatcherApplication::ProcessEvent(/*const sf::Event& event*/)
 {
-	if (event.type != sf::Event::Closed)
-	{
-		if (event.type == sf::Event::MouseMoved)
-		{
-			float x = event.mouseMove.x;
-			float y = event.mouseMove.y;
-			_remoteApplication->SendMousePosition(x, y);
-		}
-	}
-	else
-	{
-		_shouldTerminate = true;
-	}
+	// if (event.type != sf::Event::Closed)
+	// {
+	// 	if (event.type == sf::Event::MouseMoved)
+	// 	{
+	// 		float x = event.mouseMove.x;
+	// 		float y = event.mouseMove.y;
+	// 		_remoteApplication->SendMousePosition(x, y);
+	// 	}
+	// }
+	// else
+	// {
+	// 	_shouldTerminate = true;
+	// }
 }
 
 void EventDispatcherApplication::ProcessElapsedTime(TimeState elapsedTime)
@@ -105,7 +105,7 @@ void EventDispatcherApplication::OnStateChanged(EventDispatcherRemoteApplication
 			return "RemotePortEmpty";
 		case EventDispatcherRemoteApplication::Error::NoError:
 			return "NoError";
-		case EventDispatcherRemoteApplication::Error::InvalidIp: 
+		case EventDispatcherRemoteApplication::Error::InvalidIp:
 			return "InvalidIp";
 		default:
 			return "Unknown";

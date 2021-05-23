@@ -1,7 +1,5 @@
 #include "Peer.h"
 
-#include <SFML/Network/IpAddress.hpp>
-
 #include "PackageManager.h"
 #include "ReceivedPacket.h"
 #include "PeerConnection.h"

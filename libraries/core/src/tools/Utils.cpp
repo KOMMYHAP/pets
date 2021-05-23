@@ -31,7 +31,7 @@ namespace
 
 	std::thread::native_handle_type GetCurrentThread()
 	{
-		return nullptr;
+		return {};
 	}
 }
 #endif

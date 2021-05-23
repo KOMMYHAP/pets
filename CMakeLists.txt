@@ -22,6 +22,9 @@ if (IPO_SUPPORTED_CACHED)
 	message(STATUS "IPO/LTE is turned on.")
 endif()
 
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)
+
 add_subdirectory(external)
 add_subdirectory(libraries)
 add_subdirectory(projects)

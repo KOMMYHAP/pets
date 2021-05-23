@@ -12,18 +12,18 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 if (WIN32)
 	find_library(libprotobuf_LIBRARY_RELEASE libprotobuf-lite ${PROTOBUF_LIB_DIR})
 	find_library(libprotobuf_LIBRARY_DEBUG libprotobuf-lited ${PROTOBUF_LIB_DIR})
+
+	set(libprotobuf_LIBRARY
+		debug ${libprotobuf_LIBRARY_DEBUG}
+		optimized ${libprotobuf_LIBRARY_RELEASE}
+	)
 else()
-	find_library(libprotobuf_LIBRARY libprotobuf-lite ${PROTOBUF_LIB_DIR})
+	find_library(libprotobuf_LIBRARY protobuf-lite
+		PATHS ${PROTOBUF_LIB_DIR}
+		REQUIRED
+		NO_CMAKE_FIND_ROOT_PATH)
 endif()
 
-set(libprotobuf_LIBRARY
-	debug ${libprotobuf_LIBRARY_DEBUG}
-	optimized ${libprotobuf_LIBRARY_RELEASE}
-)
-
-target_compile_options(${PROJECT_NAME} PRIVATE /permissive- /std:c++17)
-target_link_libraries(${PROJECT_NAME}
-	PRIVATE
-		tracy
-		${libprotobuf_LIBRARY}
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${libprotobuf_LIBRARY}
 )
