@@ -1,4 +1,4 @@
-SET build_path=%~dp0\build
+SET build_path=%~dp0\build\cmake
 SET project_path=%~dp0
 
 mkdir %build_path%
