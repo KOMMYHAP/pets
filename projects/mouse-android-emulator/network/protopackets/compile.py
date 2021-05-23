@@ -15,10 +15,10 @@ def list_cpp_files(dir):
 	return [f for f in os.listdir(dir) if is_cpp_file(os.path.join(dir, f))]
 
 # define path variables
-pets_root = os.path.abspath("./../../../")
+pets_root = os.path.abspath("./../../../../")
 print("Root: " + os.path.normpath(pets_root))
 
-proto_compiler = os.path.join(pets_root, "external/protobuf/protoc-3.14.0-win64/bin/protoc.exe")
+proto_compiler = os.path.join(pets_root, "external/protobuf/protoc/protoc.exe")
 print("Protoc: " + os.path.normpath(proto_compiler))
 
 # create output directory
