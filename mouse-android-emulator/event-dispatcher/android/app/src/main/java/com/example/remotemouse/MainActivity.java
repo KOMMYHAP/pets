@@ -1,6 +1,7 @@
 package com.example.remotemouse;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 
 import com.google.android.material.navigation.NavigationView;
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        int nativeValue = NativeBridge.getInstance().Test();
+        Log.i("XXX", String.valueOf(nativeValue));
     }
 
     @Override
