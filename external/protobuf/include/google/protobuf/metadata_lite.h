@@ -47,15 +47,18 @@ namespace protobuf {
 namespace internal {
 
 // This is the representation for messages that support arena allocation. It
-// uses a tagged pointer to either store the Arena pointer, if there are no
-// unknown fields, or a pointer to a block of memory with both the Arena pointer
-// and the UnknownFieldSet, if there are unknown fields. This optimization
-// allows for "zero-overhead" storage of the Arena pointer, relative to the
-// above baseline implementation.
+// uses a tagged pointer to either store the owning Arena pointer, if there are
+// no unknown fields, or a pointer to a block of memory with both the owning
+// Arena pointer and the UnknownFieldSet, if there are unknown fields. Besides,
+// it also uses the tag to distinguish whether the owning Arena pointer is also
+// used by sub-structure allocation. This optimization allows for
+// "zero-overhead" storage of the Arena pointer, relative to the above baseline
+// implementation.
 //
-// The tagged pointer uses the LSB to disambiguate cases, and uses bit 0 == 0 to
-// indicate an arena pointer and bit 0 == 1 to indicate a UFS+Arena-container
-// pointer.
+// The tagged pointer uses the least two significant bits to disambiguate cases.
+// It uses bit 0 == 0 to indicate an arena pointer and bit 0 == 1 to indicate a
+// UFS+Arena-container pointer. Besides it uses bit 1 == 0 to indicate arena
+// allocation and bit 1 == 1 to indicate heap allocation.
 class InternalMetadata {
  public:
   constexpr InternalMetadata() : ptr_(nullptr) {}
@@ -64,12 +67,12 @@ class InternalMetadata {
   template <typename T>
   void Delete() {
     // Note that Delete<> should be called not more than once.
-    if (have_unknown_fields() && arena() == NULL) {
-      delete PtrValue<Container<T>>();
+    if (have_unknown_fields()) {
+      DeleteOutOfLineHelper<T>();
     }
   }
 
-  PROTOBUF_ALWAYS_INLINE Arena* arena() const {
+  PROTOBUF_NDEBUG_INLINE Arena* arena() const {
     if (PROTOBUF_PREDICT_FALSE(have_unknown_fields())) {
       return PtrValue<ContainerBase>()->arena;
     } else {
@@ -77,14 +80,14 @@ class InternalMetadata {
     }
   }
 
-  PROTOBUF_ALWAYS_INLINE bool have_unknown_fields() const {
+  PROTOBUF_NDEBUG_INLINE bool have_unknown_fields() const {
     return PtrTag() == kTagContainer;
   }
 
-  PROTOBUF_ALWAYS_INLINE void* raw_arena_ptr() const { return ptr_; }
+  PROTOBUF_NDEBUG_INLINE void* raw_arena_ptr() const { return ptr_; }
 
   template <typename T>
-  PROTOBUF_ALWAYS_INLINE const T& unknown_fields(
+  PROTOBUF_NDEBUG_INLINE const T& unknown_fields(
       const T& (*default_instance)()) const {
     if (PROTOBUF_PREDICT_FALSE(have_unknown_fields())) {
       return PtrValue<Container<T>>()->unknown_fields;
@@ -94,7 +97,7 @@ class InternalMetadata {
   }
 
   template <typename T>
-  PROTOBUF_ALWAYS_INLINE T* mutable_unknown_fields() {
+  PROTOBUF_NDEBUG_INLINE T* mutable_unknown_fields() {
     if (PROTOBUF_PREDICT_TRUE(have_unknown_fields())) {
       return &PtrValue<Container<T>>()->unknown_fields;
     } else {
@@ -103,7 +106,7 @@ class InternalMetadata {
   }
 
   template <typename T>
-  PROTOBUF_ALWAYS_INLINE void Swap(InternalMetadata* other) {
+  PROTOBUF_NDEBUG_INLINE void Swap(InternalMetadata* other) {
     // Semantics here are that we swap only the unknown fields, not the arena
     // pointer. We cannot simply swap ptr_ with other->ptr_ because we need to
     // maintain our own arena ptr. Also, our ptr_ and other's ptr_ may be in
@@ -115,15 +118,19 @@ class InternalMetadata {
     }
   }
 
+  PROTOBUF_NDEBUG_INLINE void InternalSwap(InternalMetadata* other) {
+    std::swap(ptr_, other->ptr_);
+  }
+
   template <typename T>
-  PROTOBUF_ALWAYS_INLINE void MergeFrom(const InternalMetadata& other) {
+  PROTOBUF_NDEBUG_INLINE void MergeFrom(const InternalMetadata& other) {
     if (other.have_unknown_fields()) {
       DoMergeFrom<T>(other.unknown_fields<T>(nullptr));
     }
   }
 
   template <typename T>
-  PROTOBUF_ALWAYS_INLINE void Clear() {
+  PROTOBUF_NDEBUG_INLINE void Clear() {
     if (have_unknown_fields()) {
       DoClear<T>();
     }
@@ -143,7 +150,7 @@ class InternalMetadata {
   static constexpr intptr_t kPtrValueMask = ~kPtrTagMask;
 
   // Accessors for pointer tag and pointer value.
-  PROTOBUF_ALWAYS_INLINE int PtrTag() const {
+  PROTOBUF_NDEBUG_INLINE int PtrTag() const {
     return reinterpret_cast<intptr_t>(ptr_) & kPtrTagMask;
   }
 
@@ -164,6 +171,13 @@ class InternalMetadata {
   };
 
   template <typename T>
+  PROTOBUF_NOINLINE void DeleteOutOfLineHelper() {
+    if (arena() == NULL) {
+      delete PtrValue<Container<T>>();
+    }
+  }
+
+  template <typename T>
   PROTOBUF_NOINLINE T* mutable_unknown_fields_slow() {
     Arena* my_arena = arena();
     Container<T>* container = Arena::Create<Container<T>>(my_arena);
@@ -179,17 +193,17 @@ class InternalMetadata {
   // Templated functions.
 
   template <typename T>
-  void DoClear() {
+  PROTOBUF_NOINLINE void DoClear() {
     mutable_unknown_fields<T>()->Clear();
   }
 
   template <typename T>
-  void DoMergeFrom(const T& other) {
+  PROTOBUF_NOINLINE void DoMergeFrom(const T& other) {
     mutable_unknown_fields<T>()->MergeFrom(other);
   }
 
   template <typename T>
-  void DoSwap(T* other) {
+  PROTOBUF_NOINLINE void DoSwap(T* other) {
     mutable_unknown_fields<T>()->Swap(other);
   }
 };
@@ -197,20 +211,12 @@ class InternalMetadata {
 // String Template specializations.
 
 template <>
-inline void InternalMetadata::DoClear<std::string>() {
-  mutable_unknown_fields<std::string>()->clear();
-}
-
+PROTOBUF_EXPORT void InternalMetadata::DoClear<std::string>();
 template <>
-inline void InternalMetadata::DoMergeFrom<std::string>(
-    const std::string& other) {
-  mutable_unknown_fields<std::string>()->append(other);
-}
-
+PROTOBUF_EXPORT void InternalMetadata::DoMergeFrom<std::string>(
+    const std::string& other);
 template <>
-inline void InternalMetadata::DoSwap<std::string>(std::string* other) {
-  mutable_unknown_fields<std::string>()->swap(*other);
-}
+PROTOBUF_EXPORT void InternalMetadata::DoSwap<std::string>(std::string* other);
 
 // This helper RAII class is needed to efficiently parse unknown fields. We
 // should only call mutable_unknown_fields if there are actual unknown fields.

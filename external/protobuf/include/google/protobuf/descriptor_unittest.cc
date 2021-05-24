@@ -1851,12 +1851,17 @@ class ExtensionDescriptorTest : public testing::Test {
     //     extensions 10 to 19;
     //     extensions 30 to 39;
     //   }
-    //   extends Foo with optional int32 foo_int32 = 10;
-    //   extends Foo with repeated TestEnum foo_enum = 19;
+    //   extend Foo {
+    //     optional int32 foo_int32 = 10;
+    //   }
+    //   extend Foo {
+    //     repeated TestEnum foo_enum = 19;
+    //   }
     //   message Bar {
-    //     extends Foo with optional Qux foo_message = 30;
-    //     // (using Qux as the group type)
-    //     extends Foo with repeated group foo_group = 39;
+    //     extend Foo {
+    //       optional Qux foo_message = 30;
+    //       repeated Qux foo_group = 39;  // (but internally set to TYPE_GROUP)
+    //     }
     //   }
 
     FileDescriptorProto foo_file;
@@ -2062,6 +2067,84 @@ TEST_F(ExtensionDescriptorTest, DuplicateFieldNumber) {
   // Currently we only generate a warning for conflicting extension numbers.
   // TODO(xiaofeng): Change it to an error.
   ASSERT_TRUE(pool.BuildFile(file_proto) != nullptr);
+}
+
+// ===================================================================
+
+// Ensure that overlapping extension ranges are not allowed.
+TEST(OverlappingExtensionRangeTest, ExtensionRangeInternal) {
+  // Build descriptors for the following definitions:
+  //
+  //   message Foo {
+  //     extensions 10 to 19;
+  //     extensions 15;
+  //   }
+  FileDescriptorProto foo_file;
+  foo_file.set_name("foo.proto");
+
+  DescriptorProto* foo = AddMessage(&foo_file, "Foo");
+  AddExtensionRange(foo, 10, 20);
+  AddExtensionRange(foo, 15, 16);
+
+  DescriptorPool pool;
+  MockErrorCollector error_collector;
+  // The extensions ranges are invalid, so the proto shouldn't build.
+  ASSERT_TRUE(pool.BuildFileCollectingErrors(foo_file, &error_collector) ==
+              nullptr);
+  ASSERT_EQ(
+      "foo.proto: Foo: NUMBER: Extension range 15 to 15 overlaps with "
+      "already-defined range 10 to 19.\n",
+      error_collector.text_);
+}
+
+TEST(OverlappingExtensionRangeTest, ExtensionRangeAfter) {
+  // Build descriptors for the following definitions:
+  //
+  //   message Foo {
+  //     extensions 10 to 19;
+  //     extensions 15 to 24;
+  //   }
+  FileDescriptorProto foo_file;
+  foo_file.set_name("foo.proto");
+
+  DescriptorProto* foo = AddMessage(&foo_file, "Foo");
+  AddExtensionRange(foo, 10, 20);
+  AddExtensionRange(foo, 15, 25);
+
+  DescriptorPool pool;
+  MockErrorCollector error_collector;
+  // The extensions ranges are invalid, so the proto shouldn't build.
+  ASSERT_TRUE(pool.BuildFileCollectingErrors(foo_file, &error_collector) ==
+              nullptr);
+  ASSERT_EQ(
+      "foo.proto: Foo: NUMBER: Extension range 15 to 24 overlaps with "
+      "already-defined range 10 to 19.\n",
+      error_collector.text_);
+}
+
+TEST(OverlappingExtensionRangeTest, ExtensionRangeBefore) {
+  // Build descriptors for the following definitions:
+  //
+  //   message Foo {
+  //     extensions 10 to 19;
+  //     extensions 5 to 14;
+  //   }
+  FileDescriptorProto foo_file;
+  foo_file.set_name("foo.proto");
+
+  DescriptorProto* foo = AddMessage(&foo_file, "Foo");
+  AddExtensionRange(foo, 10, 20);
+  AddExtensionRange(foo, 5, 15);
+
+  DescriptorPool pool;
+  MockErrorCollector error_collector;
+  // The extensions ranges are invalid, so the proto shouldn't build.
+  ASSERT_TRUE(pool.BuildFileCollectingErrors(foo_file, &error_collector) ==
+              nullptr);
+  ASSERT_EQ(
+      "foo.proto: Foo: NUMBER: Extension range 5 to 14 overlaps with "
+      "already-defined range 10 to 19.\n",
+      error_collector.text_);
 }
 
 // ===================================================================
@@ -3811,6 +3894,45 @@ TEST_F(ValidationErrorTest, InvalidPackageName) {
       "foo.proto: foo.$: NAME: \"$\" is not a valid identifier.\n");
 }
 
+// 'str' is a static C-style string that may contain '\0'
+#define STATIC_STR(str) std::string((str), sizeof(str) - 1)
+
+TEST_F(ValidationErrorTest, NullCharSymbolName) {
+  BuildFileWithErrors(
+      "name: \"bar.proto\" "
+      "package: \"foo\""
+      "message_type { "
+      "  name: '\\000\\001\\013.Bar' "
+      "  field { name: \"foo\" number:  9 label:LABEL_OPTIONAL type:TYPE_INT32 "
+      "} "
+      "}",
+      STATIC_STR("bar.proto: foo.\0\x1\v.Bar: NAME: \"\0\x1\v.Bar\" is not a "
+                 "valid identifier.\nbar.proto: foo.\0\x1\v.Bar: NAME: "
+                 "\"\0\x1\v.Bar\" is not a valid identifier.\nbar.proto: "
+                 "foo.\0\x1\v.Bar: NAME: \"\0\x1\v.Bar\" is not a valid "
+                 "identifier.\nbar.proto: foo.\0\x1\v.Bar: NAME: "
+                 "\"\0\x1\v.Bar\" is not a valid identifier.\nbar.proto: "
+                 "foo.\0\x1\v.Bar.foo: NAME: \"foo.\0\x1\v.Bar.foo\" contains "
+                 "null character.\nbar.proto: foo.\0\x1\v.Bar: NAME: "
+                 "\"foo.\0\x1\v.Bar\" contains null character.\n"));
+}
+
+TEST_F(ValidationErrorTest, NullCharFileName) {
+  BuildFileWithErrors(
+      "name: \"bar\\000\\001\\013.proto\" "
+      "package: \"outer.foo\"",
+      STATIC_STR("bar\0\x1\v.proto: bar\0\x1\v.proto: NAME: "
+                 "\"bar\0\x1\v.proto\" contains null character.\n"));
+}
+
+TEST_F(ValidationErrorTest, NullCharPackageName) {
+  BuildFileWithErrors(
+      "name: \"bar.proto\" "
+      "package: \"\\000\\001\\013.\"",
+      STATIC_STR("bar.proto: \0\x1\v.: NAME: \"\0\x1\v.\" contains null "
+                 "character.\n"));
+}
+
 TEST_F(ValidationErrorTest, MissingFileName) {
   BuildFileWithErrors("",
 
@@ -4022,6 +4144,32 @@ TEST_F(ValidationErrorTest, ReservedFieldsDebugString) {
       "message Foo {\n"
       "  reserved 5, 10 to 19;\n"
       "  reserved \"foo\", \"bar\";\n"
+      "}\n\n",
+      file->DebugString());
+}
+
+TEST_F(ValidationErrorTest, DebugStringReservedRangeMax) {
+  const FileDescriptor* file = BuildFile(strings::Substitute(
+      "name: \"foo.proto\" "
+      "enum_type { "
+      "  name: \"Bar\""
+      "  value { name:\"BAR\" number:1 }"
+      "  reserved_range { start: 5 end: $0 }"
+      "}"
+      "message_type {"
+      "  name: \"Foo\""
+      "  reserved_range { start: 5 end: $1 }"
+      "}",
+      std::numeric_limits<int>::max(), FieldDescriptor::kMaxNumber + 1));
+
+  ASSERT_EQ(
+      "syntax = \"proto2\";\n\n"
+      "enum Bar {\n"
+      "  BAR = 1;\n"
+      "  reserved 5 to max;\n"
+      "}\n\n"
+      "message Foo {\n"
+      "  reserved 5 to max;\n"
       "}\n\n",
       file->DebugString());
 }
@@ -8110,3 +8258,5 @@ TEST_F(LazilyBuildDependenciesTest, Dependency) {
 }  // namespace descriptor_unittest
 }  // namespace protobuf
 }  // namespace google
+
+#include <google/protobuf/port_undef.inc>

@@ -180,7 +180,6 @@ void ExtensionSet::RegisterMessageExtension(const MessageLite* containing_type,
   Register(containing_type, number, info);
 }
 
-
 // ===================================================================
 // Constructors and basic methods.
 
@@ -617,7 +616,7 @@ void ExtensionSet::SetAllocatedMessage(int number, FieldType type,
     ClearExtension(number);
     return;
   }
-  Arena* message_arena = message->GetArena();
+  Arena* message_arena = message->GetOwningArena();
   Extension* extension;
   if (MaybeNewExtension(number, descriptor, &extension)) {
     extension->type = type;
@@ -1056,10 +1055,7 @@ void ExtensionSet::InternalExtensionMergeFrom(
 
 void ExtensionSet::Swap(ExtensionSet* x) {
   if (GetArena() == x->GetArena()) {
-    using std::swap;
-    swap(flat_capacity_, x->flat_capacity_);
-    swap(flat_size_, x->flat_size_);
-    swap(map_, x->map_);
+    InternalSwap(x);
   } else {
     // TODO(cfallin, rohananil): We maybe able to optimize a case where we are
     // swapping from heap to arena-allocated extension set, by just Own()'ing
@@ -1071,6 +1067,14 @@ void ExtensionSet::Swap(ExtensionSet* x) {
     Clear();
     MergeFrom(extension_set);
   }
+}
+
+void ExtensionSet::InternalSwap(ExtensionSet* other) {
+  using std::swap;
+  swap(arena_, other->arena_);
+  swap(flat_capacity_, other->flat_capacity_);
+  swap(flat_size_, other->flat_size_);
+  swap(map_, other->map_);
 }
 
 void ExtensionSet::SwapExtension(ExtensionSet* other, int number) {
@@ -1455,9 +1459,9 @@ bool ExtensionSet::ParseMessageSet(io::CodedInputStream* input,
   return ParseMessageSetLite(input, &finder, &skipper);
 }
 
-uint8* ExtensionSet::_InternalSerialize(int start_field_number,
-                                        int end_field_number, uint8* target,
-                                        io::EpsCopyOutputStream* stream) const {
+uint8* ExtensionSet::_InternalSerializeImpl(
+    int start_field_number, int end_field_number, uint8* target,
+    io::EpsCopyOutputStream* stream) const {
   if (PROTOBUF_PREDICT_FALSE(is_large())) {
     const auto& end = map_.large->end();
     for (auto it = map_.large->lower_bound(start_field_number);
@@ -1886,9 +1890,6 @@ void ExtensionSet::GrowCapacity(size_t minimum_new_capacity) {
   }
   flat_capacity_ = new_flat_capacity;
   map_ = new_map;
-  if (is_large()) {
-    flat_size_ = 0;
-  }
 }
 
 // static
@@ -2141,3 +2142,5 @@ size_t ExtensionSet::MessageSetByteSize() const {
 }  // namespace internal
 }  // namespace protobuf
 }  // namespace google
+
+#include <google/protobuf/port_undef.inc>

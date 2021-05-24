@@ -203,12 +203,22 @@ struct ParseTable {
 static_assert(sizeof(ParseTableField) <= 16, "ParseTableField is too large");
 // The tables must be composed of POD components to ensure link-time
 // initialization.
-static_assert(std::is_pod<ParseTableField>::value, "");
-static_assert(std::is_pod<AuxiliaryParseTableField>::value, "");
-static_assert(std::is_pod<AuxiliaryParseTableField::enum_aux>::value, "");
-static_assert(std::is_pod<AuxiliaryParseTableField::message_aux>::value, "");
-static_assert(std::is_pod<AuxiliaryParseTableField::string_aux>::value, "");
-static_assert(std::is_pod<ParseTable>::value, "");
+static_assert(std::is_standard_layout<ParseTableField>::value, "");
+static_assert(std::is_trivial<ParseTableField>::value, "");
+static_assert(std::is_standard_layout<AuxiliaryParseTableField>::value, "");
+static_assert(std::is_trivial<AuxiliaryParseTableField>::value, "");
+static_assert(
+    std::is_standard_layout<AuxiliaryParseTableField::enum_aux>::value, "");
+static_assert(std::is_trivial<AuxiliaryParseTableField::enum_aux>::value, "");
+static_assert(
+    std::is_standard_layout<AuxiliaryParseTableField::message_aux>::value, "");
+static_assert(std::is_trivial<AuxiliaryParseTableField::message_aux>::value,
+              "");
+static_assert(
+    std::is_standard_layout<AuxiliaryParseTableField::string_aux>::value, "");
+static_assert(std::is_trivial<AuxiliaryParseTableField::string_aux>::value, "");
+static_assert(std::is_standard_layout<ParseTable>::value, "");
+static_assert(std::is_trivial<ParseTable>::value, "");
 
 // TODO(ckennelly): Consolidate these implementations into a single one, using
 // dynamic dispatch to the appropriate unknown field handler.
@@ -253,7 +263,7 @@ inline void TableSerialize(const MessageLite& msg,
   SerializeInternal(base, field_table + 1, num_fields, output);
 }
 
-uint8* SerializeInternalToArray(const uint8* base, const FieldMetadata* table,
+PROTOBUF_EXPORT uint8* SerializeInternalToArray(const uint8* base, const FieldMetadata* table,
                                 int32 num_fields, bool is_deterministic,
                                 uint8* buffer);
 

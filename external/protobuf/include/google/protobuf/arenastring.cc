@@ -62,6 +62,14 @@ const std::string& LazyString::Init() const {
 }
 
 
+std::string* ArenaStringPtr::SetAndReturnNewString() {
+  std::string* new_string = new std::string();
+  tagged_ptr_.Set(new_string);
+  return new_string;
+}
+
+void ArenaStringPtr::DestroyNoArenaSlowPath() { delete UnsafeMutablePointer(); }
+
 void ArenaStringPtr::Set(const std::string* default_value,
                          ConstStringParam value, ::google::protobuf::Arena* arena) {
   if (IsDefault(default_value)) {
@@ -252,3 +260,5 @@ void ArenaStringPtr::ClearToDefault(const LazyString& default_value,
 }  // namespace internal
 }  // namespace protobuf
 }  // namespace google
+
+#include <google/protobuf/port_undef.inc>
