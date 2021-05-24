@@ -3,8 +3,8 @@ set(TRACY_DIR "tracy-0.7.7")
 
 add_library(${PROJECT_NAME} STATIC ${TRACY_DIR}/TracyClient.cpp)
 
-option(TRACY_ENABLED OFF)
-if (TRACY_ENABLED)
+option(PETS_TRACY_ENABLED OFF)
+if (PETS_TRACY_ENABLED)
 	target_compile_definitions(${PROJECT_NAME} PUBLIC TRACY_ENABLE)
 endif()
 
