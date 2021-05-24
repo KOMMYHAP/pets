@@ -1,8 +1,5 @@
 project(mouse-android-emulator)
 
-set(PETS_REQUIRE_TRACY ON)
-set(PETS_REQUIRE_PROTOBUF ON)
-
 add_subdirectory(network)
 
 if (ANDROID_PLATFORM)
