@@ -10,15 +10,21 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 )
 
 if (WIN32)
-	find_library(libprotobuf_LIBRARY_RELEASE libprotobuf-lite ${PROTOBUF_LIB_DIR})
-	find_library(libprotobuf_LIBRARY_DEBUG libprotobuf-lited ${PROTOBUF_LIB_DIR})
+	find_library(libprotobuf_LIBRARY_RELEASE libprotobuf
+		PATHS ${PROTOBUF_LIB_DIR}
+		REQUIRED
+	)
+	find_library(libprotobuf_LIBRARY_DEBUG libprotobufd
+		PATHS ${PROTOBUF_LIB_DIR}
+		REQUIRED
+	)
 
 	set(libprotobuf_LIBRARY
 		debug ${libprotobuf_LIBRARY_DEBUG}
 		optimized ${libprotobuf_LIBRARY_RELEASE}
 	)
 else()
-	find_library(libprotobuf_LIBRARY protobuf-lite
+	find_library(libprotobuf_LIBRARY protobuf
 		PATHS ${PROTOBUF_LIB_DIR}
 		REQUIRED
 		NO_CMAKE_FIND_ROOT_PATH)
