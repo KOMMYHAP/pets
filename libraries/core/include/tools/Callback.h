@@ -93,7 +93,7 @@ public:
 
 	bool Valid() const override
 	{
-		return not _owner.expired() && _function;
+		return !_owner.expired() && _function;
 	}
 
 	auto Owner() const { return _owner; }

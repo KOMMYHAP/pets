@@ -60,12 +60,12 @@ namespace Network
 		}
 
 		auto package = _packageManager.Create(receivedPacket.id);
-		if (not package)
+		if (!package)
 		{
 			std::cerr << "Received package was not registeted in package manager." << std::endl;
 			return;
 		}
-		if (not package->ParseFromString(receivedPacket.data))
+		if (!package->ParseFromString(receivedPacket.data))
 		{
 			std::cerr << "Cannot parse received package." << std::endl;
 			return;

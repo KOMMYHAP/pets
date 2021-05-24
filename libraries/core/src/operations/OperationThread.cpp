@@ -18,7 +18,7 @@ OperationThread::~OperationThread()
 	_state->stopped = true;
 	_state->condition.notify_one();
 	_state.reset();
-	
+
 	_thread.detach();
 }
 
@@ -49,8 +49,8 @@ void OperationThread::ThreadFunc(std::weak_ptr<State> weakState)
 	}
 
 	std::vector<std::weak_ptr<Operation>> operationsInProcess;
-	
-	while (not state->stopped)
+
+	while (!state->stopped)
 	{
 		decltype(state->operations) operationsToStart;
 		{
