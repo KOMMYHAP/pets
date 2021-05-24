@@ -17,7 +17,7 @@ public:
 	~EventReceiverApplication() override;
 
 	void ProcessCommandLine(int argc, char** argv) override;
-	void ProcessEvent(const sf::Event & event) override;
+	void ProcessEvent(const ApplicationEvent & event) override;
 	void ProcessElapsedTime(TimeState elapsedTime) override;
 	bool ShouldTerminate() const override { return _shouldTerminate; }
 

@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "application/ApplicationEvent.h"
 #include "NetworkInterface.h"
 #include "EventReceiverRemoteApplication.h"
 #include "operations/OperationManager.h"
@@ -29,12 +30,16 @@ void EventReceiverApplication::ProcessCommandLine(int argc, char** argv)
 	_remoteApplication->Initialize(localPort, remotePort, TimeState::Seconds(idleTimeout));
 }
 
-void EventReceiverApplication::ProcessEvent(const sf::Event& event)
+void EventReceiverApplication::ProcessEvent(const ApplicationEvent& event)
 {
-	if (event.type == sf::Event::Closed)
+	std::visit([this](const auto & content)
 	{
-		_shouldTerminate = true;
-	}
+		using EventT = decltype(content);
+		if constexpr (std::is_same_v<EventT, ApplicationClose>)
+		{
+			_shouldTerminate = true;
+		}
+	}, event.content);
 }
 
 void EventReceiverApplication::ProcessElapsedTime(TimeState elapsedTime)

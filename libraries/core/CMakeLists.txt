@@ -2,8 +2,10 @@ project(core)
 
 set(SRCS
 	include/application/ApplicationBase.h
+	include/application/ApplicationEvent.h
 
 	src/application/ApplicationBase.cpp
+	src/application/ApplicationEvent.cpp
 
 	# include/files/FileManager.h
 

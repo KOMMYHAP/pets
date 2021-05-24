@@ -1,7 +1,5 @@
 #include "EventReceiverRemoteApplication.h"
 
-#include <SFML/Network/IpAddress.hpp>
-
 #include "NetworkInterface.h"
 #include "Peer.h"
 
@@ -80,8 +78,8 @@ void EventReceiverRemoteApplication::OnConnectionRequested([[maybe_unused]] cons
 	if (_state == State::WaitingForConnectionRequest)
 	{
 		bool debugOnLocalHost = true;
-		if (!debugOnLocalHost ||
-			debugOnLocalHost && connectionRequest.ip() != sf::IpAddress::getLocalAddress().toString())
+		if (!debugOnLocalHost || true
+			/*debugOnLocalHost && connectionRequest.ip() != sf::IpAddress::getLocalAddress().toString()*/)
 		{
 			const bool remoteChanged = GetPeer().OpenRemoteConnection(connectionRequest.port(), connectionRequest.ip());
 			if (!remoteChanged)
@@ -92,7 +90,7 @@ void EventReceiverRemoteApplication::OnConnectionRequested([[maybe_unused]] cons
 		}
 
 		ProtoPackets::ConnectionResponse response;
-		response.set_ip(sf::IpAddress::getLocalAddress().toString());
+		// response.set_ip(sf::IpAddress::getLocalAddress().toString());
 		response.set_port(GetPeer().GetLocalPort());
 		GetPeer().SendPacket(response);
 		
