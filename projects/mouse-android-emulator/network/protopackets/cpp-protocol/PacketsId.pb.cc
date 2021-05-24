@@ -14,13 +14,14 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+
+PROTOBUF_PRAGMA_INIT_SEG
 namespace my {
 namespace proto {
 namespace package {
 }  // namespace package
 }  // namespace proto
 }  // namespace my
-static constexpr ::PROTOBUF_NAMESPACE_ID::Metadata* file_level_metadata_PacketsId_2eproto = nullptr;
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_PacketsId_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_PacketsId_2eproto = nullptr;
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_PacketsId_2eproto::offsets[1] = {};
@@ -41,18 +42,19 @@ const char descriptor_table_protodef_PacketsId_2eproto[] PROTOBUF_SECTION_VARIAB
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_PacketsId_2eproto_deps[1] = {
   &::descriptor_table_google_2fprotobuf_2fdescriptor_2eproto,
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_PacketsId_2eproto_sccs[1] = {
-};
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_PacketsId_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_PacketsId_2eproto = {
-  false, false, descriptor_table_protodef_PacketsId_2eproto, "PacketsId.proto", 345,
-  &descriptor_table_PacketsId_2eproto_once, descriptor_table_PacketsId_2eproto_sccs, descriptor_table_PacketsId_2eproto_deps, 0, 1,
+  false, false, 345, descriptor_table_protodef_PacketsId_2eproto, "PacketsId.proto", 
+  &descriptor_table_PacketsId_2eproto_once, descriptor_table_PacketsId_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_PacketsId_2eproto::offsets,
-  file_level_metadata_PacketsId_2eproto, 0, file_level_enum_descriptors_PacketsId_2eproto, file_level_service_descriptors_PacketsId_2eproto,
+  nullptr, file_level_enum_descriptors_PacketsId_2eproto, file_level_service_descriptors_PacketsId_2eproto,
 };
+PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable* descriptor_table_PacketsId_2eproto_getter() {
+  return &descriptor_table_PacketsId_2eproto;
+}
 
 // Force running AddDescriptors() at dynamic initialization time.
-static bool dynamic_init_dummy_PacketsId_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_PacketsId_2eproto)), true);
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_PacketsId_2eproto(&descriptor_table_PacketsId_2eproto);
 namespace my {
 namespace proto {
 namespace package {
@@ -75,7 +77,7 @@ bool PackageId_IsValid(int value) {
   }
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::ExtensionIdentifier< ::google::protobuf::MessageOptions,
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY ::PROTOBUF_NAMESPACE_ID::internal::ExtensionIdentifier< ::google::protobuf::MessageOptions,
     ::PROTOBUF_NAMESPACE_ID::internal::EnumTypeTraits< ::my::proto::package::PackageId, ::my::proto::package::PackageId_IsValid>, 14, false >
   package_id(kPackageIdFieldNumber, static_cast< ::my::proto::package::PackageId >(0));
 

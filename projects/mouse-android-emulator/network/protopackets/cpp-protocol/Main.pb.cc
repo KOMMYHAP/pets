@@ -14,29 +14,27 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+
+PROTOBUF_PRAGMA_INIT_SEG
 namespace my {
 namespace proto {
 namespace package {
-class MousePositionMessageDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<MousePositionMessage> _instance;
-} _MousePositionMessage_default_instance_;
+constexpr MousePositionMessage::MousePositionMessage(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : x_(0)
+  , y_(0){}
+struct MousePositionMessageDefaultTypeInternal {
+  constexpr MousePositionMessageDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~MousePositionMessageDefaultTypeInternal() {}
+  union {
+    MousePositionMessage _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT MousePositionMessageDefaultTypeInternal _MousePositionMessage_default_instance_;
 }  // namespace package
 }  // namespace proto
 }  // namespace my
-static void InitDefaultsscc_info_MousePositionMessage_Main_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::my::proto::package::_MousePositionMessage_default_instance_;
-    new (ptr) ::my::proto::package::MousePositionMessage();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_MousePositionMessage_Main_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_MousePositionMessage_Main_2eproto}, {}};
-
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Main_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_Main_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_Main_2eproto = nullptr;
@@ -66,19 +64,19 @@ const char descriptor_table_protodef_Main_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Main_2eproto_deps[1] = {
   &::descriptor_table_PacketsId_2eproto,
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Main_2eproto_sccs[1] = {
-  &scc_info_MousePositionMessage_Main_2eproto.base,
-};
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Main_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Main_2eproto = {
-  false, false, descriptor_table_protodef_Main_2eproto, "Main.proto", 107,
-  &descriptor_table_Main_2eproto_once, descriptor_table_Main_2eproto_sccs, descriptor_table_Main_2eproto_deps, 1, 1,
+  false, false, 107, descriptor_table_protodef_Main_2eproto, "Main.proto", 
+  &descriptor_table_Main_2eproto_once, descriptor_table_Main_2eproto_deps, 1, 1,
   schemas, file_default_instances, TableStruct_Main_2eproto::offsets,
-  file_level_metadata_Main_2eproto, 1, file_level_enum_descriptors_Main_2eproto, file_level_service_descriptors_Main_2eproto,
+  file_level_metadata_Main_2eproto, file_level_enum_descriptors_Main_2eproto, file_level_service_descriptors_Main_2eproto,
 };
+PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable* descriptor_table_Main_2eproto_getter() {
+  return &descriptor_table_Main_2eproto;
+}
 
 // Force running AddDescriptors() at dynamic initialization time.
-static bool dynamic_init_dummy_Main_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_Main_2eproto)), true);
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_Main_2eproto(&descriptor_table_Main_2eproto);
 namespace my {
 namespace proto {
 namespace package {
@@ -105,10 +103,10 @@ MousePositionMessage::MousePositionMessage(const MousePositionMessage& from)
 }
 
 void MousePositionMessage::SharedCtor() {
-  ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-      reinterpret_cast<char*>(&x_) - reinterpret_cast<char*>(this)),
-      0, static_cast<size_t>(reinterpret_cast<char*>(&y_) -
-      reinterpret_cast<char*>(&x_)) + sizeof(y_));
+::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+    reinterpret_cast<char*>(&x_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&y_) -
+    reinterpret_cast<char*>(&x_)) + sizeof(y_));
 }
 
 MousePositionMessage::~MousePositionMessage() {
@@ -118,7 +116,7 @@ MousePositionMessage::~MousePositionMessage() {
 }
 
 void MousePositionMessage::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
 void MousePositionMessage::ArenaDtor(void* object) {
@@ -130,11 +128,6 @@ void MousePositionMessage::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 void MousePositionMessage::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const MousePositionMessage& MousePositionMessage::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_MousePositionMessage_Main_2eproto.base);
-  return *internal_default_instance();
-}
-
 
 void MousePositionMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:my.proto.package.MousePositionMessage)
@@ -153,7 +146,6 @@ const char* MousePositionMessage::_InternalParse(const char* ptr, ::PROTOBUF_NAM
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
     switch (tag >> 3) {
       // float x = 1;
       case 1:
@@ -171,7 +163,8 @@ const char* MousePositionMessage::_InternalParse(const char* ptr, ::PROTOBUF_NAM
         continue;
       default: {
       handle_unusual:
-        if ((tag & 7) == 4 || tag == 0) {
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
           ctx->SetLastTag(tag);
           goto success;
         }
@@ -294,7 +287,7 @@ bool MousePositionMessage::IsInitialized() const {
 
 void MousePositionMessage::InternalSwap(MousePositionMessage* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(MousePositionMessage, y_)
       + sizeof(MousePositionMessage::y_)
@@ -304,9 +297,10 @@ void MousePositionMessage::InternalSwap(MousePositionMessage* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata MousePositionMessage::GetMetadata() const {
-  return GetMetadataStatic();
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_Main_2eproto_getter, &descriptor_table_Main_2eproto_once,
+      file_level_metadata_Main_2eproto[0]);
 }
-
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace package

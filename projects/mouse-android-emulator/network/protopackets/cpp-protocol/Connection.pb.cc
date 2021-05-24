@@ -14,97 +14,73 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+
+PROTOBUF_PRAGMA_INIT_SEG
 namespace my {
 namespace proto {
 namespace package {
-class ConnectionRequestDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ConnectionRequest> _instance;
-} _ConnectionRequest_default_instance_;
-class ConnectionResponseDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ConnectionResponse> _instance;
-} _ConnectionResponse_default_instance_;
-class ConnectionPingDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ConnectionPing> _instance;
-} _ConnectionPing_default_instance_;
-class ConnectionPongDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ConnectionPong> _instance;
-} _ConnectionPong_default_instance_;
-class ConnectionDisconnectDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ConnectionDisconnect> _instance;
-} _ConnectionDisconnect_default_instance_;
+constexpr ConnectionRequest::ConnectionRequest(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : ip_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , port_(0u){}
+struct ConnectionRequestDefaultTypeInternal {
+  constexpr ConnectionRequestDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~ConnectionRequestDefaultTypeInternal() {}
+  union {
+    ConnectionRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT ConnectionRequestDefaultTypeInternal _ConnectionRequest_default_instance_;
+constexpr ConnectionResponse::ConnectionResponse(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : ip_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , port_(0u){}
+struct ConnectionResponseDefaultTypeInternal {
+  constexpr ConnectionResponseDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~ConnectionResponseDefaultTypeInternal() {}
+  union {
+    ConnectionResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT ConnectionResponseDefaultTypeInternal _ConnectionResponse_default_instance_;
+constexpr ConnectionPing::ConnectionPing(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized){}
+struct ConnectionPingDefaultTypeInternal {
+  constexpr ConnectionPingDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~ConnectionPingDefaultTypeInternal() {}
+  union {
+    ConnectionPing _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT ConnectionPingDefaultTypeInternal _ConnectionPing_default_instance_;
+constexpr ConnectionPong::ConnectionPong(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized){}
+struct ConnectionPongDefaultTypeInternal {
+  constexpr ConnectionPongDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~ConnectionPongDefaultTypeInternal() {}
+  union {
+    ConnectionPong _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT ConnectionPongDefaultTypeInternal _ConnectionPong_default_instance_;
+constexpr ConnectionDisconnect::ConnectionDisconnect(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized){}
+struct ConnectionDisconnectDefaultTypeInternal {
+  constexpr ConnectionDisconnectDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~ConnectionDisconnectDefaultTypeInternal() {}
+  union {
+    ConnectionDisconnect _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT ConnectionDisconnectDefaultTypeInternal _ConnectionDisconnect_default_instance_;
 }  // namespace package
 }  // namespace proto
 }  // namespace my
-static void InitDefaultsscc_info_ConnectionDisconnect_Connection_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::my::proto::package::_ConnectionDisconnect_default_instance_;
-    new (ptr) ::my::proto::package::ConnectionDisconnect();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ConnectionDisconnect_Connection_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ConnectionDisconnect_Connection_2eproto}, {}};
-
-static void InitDefaultsscc_info_ConnectionPing_Connection_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::my::proto::package::_ConnectionPing_default_instance_;
-    new (ptr) ::my::proto::package::ConnectionPing();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ConnectionPing_Connection_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ConnectionPing_Connection_2eproto}, {}};
-
-static void InitDefaultsscc_info_ConnectionPong_Connection_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::my::proto::package::_ConnectionPong_default_instance_;
-    new (ptr) ::my::proto::package::ConnectionPong();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ConnectionPong_Connection_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ConnectionPong_Connection_2eproto}, {}};
-
-static void InitDefaultsscc_info_ConnectionRequest_Connection_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::my::proto::package::_ConnectionRequest_default_instance_;
-    new (ptr) ::my::proto::package::ConnectionRequest();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ConnectionRequest_Connection_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ConnectionRequest_Connection_2eproto}, {}};
-
-static void InitDefaultsscc_info_ConnectionResponse_Connection_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::my::proto::package::_ConnectionResponse_default_instance_;
-    new (ptr) ::my::proto::package::ConnectionResponse();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ConnectionResponse_Connection_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ConnectionResponse_Connection_2eproto}, {}};
-
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Connection_2eproto[5];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_Connection_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_Connection_2eproto = nullptr;
@@ -168,23 +144,19 @@ const char descriptor_table_protodef_Connection_2eproto[] PROTOBUF_SECTION_VARIA
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Connection_2eproto_deps[1] = {
   &::descriptor_table_PacketsId_2eproto,
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Connection_2eproto_sccs[5] = {
-  &scc_info_ConnectionDisconnect_Connection_2eproto.base,
-  &scc_info_ConnectionPing_Connection_2eproto.base,
-  &scc_info_ConnectionPong_Connection_2eproto.base,
-  &scc_info_ConnectionRequest_Connection_2eproto.base,
-  &scc_info_ConnectionResponse_Connection_2eproto.base,
-};
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Connection_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Connection_2eproto = {
-  false, false, descriptor_table_protodef_Connection_2eproto, "Connection.proto", 246,
-  &descriptor_table_Connection_2eproto_once, descriptor_table_Connection_2eproto_sccs, descriptor_table_Connection_2eproto_deps, 5, 1,
+  false, false, 246, descriptor_table_protodef_Connection_2eproto, "Connection.proto", 
+  &descriptor_table_Connection_2eproto_once, descriptor_table_Connection_2eproto_deps, 1, 5,
   schemas, file_default_instances, TableStruct_Connection_2eproto::offsets,
-  file_level_metadata_Connection_2eproto, 5, file_level_enum_descriptors_Connection_2eproto, file_level_service_descriptors_Connection_2eproto,
+  file_level_metadata_Connection_2eproto, file_level_enum_descriptors_Connection_2eproto, file_level_service_descriptors_Connection_2eproto,
 };
+PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable* descriptor_table_Connection_2eproto_getter() {
+  return &descriptor_table_Connection_2eproto;
+}
 
 // Force running AddDescriptors() at dynamic initialization time.
-static bool dynamic_init_dummy_Connection_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_Connection_2eproto)), true);
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_Connection_2eproto(&descriptor_table_Connection_2eproto);
 namespace my {
 namespace proto {
 namespace package {
@@ -207,16 +179,15 @@ ConnectionRequest::ConnectionRequest(const ConnectionRequest& from)
   ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_ip().empty()) {
     ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_ip(), 
-      GetArena());
+      GetArenaForAllocation());
   }
   port_ = from.port_;
   // @@protoc_insertion_point(copy_constructor:my.proto.package.ConnectionRequest)
 }
 
 void ConnectionRequest::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_ConnectionRequest_Connection_2eproto.base);
-  ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  port_ = 0u;
+ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+port_ = 0u;
 }
 
 ConnectionRequest::~ConnectionRequest() {
@@ -226,7 +197,7 @@ ConnectionRequest::~ConnectionRequest() {
 }
 
 void ConnectionRequest::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   ip_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
@@ -239,11 +210,6 @@ void ConnectionRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 void ConnectionRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ConnectionRequest& ConnectionRequest::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ConnectionRequest_Connection_2eproto.base);
-  return *internal_default_instance();
-}
-
 
 void ConnectionRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:my.proto.package.ConnectionRequest)
@@ -261,7 +227,6 @@ const char* ConnectionRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
     switch (tag >> 3) {
       // string ip = 1;
       case 1:
@@ -281,7 +246,8 @@ const char* ConnectionRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
         continue;
       default: {
       handle_unusual:
-        if ((tag & 7) == 4 || tag == 0) {
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
           ctx->SetLastTag(tag);
           goto success;
         }
@@ -308,7 +274,7 @@ failure:
   (void) cached_has_bits;
 
   // string ip = 1;
-  if (this->ip().size() > 0) {
+  if (!this->ip().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
@@ -340,7 +306,7 @@ size_t ConnectionRequest::ByteSizeLong() const {
   (void) cached_has_bits;
 
   // string ip = 1;
-  if (this->ip().size() > 0) {
+  if (!this->ip().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_ip());
@@ -384,7 +350,7 @@ void ConnectionRequest::MergeFrom(const ConnectionRequest& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.ip().size() > 0) {
+  if (!from.ip().empty()) {
     _internal_set_ip(from._internal_ip());
   }
   if (from.port() != 0) {
@@ -412,15 +378,20 @@ bool ConnectionRequest::IsInitialized() const {
 
 void ConnectionRequest::InternalSwap(ConnectionRequest* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  ip_.Swap(&other->ip_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      &ip_, GetArenaForAllocation(),
+      &other->ip_, other->GetArenaForAllocation()
+  );
   swap(port_, other->port_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ConnectionRequest::GetMetadata() const {
-  return GetMetadataStatic();
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_Connection_2eproto_getter, &descriptor_table_Connection_2eproto_once,
+      file_level_metadata_Connection_2eproto[0]);
 }
-
 
 // ===================================================================
 
@@ -440,16 +411,15 @@ ConnectionResponse::ConnectionResponse(const ConnectionResponse& from)
   ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_ip().empty()) {
     ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_ip(), 
-      GetArena());
+      GetArenaForAllocation());
   }
   port_ = from.port_;
   // @@protoc_insertion_point(copy_constructor:my.proto.package.ConnectionResponse)
 }
 
 void ConnectionResponse::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_ConnectionResponse_Connection_2eproto.base);
-  ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  port_ = 0u;
+ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+port_ = 0u;
 }
 
 ConnectionResponse::~ConnectionResponse() {
@@ -459,7 +429,7 @@ ConnectionResponse::~ConnectionResponse() {
 }
 
 void ConnectionResponse::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   ip_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
@@ -472,11 +442,6 @@ void ConnectionResponse::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 void ConnectionResponse::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ConnectionResponse& ConnectionResponse::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ConnectionResponse_Connection_2eproto.base);
-  return *internal_default_instance();
-}
-
 
 void ConnectionResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:my.proto.package.ConnectionResponse)
@@ -494,7 +459,6 @@ const char* ConnectionResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMES
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
     switch (tag >> 3) {
       // string ip = 1;
       case 1:
@@ -514,7 +478,8 @@ const char* ConnectionResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMES
         continue;
       default: {
       handle_unusual:
-        if ((tag & 7) == 4 || tag == 0) {
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
           ctx->SetLastTag(tag);
           goto success;
         }
@@ -541,7 +506,7 @@ failure:
   (void) cached_has_bits;
 
   // string ip = 1;
-  if (this->ip().size() > 0) {
+  if (!this->ip().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
@@ -573,7 +538,7 @@ size_t ConnectionResponse::ByteSizeLong() const {
   (void) cached_has_bits;
 
   // string ip = 1;
-  if (this->ip().size() > 0) {
+  if (!this->ip().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_ip());
@@ -617,7 +582,7 @@ void ConnectionResponse::MergeFrom(const ConnectionResponse& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.ip().size() > 0) {
+  if (!from.ip().empty()) {
     _internal_set_ip(from._internal_ip());
   }
   if (from.port() != 0) {
@@ -645,15 +610,20 @@ bool ConnectionResponse::IsInitialized() const {
 
 void ConnectionResponse::InternalSwap(ConnectionResponse* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  ip_.Swap(&other->ip_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      &ip_, GetArenaForAllocation(),
+      &other->ip_, other->GetArenaForAllocation()
+  );
   swap(port_, other->port_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ConnectionResponse::GetMetadata() const {
-  return GetMetadataStatic();
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_Connection_2eproto_getter, &descriptor_table_Connection_2eproto_once,
+      file_level_metadata_Connection_2eproto[1]);
 }
-
 
 // ===================================================================
 
@@ -683,7 +653,7 @@ ConnectionPing::~ConnectionPing() {
 }
 
 void ConnectionPing::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
 void ConnectionPing::ArenaDtor(void* object) {
@@ -695,11 +665,6 @@ void ConnectionPing::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 void ConnectionPing::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ConnectionPing& ConnectionPing::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ConnectionPing_Connection_2eproto.base);
-  return *internal_default_instance();
-}
-
 
 void ConnectionPing::Clear() {
 // @@protoc_insertion_point(message_clear_start:my.proto.package.ConnectionPing)
@@ -715,8 +680,8 @@ const char* ConnectionPing::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
-        if ((tag & 7) == 4 || tag == 0) {
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
           ctx->SetLastTag(tag);
           goto success;
         }
@@ -809,13 +774,14 @@ bool ConnectionPing::IsInitialized() const {
 
 void ConnectionPing::InternalSwap(ConnectionPing* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ConnectionPing::GetMetadata() const {
-  return GetMetadataStatic();
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_Connection_2eproto_getter, &descriptor_table_Connection_2eproto_once,
+      file_level_metadata_Connection_2eproto[2]);
 }
-
 
 // ===================================================================
 
@@ -845,7 +811,7 @@ ConnectionPong::~ConnectionPong() {
 }
 
 void ConnectionPong::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
 void ConnectionPong::ArenaDtor(void* object) {
@@ -857,11 +823,6 @@ void ConnectionPong::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 void ConnectionPong::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ConnectionPong& ConnectionPong::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ConnectionPong_Connection_2eproto.base);
-  return *internal_default_instance();
-}
-
 
 void ConnectionPong::Clear() {
 // @@protoc_insertion_point(message_clear_start:my.proto.package.ConnectionPong)
@@ -877,8 +838,8 @@ const char* ConnectionPong::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
-        if ((tag & 7) == 4 || tag == 0) {
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
           ctx->SetLastTag(tag);
           goto success;
         }
@@ -971,13 +932,14 @@ bool ConnectionPong::IsInitialized() const {
 
 void ConnectionPong::InternalSwap(ConnectionPong* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ConnectionPong::GetMetadata() const {
-  return GetMetadataStatic();
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_Connection_2eproto_getter, &descriptor_table_Connection_2eproto_once,
+      file_level_metadata_Connection_2eproto[3]);
 }
-
 
 // ===================================================================
 
@@ -1007,7 +969,7 @@ ConnectionDisconnect::~ConnectionDisconnect() {
 }
 
 void ConnectionDisconnect::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
 void ConnectionDisconnect::ArenaDtor(void* object) {
@@ -1019,11 +981,6 @@ void ConnectionDisconnect::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 void ConnectionDisconnect::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ConnectionDisconnect& ConnectionDisconnect::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ConnectionDisconnect_Connection_2eproto.base);
-  return *internal_default_instance();
-}
-
 
 void ConnectionDisconnect::Clear() {
 // @@protoc_insertion_point(message_clear_start:my.proto.package.ConnectionDisconnect)
@@ -1039,8 +996,8 @@ const char* ConnectionDisconnect::_InternalParse(const char* ptr, ::PROTOBUF_NAM
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
-        if ((tag & 7) == 4 || tag == 0) {
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
           ctx->SetLastTag(tag);
           goto success;
         }
@@ -1133,13 +1090,14 @@ bool ConnectionDisconnect::IsInitialized() const {
 
 void ConnectionDisconnect::InternalSwap(ConnectionDisconnect* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ConnectionDisconnect::GetMetadata() const {
-  return GetMetadataStatic();
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_Connection_2eproto_getter, &descriptor_table_Connection_2eproto_once,
+      file_level_metadata_Connection_2eproto[4]);
 }
-
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace package
