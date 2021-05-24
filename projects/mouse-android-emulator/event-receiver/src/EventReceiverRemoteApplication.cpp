@@ -11,6 +11,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
+#include "network/IpAddress.hpp"
+
 EventReceiverRemoteApplication::EventReceiverRemoteApplication(OperationManager& operationManager)
 	: _operationManager(operationManager)
 {
@@ -78,8 +80,8 @@ void EventReceiverRemoteApplication::OnConnectionRequested([[maybe_unused]] cons
 	if (_state == State::WaitingForConnectionRequest)
 	{
 		bool debugOnLocalHost = true;
-		if (!debugOnLocalHost || true
-			/*debugOnLocalHost && connectionRequest.ip() != sf::IpAddress::getLocalAddress().toString()*/)
+		if (!debugOnLocalHost ||
+			debugOnLocalHost && connectionRequest.ip() != sf::IpAddress::getLocalAddress().toString())
 		{
 			const bool remoteChanged = GetPeer().OpenRemoteConnection(connectionRequest.port(), connectionRequest.ip());
 			if (!remoteChanged)
