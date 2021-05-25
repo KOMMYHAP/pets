@@ -17,7 +17,7 @@ option(PETS_REQUIRE_SFML OFF)
 if (PETS_REQUIRE_SFML)
 	set(IMGUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/imgui CACHE STRING "Dear Imgui directory")
 
-	if (PETS_REQUIRE_SFML)
+	if (PETS_REQUIRE_IMGUI)
 		set(IMGUI_SFML_IMGUI_DEMO OFF)
 		add_subdirectory(imgui-sfml)
 	endif()
