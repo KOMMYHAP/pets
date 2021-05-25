@@ -4,6 +4,7 @@
 
 #include "NetworkInterface.h"
 #include "EventDispatcherRemoteApplication.h"
+#include "application/ApplicationEvent.h"
 #include "operations/OperationManager.h"
 #include "tools/ParsedCommandLine.h"
 
@@ -35,21 +36,28 @@ void EventDispatcherApplication::ProcessCommandLine(int argc, char** argv)
 	_remoteApplication->TryConnect(TimeState::Seconds(timeout), retries);
 }
 
-void EventDispatcherApplication::ProcessEvent(/*const sf::Event& event*/)
+void EventDispatcherApplication::ProcessEvent(const ApplicationEvent& event)
 {
-	// if (event.type != sf::Event::Closed)
-	// {
-	// 	if (event.type == sf::Event::MouseMoved)
-	// 	{
-	// 		float x = event.mouseMove.x;
-	// 		float y = event.mouseMove.y;
-	// 		_remoteApplication->SendMousePosition(x, y);
-	// 	}
-	// }
-	// else
-	// {
-	// 	_shouldTerminate = true;
-	// }
+	std::visit([this](const auto & content)
+	{
+		using EventT = std::decay_t<decltype(content)>;
+		if constexpr (std::is_same_v<EventT, ApplicationEvents::CloseRequest>)
+		{
+			OnCloseRequested(content);
+		}
+		else if constexpr (std::is_same_v<EventT, ApplicationEvents::MouseMoved>)
+		{
+			OnMouseMoved(content);
+		}
+		else if constexpr (std::is_same_v<EventT, ApplicationEvents::MouseClicked>)
+		{
+			OnMouseClicked(content);
+		}
+		else if constexpr (std::is_same_v<EventT, ApplicationEvents::WindowResized>)
+		{
+			OnWindowResized(content);
+		}
+	}, event.content);
 }
 
 void EventDispatcherApplication::ProcessElapsedTime(TimeState elapsedTime)
@@ -119,3 +127,29 @@ void EventDispatcherApplication::OnStateChanged(EventDispatcherRemoteApplication
 	}
 	s_lastState = state;
 }
+
+void EventDispatcherApplication::OnMouseMoved(const ApplicationEvents::MouseMoved & mouseMove)
+{
+	if (_remoteApplication)
+	{
+		_remoteApplication->SendMousePosition(mouseMove.x, mouseMove.y);
+	}
+}
+
+void EventDispatcherApplication::OnMouseClicked(const ApplicationEvents::MouseClicked&)
+{
+}
+
+void EventDispatcherApplication::OnCloseRequested(const ApplicationEvents::CloseRequest&)
+{
+	_shouldTerminate = true;
+}
+
+void EventDispatcherApplication::OnWindowResized(const ApplicationEvents::WindowResized & resize)
+{
+	if (_remoteApplication)
+	{
+		_remoteApplication->SetScreen(resize.newSizeX, resize.newSizeY);
+	}
+}
+

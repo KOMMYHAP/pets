@@ -65,7 +65,8 @@ public:
 	void Initialize(uint16_t localPort, const std::string & remoteIp, uint16_t remotePort, TimeState pingTime, TimeState pongTimeout);
 
 	void TryConnect(TimeState timeout, uint32_t retries);
-	void SendMousePosition(float x, float y);
+	void SetScreen(int x, int y);
+	void SendMousePosition(int x, int y);
 
 	Error GetError() const;
 
@@ -93,6 +94,8 @@ private:
 	ConnectionStatus						_connectionStatus;
 	ConnectionHandler						_connectionHandler;
 	TypedCallback<State>					_stateChangedCallback;
+	int										_screenX = 0;
+	int										_screenY = 0;
 	
 	std::unique_ptr<Timer>					_connectionRequestTimeoutTimer;
 	TimeState								_pingTime;

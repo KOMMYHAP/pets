@@ -4,10 +4,15 @@
 #include "EventDispatcherRemoteApplication.h"
 #include "application/ApplicationBase.h"
 
+namespace ApplicationEvents {
+	struct WindowResized;
+	struct CloseRequest;
+	struct MouseClicked;
+	struct MouseMoved;
+}
+
 class EventDispatcherRemoteApplication;
-class NetworkInterface;
 class OperationManager;
-class RemoteApplicationBridge;
 class ParsedCommandLine;
 
 class EventDispatcherApplication : public ApplicationDelegate
@@ -25,6 +30,11 @@ private:
 	void OnActivated() override;
 	void OnDeactivated() override;
 	void OnStateChanged(EventDispatcherRemoteApplication::State state);
+
+	void OnMouseMoved(const ApplicationEvents::MouseMoved &);
+	void OnMouseClicked(const ApplicationEvents::MouseClicked &);
+	void OnCloseRequested(const ApplicationEvents::CloseRequest &);
+	void OnWindowResized(const ApplicationEvents::WindowResized &);
 
 	std::unique_ptr<ParsedCommandLine>							_commandLine;
 	std::unique_ptr<OperationManager>							_operationManager;

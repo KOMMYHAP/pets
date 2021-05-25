@@ -30,5 +30,10 @@ else()
 		NO_CMAKE_FIND_ROOT_PATH)
 endif()
 
+if (ANDROID_PLATFORM)
+	find_library(log-lib log REQUIRED)
+	target_link_libraries(${PROJECT_NAME} PRIVATE ${log-lib})
+endif()
+
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${libprotobuf_LIBRARY})

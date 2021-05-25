@@ -1,7 +1,6 @@
 #include "EventDispatcherRemoteApplication.h"
 
-#include <SFML/Network/IpAddress.hpp>
-
+#include "network/IpAddress.hpp"
 
 #include "NetworkInterface.h"
 #include "Peer.h"
@@ -11,14 +10,14 @@
 #include "Main.pb.h"
 #include "tools/Timer.h"
 
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+// #define WIN32_LEAN_AND_MEAN
+// #include <Windows.h>
 
 EventDispatcherRemoteApplication::EventDispatcherRemoteApplication(OperationManager & operationManager)
 	: _operationManager(operationManager)
 {
 	_networkInterface = std::make_shared<NetworkInterface>(_operationManager);
-	
+
 	auto & peer = _networkInterface->GetPeer();
 	peer.Subscribe(TypedCallback<const ProtoPackets::ConnectionResponse &>(_networkInterface, this, &EventDispatcherRemoteApplication::OnConnectionResponse));
 	peer.Subscribe(TypedCallback<const ProtoPackets::ConnectionDisconnect &>(_networkInterface, this, &EventDispatcherRemoteApplication::OnDisconnect));
@@ -51,7 +50,7 @@ void EventDispatcherRemoteApplication::Initialize(uint16_t localPort, const std:
 
 	_pingTime = pingTime;
 	_pingTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &EventDispatcherRemoteApplication::Ping), _pingTime, _operationManager);
-	
+
 	_pongTimeout = pongTimeout;
 	_pongTimeoutTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &EventDispatcherRemoteApplication::OnPongTimedOut), _pongTimeout, _operationManager);
 
@@ -71,22 +70,36 @@ void EventDispatcherRemoteApplication::TryConnect(TimeState timeout, uint32_t re
 	std::cout << "EventDispatcherRemoteApplication::TryConnect called from incorrect state " << static_cast<int>(_state) << ".\n";
 }
 
-void EventDispatcherRemoteApplication::SendMousePosition(float x, float y)
+void EventDispatcherRemoteApplication::SetScreen(int x, int y)
+{
+	_screenX = x;
+	_screenY = y;
+}
+
+void EventDispatcherRemoteApplication::SendMousePosition(int x, int y)
 {
 	if (_state == State::Connected)
 	{
-		static int s_width = GetSystemMetrics(SM_CXSCREEN);
-		static int s_height = GetSystemMetrics(SM_CYSCREEN);
+		// static int s_width = GetSystemMetrics(SM_CXSCREEN);
+		// static int s_height = GetSystemMetrics(SM_CYSCREEN);
+		//
+		// POINT point;
+		// if (GetCursorPos(&point))
+		// {
+		// 	x = static_cast<float>(point.x);
+		// 	y = static_cast<float>(point.y);
+		//
+		// 	ProtoPackets::MousePositionMessage message;
+		// 	message.set_x(x / s_width);
+		// 	message.set_y(y / s_height);
+		// 	GetPeer().SendPacket(message);
+		// }
 
-		POINT point;
-		if (GetCursorPos(&point))
+		if (_screenX > 0 && _screenY > 0)
 		{
-			x = static_cast<float>(point.x);
-			y = static_cast<float>(point.y);
-
 			ProtoPackets::MousePositionMessage message;
-			message.set_x(x / s_width);
-			message.set_y(y / s_height);
+			message.set_x(x / static_cast<float>(_screenX));
+			message.set_y(y / static_cast<float>(_screenY));
 			GetPeer().SendPacket(message);
 		}
 	}
@@ -106,7 +119,7 @@ void EventDispatcherRemoteApplication::TryConnect()
 {
 	_connectionRequestTimeoutTimer->Restart();
 	SetState(State::WaitingForConnect);
-	
+
 	ProtoPackets::ConnectionRequest request;
 	request.set_ip(sf::IpAddress::getLocalAddress().toString());
 	request.set_port(GetPeer().GetLocalPort());

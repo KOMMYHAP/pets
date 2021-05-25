@@ -1,32 +1,50 @@
 #pragma once
 #include <variant>
 
-struct MouseMoveEvent
+namespace ApplicationEvents
 {
-	int x;
-	int y;
-};
-
-struct MouseClickEvent
-{
-	enum class MouseButton
+	struct MouseMoved
 	{
-		LeftButton
+		int x;
+		int y;
 	};
 
-	int			x;
-	int			y;
-	MouseButton	button;
-};
+	struct MouseClicked
+	{
+		enum class MouseButton
+		{
+			LeftButton
+		};
 
-struct ApplicationClose
-{
-};
+		int			x;
+		int			y;
+		MouseButton	button;
+	};
+
+	struct CloseRequest
+	{
+	};
+
+	struct WindowResized
+	{
+		int newSizeX;
+		int newSizeY;
+	};
+}
 
 struct ApplicationEvent
 {
-	std::variant<
-		MouseMoveEvent,
-		MouseClickEvent,
-		ApplicationClose>		content;
+	using ContentType = std::variant
+	<
+		ApplicationEvents::MouseMoved,
+		ApplicationEvents::MouseClicked,
+		ApplicationEvents::CloseRequest,
+		ApplicationEvents::WindowResized
+	>;
+
+	ApplicationEvent(ContentType content)
+		: content(std::move(content))
+	{}
+
+	ContentType content;
 };

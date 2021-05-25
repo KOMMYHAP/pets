@@ -2,8 +2,8 @@ project(mouse-android-emulator)
 
 add_subdirectory(network)
 
-if (ANDROID_PLATFORM)
-	add_subdirectory(event-dispatcher)
-else()
+if (WIN32)
 	add_subdirectory(event-receiver)
 endif()
+
+add_subdirectory(event-dispatcher)

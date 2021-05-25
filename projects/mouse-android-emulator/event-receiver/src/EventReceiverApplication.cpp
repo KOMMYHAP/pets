@@ -35,7 +35,7 @@ void EventReceiverApplication::ProcessEvent(const ApplicationEvent& event)
 	std::visit([this](const auto & content)
 	{
 		using EventT = decltype(content);
-		if constexpr (std::is_same_v<EventT, ApplicationClose>)
+		if constexpr (std::is_same_v<EventT, ApplicationCloseEvent>)
 		{
 			_shouldTerminate = true;
 		}
