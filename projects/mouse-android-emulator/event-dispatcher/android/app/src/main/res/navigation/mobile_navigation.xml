@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_choose_connection">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.remotemouse.ui.home.HomeFragment"
+        android:id="@+id/nav_choose_connection"
+        android:name="com.example.remotemouse.ui.chooseConnection.ChooseConnectionFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_choose_connection" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.remotemouse.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_touchpad"
+        android:name="com.example.remotemouse.ui.touchpad.TouchpadFragment"
         android:label="@string/menu_panel"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_touchpad" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.remotemouse.ui.slideshow.SlideshowFragment"
+        android:id="@+id/nav_settings"
+        android:name="com.example.remotemouse.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_settings" />
 </navigation>

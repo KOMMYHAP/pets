@@ -2,7 +2,7 @@
     <string name="app_name">RemoteMouse</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Application Remote mouse</string>
+    <string name="nav_header_title">Remote Mouse</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
@@ -14,11 +14,12 @@
     <string name="information_menu">information menu</string>
     <string name="name_home_list">Выбор доступных подключений</string>
     <string name="description">ImageIcon</string>
-    <string name="left_button">left_button</string>
-    <string name="right_button">right_button</string>
+    <string name="left_button">Левая кнопка мыши</string>
+    <string name="right_button">Правая кнопка мыши</string>
     <string name="first_text_setting">1</string>
     <string name="second_text_setting">2</string>
     <string name="Switch">On/Of</string>
+    <string name="searchDescription">search</string>
 
 
 </resources>
