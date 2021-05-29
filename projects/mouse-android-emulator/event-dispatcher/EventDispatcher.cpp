@@ -6,7 +6,7 @@
 int main(int argc, char **argv)
 {
 	NativeJniBridge nativeJniBridge(nullptr);
-	auto application = nativeJniBridge.GetEventDispatcherApplication();
+	auto application = nativeJniBridge.GetApplication();
 	if (!application)
 	{
 		return 0;

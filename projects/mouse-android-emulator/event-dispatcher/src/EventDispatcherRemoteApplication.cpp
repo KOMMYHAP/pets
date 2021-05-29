@@ -213,7 +213,7 @@ void EventDispatcherRemoteApplication::OnConnectionRequestTimedOut()
 void EventDispatcherRemoteApplication::SetState(State state)
 {
 	_state = state;
-	if (state != State::ErrorOccured)
+	if (state != State::ErrorOccurred)
 	{
 		_error = Error::NoError;
 	}
@@ -223,5 +223,5 @@ void EventDispatcherRemoteApplication::SetState(State state)
 void EventDispatcherRemoteApplication::SetErrorState(Error error)
 {
 	_error = error;
-	SetState(State::ErrorOccured);
+	SetState(State::ErrorOccurred);
 }

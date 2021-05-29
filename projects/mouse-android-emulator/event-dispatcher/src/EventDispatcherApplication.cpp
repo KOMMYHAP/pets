@@ -92,7 +92,7 @@ void EventDispatcherApplication::OnStateChanged(EventDispatcherRemoteApplication
 			return "ConnectionTimedOut";
 		case EventDispatcherRemoteApplication::State::Disconnected:
 			return "Disconnected";
-		case EventDispatcherRemoteApplication::State::ErrorOccured:
+		case EventDispatcherRemoteApplication::State::ErrorOccurred:
 			return "Error";
 		case EventDispatcherRemoteApplication::State::DisconnectedByTimeout:
 			return "DisconnectedByTimeout";
@@ -121,7 +121,7 @@ void EventDispatcherApplication::OnStateChanged(EventDispatcherRemoteApplication
 	};
 
 	std::cout << "State has been updated: " << StateToString(s_lastState) << " -> " << StateToString(state) << '\n';
-	if (state == EventDispatcherRemoteApplication::State::ErrorOccured)
+	if (state == EventDispatcherRemoteApplication::State::ErrorOccurred)
 	{
 		std::cout << "... with error: " << ErrorToString(_remoteApplication->GetError()) << '\n';
 	}

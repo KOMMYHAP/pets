@@ -46,7 +46,7 @@ public:
 		ConnectionRequestTimeout,
 		Disconnected,
 		DisconnectedByTimeout,
-		ErrorOccured
+		ErrorOccurred
 	};
 
 	enum class Error
