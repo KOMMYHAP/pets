@@ -37,3 +37,8 @@ option(PETS_REQUIRE_TRACY OFF)
 if (PETS_REQUIRE_TRACY)
 	add_subdirectory(tracy)
 endif()
+
+option(PETS_REQUIRE_JNI OFF)
+if (PETS_REQUIRE_JNI)
+	add_subdirectory(jni)
+endif()
