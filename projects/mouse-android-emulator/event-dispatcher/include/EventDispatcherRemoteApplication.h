@@ -129,4 +129,5 @@ private:
 	
 	OperationManager &						_operationManager;
 	std::shared_ptr<NetworkInterface>		_networkInterface;
+	EventDispatcherOptions					_options;
 };

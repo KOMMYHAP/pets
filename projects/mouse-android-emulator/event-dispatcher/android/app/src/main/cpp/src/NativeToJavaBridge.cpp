@@ -83,14 +83,12 @@ namespace jni {
 
 NativeToJavaBridge::NativeToJavaBridge(NativeJniBridge &nativeBridge,
                                        NativeBridgeObject &nativeBridgeObject)
-        : _nativeBridge(nativeBridge),
-          _globalNativeBridgeObject(*_nativeBridge.GetJniEnv(), nativeBridgeObject) {
-    Cache();
+        : _nativeBridge(nativeBridge)
+        , _globalNativeBridgeObject(*_nativeBridge.GetJniEnv(), nativeBridgeObject) {
+
 }
 
-NativeToJavaBridge::~NativeToJavaBridge() {
-    InvalidateCache();
-}
+NativeToJavaBridge::~NativeToJavaBridge() = default;
 
 void NativeToJavaBridge::ResponseAvailableConnectionList(
         const std::vector<AvailableConnectionData> &connectionList) {
@@ -125,14 +123,4 @@ void NativeToJavaBridge::StateUpdated(const EventDispatcherState &state) {
                                                                                     "onStateUpdated");
     auto nativeBridgeObject = _globalNativeBridgeObject.get(*env);
     nativeBridgeObject.Call(*env, method, appState, appErrorState);
-}
-
-void NativeToJavaBridge::Cache() {
-    auto *env = _nativeBridge.GetJniEnv();
-    if (!env) {
-        return;
-    }
-}
-
-void NativeToJavaBridge::InvalidateCache() {
 }

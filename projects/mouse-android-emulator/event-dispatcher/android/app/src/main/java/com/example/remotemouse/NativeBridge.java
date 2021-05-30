@@ -43,6 +43,11 @@ public class NativeBridge {
     public NativeBridge()
     {
         cache();
+        updateFrame(42);
+        touchAreaResize(42, 42);
+        touchMoving(42, 42);
+        touchTapping(42, 42, EventTouchType.ShortTap);
+        requestAvailableConnections("q_q");
     }
 
     public void onAvailableConnectionListResponse(AvailableConnectionData[] connectionsList)
@@ -59,7 +64,13 @@ public class NativeBridge {
 
     public void onStateUpdated(ApplicationState state, ApplicationErrorState error)
     {
-
+        _state = state;
+        _errorState = error;
+        Log.i(LOG_TAG, "State updated to " + state.toString());
+        if (state == ApplicationState.ErrorOccurred)
+        {
+            Log.e(LOG_TAG, "Error state updated to " + error.toString());
+        }
     }
 
     native public void cache();

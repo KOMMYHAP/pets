@@ -57,18 +57,18 @@ void EventDispatcherRemoteApplication::Initialize(uint16_t localPort, const std:
 	SetState(State::Initialized);
 }
 
-void EventDispatcherRemoteApplication::TryConnect(TimeState timeout, uint32_t retries)
-{
-	if (_state == State::Initialized)
-	{
-		_connectionHandler.delay = timeout;
-		_connectionHandler.retries = retries;
-		_connectionRequestTimeoutTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &EventDispatcherRemoteApplication::OnConnectionRequestTimedOut), timeout, _operationManager);
-		TryConnect();
-		return;
-	}
-	std::cout << "EventDispatcherRemoteApplication::TryConnect called from incorrect state " << static_cast<int>(_state) << ".\n";
-}
+//void EventDispatcherRemoteApplication::TryConnect(TimeState timeout, uint32_t retries)
+//{
+//	if (_state == State::Initialized)
+//	{
+//		_connectionHandler.delay = timeout;
+//		_connectionHandler.retries = retries;
+//		_connectionRequestTimeoutTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &EventDispatcherRemoteApplication::OnConnectionRequestTimedOut), timeout, _operationManager);
+//		TryConnect();
+//		return;
+//	}
+//	std::cout << "EventDispatcherRemoteApplication::TryConnect called from incorrect state " << static_cast<int>(_state) << ".\n";
+//}
 
 void EventDispatcherRemoteApplication::SetScreen(int x, int y)
 {
@@ -224,4 +224,21 @@ void EventDispatcherRemoteApplication::SetErrorState(Error error)
 {
 	_error = error;
 	SetState(State::ErrorOccurred);
+}
+
+void EventDispatcherRemoteApplication::Initialize(const EventDispatcherOptions &options) {
+	_options = options;
+}
+
+void EventDispatcherRemoteApplication::RequestConnectionList() {
+
+}
+
+void EventDispatcherRemoteApplication::SubscribeOnConnectionList(
+		TypedCallback<const std::vector<AvailableConnectionData> &> callback) {
+
+}
+
+void EventDispatcherRemoteApplication::Connect(const std::string &ip, uint16_t port) {
+
 }

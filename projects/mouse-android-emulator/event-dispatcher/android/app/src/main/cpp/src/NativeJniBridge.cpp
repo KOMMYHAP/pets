@@ -15,6 +15,7 @@ NativeJniBridge::NativeJniBridge(JavaVM *javaVm, jni::Object<NativeBridgeClass> 
 	if (env)
 	{
 		_outputInterface = std::make_unique<NativeToJavaBridge>(*this, nativeBridgeObject);
+		_application->SetApplicationOutputInterface(_outputInterface.get());
 	}
 }
 
