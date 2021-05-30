@@ -2,7 +2,6 @@
 #include <memory>
 
 #include "EventDispatcherRemoteApplication.h"
-#include "application/ApplicationBase.h"
 
 namespace ApplicationEvents {
 	struct WindowResized;
@@ -10,26 +9,31 @@ namespace ApplicationEvents {
 	struct MouseClicked;
 	struct MouseMoved;
 }
-
+class ApplicationEvent;
+class ApplicationOutputInterface;
 class EventDispatcherRemoteApplication;
 class OperationManager;
 class ParsedCommandLine;
 
-class EventDispatcherApplication : public ApplicationDelegate
+class EventDispatcherApplication
 {
 public:
 	EventDispatcherApplication();
-	~EventDispatcherApplication() override;
+	~EventDispatcherApplication();
 
-	void ProcessCommandLine(int argc, char** argv) override;
-	void ProcessEvent(const ApplicationEvent & event) override;
-	void ProcessElapsedTime(TimeState elapsedTime) override;
-	bool ShouldTerminate() const override { return _shouldTerminate; }
+	void SetApplicationOutputInterface(ApplicationOutputInterface * output);
+
+	void ProcessCommandLine(int argc, char** argv);
+	void ProcessEvent(const ApplicationEvent & event);
+	void ProcessElapsedTime(TimeState elapsedTime);
+	bool ShouldTerminate() const { return _shouldTerminate; }
+
+	void RequestAvailableConnections(const std::string & hostname);
+	void ConnectTo(const std::string & ip, uint16_t port);
 
 private:
-	void OnActivated() override;
-	void OnDeactivated() override;
 	void OnStateChanged(EventDispatcherRemoteApplication::State state);
+	void OnConnectionListReceived(const std::vector<AvailableConnectionData> & connectionList);
 
 	void OnMouseMoved(const ApplicationEvents::MouseMoved &);
 	void OnMouseClicked(const ApplicationEvents::MouseClicked &);
@@ -41,7 +45,7 @@ private:
 
 	std::shared_ptr<int>										_owner;
 	std::unique_ptr<EventDispatcherRemoteApplication>			_remoteApplication;
+	ApplicationOutputInterface *								_outputInterface = nullptr;
 
 	bool														_shouldTerminate = false;
-
 };

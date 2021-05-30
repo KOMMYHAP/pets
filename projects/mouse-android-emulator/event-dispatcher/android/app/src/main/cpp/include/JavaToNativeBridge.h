@@ -1,17 +1,18 @@
 #pragma once
+#include <string>
 #include "ApplicationInputInterface.h"
 
-class EventDispatcherApplication;
+class NativeJniBridge;
 
 class JavaToNativeBridge : public ApplicationInputInterface
 {
 public:
-	JavaToNativeBridge(EventDispatcherApplication & eventDispatcher);
+	JavaToNativeBridge(NativeJniBridge & nativeJniBridge);
 
 	void UpdateFrame(int64_t elapsedMs) override;
-	void MouseMoved(int x, int y) override;
-	void RequestAvailableConnectionList() override;
+	void ProcessEvent(const ApplicationEvent & event) override;
+	void RequestAvailableConnectionList(const std::string & hostname) override;
 
 private:
-	EventDispatcherApplication &		_eventDispatcher;
+	NativeJniBridge &		_nativeJniBridge;
 };

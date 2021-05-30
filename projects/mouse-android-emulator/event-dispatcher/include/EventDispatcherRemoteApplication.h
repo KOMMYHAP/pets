@@ -34,6 +34,24 @@ struct ConnectionHandler
 	TimeState		delay;
 };
 
+struct EventDispatcherOptions
+{
+	uint16_t 		localPort = 44332;
+
+	TimeState 		pingTime = TimeState::Seconds(3);
+	TimeState 		pongTimeout = TimeState::Seconds(5);
+
+	TimeState 		connectionTimeout = TimeState::Seconds(3);
+	uint32_t 		connectionRetries = 5;
+};
+
+struct AvailableConnectionData
+{
+	std::string		ip;
+	std::string		hostname;
+	uint16_t		port = 0;
+};
+
 class EventDispatcherRemoteApplication
 {
 public:
@@ -62,9 +80,15 @@ public:
 	~EventDispatcherRemoteApplication();
 
 	void SubscribeOnStatusChange(TypedCallback<State> callback);
+
+	void Initialize(const EventDispatcherOptions & options);
 	void Initialize(uint16_t localPort, const std::string & remoteIp, uint16_t remotePort, TimeState pingTime, TimeState pongTimeout);
 
-	void TryConnect(TimeState timeout, uint32_t retries);
+	void RequestConnectionList();
+	void SubscribeOnConnectionList(TypedCallback<const std::vector<AvailableConnectionData> &> callback);
+
+	void Connect(const std::string & ip, uint16_t port);
+
 	void SetScreen(int x, int y);
 	void SendMousePosition(int x, int y);
 

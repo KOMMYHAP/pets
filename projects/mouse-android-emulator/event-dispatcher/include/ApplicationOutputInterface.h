@@ -4,14 +4,6 @@
 #include <vector>
 #include "EventDispatcherRemoteApplication.h"
 
-// todo: optimize to avoid using of dynamic memory here and minimize jni marshaling
-struct AvailableConnectionData
-{
-	std::string		ip;
-	std::string		hostname;
-	int				port;
-};
-
 struct EventDispatcherState
 {
 	EventDispatcherRemoteApplication::State		state;

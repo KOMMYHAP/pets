@@ -1,23 +1,36 @@
 #include "JavaToNativeBridge.h"
 #include "EventDispatcherApplication.h"
 #include "application/ApplicationEvent.h"
+#include "NativeJniBridge.h"
 
-JavaToNativeBridge::JavaToNativeBridge(EventDispatcherApplication& eventDispatcher)
-        : _eventDispatcher(eventDispatcher)
+JavaToNativeBridge::JavaToNativeBridge(NativeJniBridge & nativeJniBridge)
+        : _nativeJniBridge(nativeJniBridge)
 {
 }
 
 void JavaToNativeBridge::UpdateFrame(int64_t elapsedMs)
 {
-    _eventDispatcher.ProcessElapsedTime(TimeState::Milliseconds(elapsedMs));
+    auto * application = _nativeJniBridge.GetApplication();
+    if (application)
+    {
+        application->ProcessElapsedTime(TimeState::Milliseconds(elapsedMs));
+    }
 }
 
-void JavaToNativeBridge::MouseMoved(int x, int y)
+void JavaToNativeBridge::ProcessEvent(const ApplicationEvent & event)
 {
-    ApplicationEvents::MouseMoved mouseMoved{x, y};
-    _eventDispatcher.ProcessEvent(ApplicationEvent(mouseMoved));
+    auto * application = _nativeJniBridge.GetApplication();
+    if (application)
+    {
+        application->ProcessEvent(event);
+    }
 }
 
-void JavaToNativeBridge::RequestAvailableConnectionList() {
-
+void JavaToNativeBridge::RequestAvailableConnectionList(const std::string & hostname)
+{
+    auto * application = _nativeJniBridge.GetApplication();
+    if (application)
+    {
+        application->RequestAvailableConnections(hostname);
+    }
 }

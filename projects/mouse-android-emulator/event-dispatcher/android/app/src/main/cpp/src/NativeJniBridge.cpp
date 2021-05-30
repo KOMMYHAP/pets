@@ -2,20 +2,27 @@
 
 #include "EventDispatcherApplication.h"
 #include "application/ApplicationEvent.h"
-#include "ApplicationInputInterface.h"
-#include "ApplicationOutputInterface.h"
+#include "JavaToNativeBridge.h"
+#include "NativeToJavaBridge.h"
+#include "JniImpl.h"
 
-NativeJniBridge::NativeJniBridge(/*JavaVM* javaVm*/)
-//	: _javaVm(javaVm)
-	: _eventDispatcher(std::make_unique<EventDispatcherApplication>())
+NativeJniBridge::NativeJniBridge(JavaVM *javaVm, jni::Object<NativeBridgeClass> & nativeBridgeObject)
+	: _javaVm(javaVm)
+	, _application(std::make_unique<EventDispatcherApplication>())
 {
+	_inputInterface = std::make_unique<JavaToNativeBridge>(*this);
+	auto * env = GetJniEnv();
+	if (env)
+	{
+		_outputInterface = std::make_unique<NativeToJavaBridge>(*this, nativeBridgeObject);
+	}
 }
 
 NativeJniBridge::~NativeJniBridge() = default;
 
 EventDispatcherApplication* NativeJniBridge::GetApplication() const
 {
-	return _eventDispatcher.get();
+	return _application.get();
 }
 
 ApplicationInputInterface* NativeJniBridge::GetApplicationInputInterface() const
@@ -28,12 +35,12 @@ ApplicationOutputInterface* NativeJniBridge::GetApplicationOutputInterface() con
 	return _outputInterface.get();
 }
 
-//JNIEnv* NativeJniBridge::GetJniEnv() const
-//{
-//	return GetEnv(_javaVm);
-//}
-//
-//JavaVM* NativeJniBridge::GetJavaVm() const
-//{
-//	return _javaVm;
-//}
+JNIEnv* NativeJniBridge::GetJniEnv() const
+{
+	return details::GetEnv(_javaVm);
+}
+
+JavaVM* NativeJniBridge::GetJavaVM() const
+{
+	return _javaVm;
+}

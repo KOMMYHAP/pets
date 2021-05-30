@@ -42,24 +42,7 @@ public class NativeBridge {
 
     public NativeBridge()
     {
-        checkNativeMethods();
-    }
-
-    private void checkNativeMethods()
-    {
-        try
-        {
-            cache();
-            updateFrame(0);
-            touchAreaResize(0, 0);
-            touchMoving(0, 0);
-            touchTapping(0, 0, EventTouchType.ShortTap);
-        }
-        catch (Exception e)
-        {
-            Log.e(LOG_TAG, "Failed to test native method: " + e.toString());
-            assert(false);
-        }
+        cache();
     }
 
     public void onAvailableConnectionListResponse(AvailableConnectionData[] connectionsList)
@@ -79,9 +62,10 @@ public class NativeBridge {
 
     }
 
-    native static public void cache();
+    native public void cache();
     native public void updateFrame(long elapsedMs);
     native public void touchAreaResize(int width, int height);
     native public void touchMoving(int x, int y);
     native public void touchTapping(int x, int y, EventTouchType touchType);
+    native public void requestAvailableConnections(String hostname);
 }
