@@ -8,5 +8,5 @@ if (PETS_TRACY_ENABLED)
 	target_compile_definitions(${PROJECT_NAME} PUBLIC TRACY_ENABLE)
 endif()
 
-target_precompile_headers(${PROJECT_NAME} PUBLIC TracyPch.h)
+# target_precompile_headers(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/TracyPch.h)
 target_include_directories(${PROJECT_NAME} PUBLIC ${TRACY_DIR})

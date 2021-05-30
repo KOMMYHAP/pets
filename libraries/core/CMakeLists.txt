@@ -84,4 +84,4 @@ if (WIN32)
 endif()
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
-target_precompile_headers(${PROJECT_NAME} PRIVATE include/stddefs.h)
+# target_precompile_headers(${PROJECT_NAME} PRIVATE include/stddefs.h)
