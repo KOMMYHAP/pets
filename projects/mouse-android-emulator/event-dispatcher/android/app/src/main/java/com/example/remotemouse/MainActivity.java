@@ -13,6 +13,10 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration _appBarConfiguration;
@@ -38,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         _nativeBridge = new NativeBridge();
+
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+
+        scheduledExecutorService.scheduleWithFixedDelay(() -> runOnUiThread(() -> _nativeBridge.updateFrame(15)), 0, 15, TimeUnit.MILLISECONDS);
     }
 
     public NativeBridge getNativeBridge()

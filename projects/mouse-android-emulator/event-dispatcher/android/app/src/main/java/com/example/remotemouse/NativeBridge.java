@@ -2,6 +2,13 @@ package com.example.remotemouse;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class NativeBridge {
     public final String LOG_TAG = "NativeBridge";
 
@@ -34,6 +41,7 @@ public class NativeBridge {
 
     private ApplicationState        _state;
     private ApplicationErrorState   _errorState;
+    MutableLiveData<List<AvailableConnectionData>> _connectionList;
 
 
     static {
@@ -50,6 +58,12 @@ public class NativeBridge {
         requestAvailableConnections("q_q");
     }
 
+    public LiveData<List<AvailableConnectionData>> getConnectionList()
+    {
+        return _connectionList;
+    }
+
+
     public void onAvailableConnectionListResponse(AvailableConnectionData[] connectionsList)
     {
         for (int i = 0; i < connectionsList.length; i++) {
@@ -60,6 +74,7 @@ public class NativeBridge {
                     connectionData.port,
                     connectionData.hostname));
         }
+        _connectionList.setValue(Arrays.asList(connectionsList));
     }
 
     public void onStateUpdated(ApplicationState state, ApplicationErrorState error)
