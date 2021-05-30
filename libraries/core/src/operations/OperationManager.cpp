@@ -1,6 +1,5 @@
 #include "operations/OperationManager.h"
-
-
+#include "Tracy.hpp"
 #include "operations/Operation.h"
 #include "operations/OperationDispatcher.h"
 
@@ -16,7 +15,7 @@ OperationManager::~OperationManager() = default;
 
 void OperationManager::Schedule(const std::shared_ptr<Operation> & operation, OperationThreadIds where)
 {
-	Schedule(std::move(operation), TimeState(), where);
+	Schedule(operation, TimeState(), where);
 }
 
 void OperationManager::Schedule(const std::shared_ptr<Operation> & operation, TimeState delay, OperationThreadIds where, bool sticky)

@@ -6,6 +6,7 @@
 #include <condition_variable>
 #include <optional>
 
+#include "Tracy.hpp"
 #include "ReceivedPacket.h"
 #include "network/IpAddress.hpp"
 #include "network/Packet.hpp"
@@ -21,7 +22,7 @@ struct PacketHandlerOperation::Impl
 	std::unique_ptr<sf::UdpSocket> 				socket;
 	std::vector<sf::Packet>						packetsToSend;
 	sf::IpAddress								remoteAddress;
-	uint16_t									remotePort;
+	uint16_t									remotePort = 0;
 	
 	std::atomic_bool							hasUnprocessedPackets = false;
 	std::vector<Network::ReceivedPacket>		unprocessedPackets;

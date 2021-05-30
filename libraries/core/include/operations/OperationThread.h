@@ -2,6 +2,8 @@
 #include <atomic>
 #include <mutex>
 #include <thread>
+#include <optional>
+#include <vector>
 
 #include "OperationThreadBase.h"
 

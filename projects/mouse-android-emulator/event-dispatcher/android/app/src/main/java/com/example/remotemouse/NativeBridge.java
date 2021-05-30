@@ -2,9 +2,9 @@ package com.example.remotemouse;
 
 import android.util.Log;
 
-import java.util.ArrayList;
-
 public class NativeBridge {
+    public final String LOG_TAG = "NativeBridge";
+
     public enum ApplicationState
     {
         NotInitialized,
@@ -35,33 +35,38 @@ public class NativeBridge {
     private ApplicationState        _state;
     private ApplicationErrorState   _errorState;
 
-    public static class AvailableConnectionData
-    {
-        public final String     ip;
-        public final String     hostname;
-        public final int        port;
-
-        public AvailableConnectionData(String ip, String hostname, int port) {
-            this.ip = ip;
-            this.hostname = hostname;
-            this.port = port;
-        }
-    }
-
 
     static {
         System.loadLibrary("event-dispatcher");
-        Cache();
     }
 
     public NativeBridge()
-    {}
+    {
+        checkNativeMethods();
+    }
 
-    public void OnAvailableConnectionListResponse(AvailableConnectionData[] connectionsList)
+    private void checkNativeMethods()
+    {
+        try
+        {
+            cache();
+            updateFrame(0);
+            touchAreaResize(0, 0);
+            touchMoving(0, 0);
+            touchTapping(0, 0, EventTouchType.ShortTap);
+        }
+        catch (Exception e)
+        {
+            Log.e(LOG_TAG, "Failed to test native method: " + e.toString());
+            assert(false);
+        }
+    }
+
+    public void onAvailableConnectionListResponse(AvailableConnectionData[] connectionsList)
     {
         for (int i = 0; i < connectionsList.length; i++) {
             AvailableConnectionData connectionData = connectionsList[i];
-            Log.i("XXX", String.format("%d. %s:%d %s",
+            Log.i(LOG_TAG, String.format("%d. %s:%d %s",
                     i + 1,
                     connectionData.ip,
                     connectionData.port,
@@ -69,14 +74,14 @@ public class NativeBridge {
         }
     }
 
-    public void OnStateUpdated(ApplicationState state, ApplicationErrorState error)
+    public void onStateUpdated(ApplicationState state, ApplicationErrorState error)
     {
 
     }
 
-    native static public void Cache();
-    native public void UpdateFrame(long elapsedMs);
-    native public void TouchAreaResize(int width, int height);
-    native public void MouseMoved(int x, int y);
-    native public void MouseClicked(int x, int y, EventTouchType touchType);
+    native static public void cache();
+    native public void updateFrame(long elapsedMs);
+    native public void touchAreaResize(int width, int height);
+    native public void touchMoving(int x, int y);
+    native public void touchTapping(int x, int y, EventTouchType touchType);
 }

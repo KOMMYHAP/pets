@@ -1,5 +1,5 @@
 #include "tools/ParsedCommandLine.h"
-
+#include <cerrno>
 namespace 
 {
 	enum class ParserState
@@ -103,7 +103,7 @@ bool ParsedCommandLine::GetBoolOrDefault(const std::string& argument, bool defau
 	{
 		return true;
 	}
-	return !value.empty() ? false : defaultValue;
+	return value.empty() && defaultValue;
 }
 
 int64_t ParsedCommandLine::GetIntOrDefault(const std::string& argument, int64_t defaultValue) const

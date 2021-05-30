@@ -25,6 +25,5 @@ endif()
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)
 
-add_subdirectory(external)
-add_subdirectory(libraries)
-add_subdirectory(projects)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/external pets/external)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/libraries pets/libraries)

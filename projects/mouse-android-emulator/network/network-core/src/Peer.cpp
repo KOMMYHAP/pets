@@ -4,6 +4,7 @@
 #include "ReceivedPacket.h"
 #include "PeerConnection.h"
 #include "PacketsId.pb.h"
+#include "Tracy.hpp"
 
 namespace Network
 {

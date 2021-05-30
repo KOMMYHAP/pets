@@ -1,6 +1,7 @@
 #include "operations/OperationDispatcher.h"
 
 #include <iostream>
+#include "Tracy.hpp"
 
 #include "operations/OperationMainThread.h"
 #include "operations/OperationThread.h"

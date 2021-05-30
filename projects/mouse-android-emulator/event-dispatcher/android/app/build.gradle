@@ -15,10 +15,7 @@ android {
 
         externalNativeBuild {
             cmake {
-                arguments "-DPETS_PROJECT_MOUSE_ANDROID_EMULATOR=ON",
-                        "-DPETS_REQUIRE_TRACY=ON",
-                        "-DPETS_REQUIRE_PROTOBUF=ON"
-                abiFilters 'arm64-v8a', 'armeabi-v7a'
+                abiFilters 'armeabi-v7a', 'arm64-v8a'
             }
         }
     }
@@ -30,15 +27,16 @@ android {
         }
     }
 
-    externalNativeBuild {
-        cmake {
-            path "./../../../../../CMakeLists.txt"
-        }
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    externalNativeBuild {
+        cmake {
+            path file("src/main/cpp/CMakeLists.txt")
+            version '3.20.3'
+        }
     }
 }
 
