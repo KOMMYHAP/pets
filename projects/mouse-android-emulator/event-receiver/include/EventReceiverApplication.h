@@ -10,20 +10,18 @@ class OperationManager;
 class RemoteApplicationBridge;
 class ParsedCommandLine;
 
-class EventReceiverApplication : public ApplicationDelegate
+class EventReceiverApplication
 {
 public:
 	EventReceiverApplication();
-	~EventReceiverApplication() override;
+	~EventReceiverApplication();
 
-	void ProcessCommandLine(int argc, char** argv) override;
-	void ProcessEvent(const ApplicationEvent & event) override;
-	void ProcessElapsedTime(TimeState elapsedTime) override;
-	bool ShouldTerminate() const override { return _shouldTerminate; }
+	void ProcessCommandLine(int argc, char** argv);
+	void ProcessEvent(const ApplicationEvent & event);
+	void ProcessElapsedTime(TimeState elapsedTime);
+	bool ShouldTerminate() const { return _shouldTerminate; }
 
 private:
-	void OnActivated() override;
-	void OnDeactivated() override;
 	void OnStateChanged(EventReceiverRemoteApplication::State state);
 
 	std::unique_ptr<ParsedCommandLine>						_commandLine;

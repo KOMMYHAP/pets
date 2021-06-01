@@ -1,5 +1,7 @@
 #include "operations/OperationThread.h"
 
+
+#include <algorithm>
 #include <iostream>
 
 #include "operations/Operation.h"

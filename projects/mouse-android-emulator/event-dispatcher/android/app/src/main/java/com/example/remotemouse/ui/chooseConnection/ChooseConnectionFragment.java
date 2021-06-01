@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.remotemouse.AvailableConnectionData;
 import com.example.remotemouse.MainActivity;
 import com.example.remotemouse.NativeBridge;
 import com.example.remotemouse.R;
@@ -43,6 +44,11 @@ public class ChooseConnectionFragment extends Fragment {
             _chooseConnectionViewModel.setNativeBridge(nativeBridge);
             nativeBridge.getConnectionList().observe(getViewLifecycleOwner(), availableConnectionData ->
             {
+                if (!availableConnectionData.isEmpty())
+                {
+                    final AvailableConnectionData connectionData = availableConnectionData.get(0);
+                    nativeBridge.connect(connectionData.ip, (short) connectionData.port);
+                }
                 if (_scrollConnectionList != null)
                 {
 //                     todo: fill the scroll view

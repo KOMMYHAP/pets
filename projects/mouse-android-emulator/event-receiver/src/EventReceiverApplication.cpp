@@ -1,6 +1,8 @@
 #include "EventReceiverApplication.h"
 
 #include <iostream>
+#include <Tracy.hpp>
+
 
 #include "application/ApplicationEvent.h"
 #include "NetworkInterface.h"
@@ -35,7 +37,7 @@ void EventReceiverApplication::ProcessEvent(const ApplicationEvent& event)
 	std::visit([this](const auto & content)
 	{
 		using EventT = decltype(content);
-		if constexpr (std::is_same_v<EventT, ApplicationCloseEvent>)
+		if constexpr (std::is_same_v<EventT, ApplicationEvents::CloseRequest>)
 		{
 			_shouldTerminate = true;
 		}
@@ -45,14 +47,6 @@ void EventReceiverApplication::ProcessEvent(const ApplicationEvent& event)
 void EventReceiverApplication::ProcessElapsedTime(TimeState elapsedTime)
 {
 	_operationManager->Update(elapsedTime);
-}
-
-void EventReceiverApplication::OnActivated()
-{
-}
-
-void EventReceiverApplication::OnDeactivated()
-{
 }
 
 void EventReceiverApplication::OnStateChanged(EventReceiverRemoteApplication::State state)

@@ -1,5 +1,8 @@
 #include "operations/OperationMainThread.h"
 
+#include <algorithm>
+
+
 #include "operations/Operation.h"
 #include "tools/Utils.h"
 

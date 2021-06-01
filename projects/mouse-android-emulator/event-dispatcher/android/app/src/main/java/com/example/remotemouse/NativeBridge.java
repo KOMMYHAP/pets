@@ -79,7 +79,7 @@ public class NativeBridge {
             Log.i(LOG_TAG, String.format("%d. %s:%d %s",
                     i + 1,
                     connectionData.ip,
-                    connectionData.port,
+                    connectionData.port & 0xFFFFL,
                     connectionData.hostname));
         }
         _connectionList.setValue(Arrays.asList(connectionsList));
@@ -101,4 +101,5 @@ public class NativeBridge {
     native public void touchMoving(int x, int y);
     native public void touchTapping(int x, int y, EventTouchType touchType);
     native public void requestAvailableConnections(String hostname);
+    native public void connect(String ip, short port);
 }

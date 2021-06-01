@@ -83,6 +83,17 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void * /*reserved*/) {
         }
     };
 
+    auto connect = [](jni::JNIEnv &env, jni::Object<NativeBridgeClass> &clazz, jni::String & ip, jni::jshort port)
+    {
+        if (s_nativeJniBridge) {
+            auto * input = s_nativeJniBridge->GetApplicationInputInterface();
+            if (input)
+            {
+                input->Connect(jni::Make<std::string>(env, ip), port);
+            }
+        }
+    };
+
 
 #define MAKE_NATIVE(method) \
    jni::MakeNativeMethod(#method, method)
@@ -94,7 +105,8 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void * /*reserved*/) {
                          MAKE_NATIVE(touchMoving),
                          MAKE_NATIVE(touchTapping),
                          MAKE_NATIVE(requestAvailableConnections),
-                         MAKE_NATIVE(initialize)
+                         MAKE_NATIVE(initialize),
+                         MAKE_NATIVE(connect)
     );
 #undef MAKE_NATIVE
 

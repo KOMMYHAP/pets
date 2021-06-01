@@ -43,3 +43,12 @@ void JavaToNativeBridge::CanBeInitialized()
         application->Initialize();
     }
 }
+
+void JavaToNativeBridge::Connect(const std::string &ip, uint16_t port)
+{
+    auto * application = _nativeJniBridge.GetApplication();
+    if (application)
+    {
+        application->ConnectTo(ip, port);
+    }
+}

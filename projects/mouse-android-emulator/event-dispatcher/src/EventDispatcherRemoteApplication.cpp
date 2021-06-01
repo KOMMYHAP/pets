@@ -163,7 +163,11 @@ void EventDispatcherRemoteApplication::OnConnectionResponse(const ProtoPackets::
 	}
 	if (_state == State::SearchingConnections)
 	{
-		_availableConnectionList.emplace_back(connectionResponse.ip(), "p_p", connectionResponse.port());
+		std::string hostname = "p_p";
+		if (!connectionResponse.ip().empty() && !hostname.empty())
+		{
+			_availableConnectionList.emplace_back(connectionResponse.ip(), hostname, connectionResponse.port());
+		}
 		return;
 	}
 	std::cout << "EventDispatcherRemoteApplication::OnConnectionResponse called from incorrect state " << static_cast<int>(_state) << ".\n";
@@ -253,12 +257,13 @@ void EventDispatcherRemoteApplication::Initialize(const EventDispatcherOptions &
 }
 
 void EventDispatcherRemoteApplication::RequestConnectionList() {
-    if (_state != State::Idle)
+    if (_state != State::Idle && _state != State::ErrorOccurred)
     {
         SetErrorState(Error::NoError);
         return;
     }
 
+    _availableConnectionList.clear();
 	_availableConnectionTimer->Restart();
 	SetState(State::SearchingConnections);
 
@@ -299,8 +304,8 @@ void EventDispatcherRemoteApplication::Connect(const std::string &ip, uint16_t p
 }
 
 void EventDispatcherRemoteApplication::OnConnectionsSearchTimedOut() {
-	_availableConnectionCallback(_availableConnectionList);
 	SetState(State::Idle);
+	_availableConnectionCallback(_availableConnectionList);
 }
 
 AvailableConnectionData::AvailableConnectionData(std::string ip, std::string hostname, uint16_t port) noexcept

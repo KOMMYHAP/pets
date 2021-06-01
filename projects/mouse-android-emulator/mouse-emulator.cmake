@@ -10,7 +10,5 @@ include(${CMAKE_CURRENT_LIST_DIR}/../../pets.cmake)
 
 if (ANDROID_PLATFORM)
 	add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/event-dispatcher event-dispatcher-lib)
-else()
-	message(FATAL_ERROR "Unsupported platform")
 endif()
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/network network)

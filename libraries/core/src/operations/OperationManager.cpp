@@ -1,4 +1,7 @@
 #include "operations/OperationManager.h"
+
+#include <algorithm>
+
 #include "Tracy.hpp"
 #include "operations/Operation.h"
 #include "operations/OperationDispatcher.h"

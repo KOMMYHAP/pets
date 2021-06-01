@@ -49,8 +49,7 @@ public class TouchpadFragment extends Fragment {
             return v.performClick();
         });
 
-        notifyTouchAreaSizeUpdated();
-
+        _touchPadView.post(this::notifyTouchAreaSizeUpdated);
         return root;
     }
 

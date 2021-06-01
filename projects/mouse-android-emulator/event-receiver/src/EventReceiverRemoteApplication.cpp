@@ -9,6 +9,7 @@
 #include "tools/Timer.h"
 
 #define WIN32_LEAN_AND_MEAN
+#include <Tracy.hpp>
 #include <Windows.h>
 
 #include "network/IpAddress.hpp"
@@ -92,7 +93,7 @@ void EventReceiverRemoteApplication::OnConnectionRequested([[maybe_unused]] cons
 		}
 
 		ProtoPackets::ConnectionResponse response;
-		// response.set_ip(sf::IpAddress::getLocalAddress().toString());
+		response.set_ip(sf::IpAddress::getLocalAddress().toString());
 		response.set_port(GetPeer().GetLocalPort());
 		GetPeer().SendPacket(response);
 		

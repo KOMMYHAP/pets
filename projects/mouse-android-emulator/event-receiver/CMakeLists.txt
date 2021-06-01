@@ -1,3 +1,7 @@
+cmake_minimum_required(VERSION 3.19)
+
+include(../mouse-emulator.cmake)
+
 project(event-receiver)
 
 set(SRCS
@@ -10,8 +14,7 @@ set(SRCS
 	EventReceiver.cpp
 )
 
-add_executable(${PROJECT_NAME} ${SRCS})
-#add_executable(${PROJECT_NAME} WIN32 ${SRCS})
+add_executable(${PROJECT_NAME} WIN32 ${SRCS})
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRCS})
 

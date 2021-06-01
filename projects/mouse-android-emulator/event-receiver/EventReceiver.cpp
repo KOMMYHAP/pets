@@ -2,11 +2,16 @@
 #include <iostream>
 // #include <SFML/Window.hpp>
 // #include "SFML/System.hpp"
+#include <array>
+
 #include "EventReceiverApplication.h"
 
+#define NOMINMAX
 #include <Windows.h>
 #include <shellapi.h>
 #include <windowsx.h>
+
+static std::unique_ptr<EventReceiverApplication> s_application;
 
 UINT const WMAPP_NOTIFYCALLBACK = WM_APP + 1;
 
@@ -31,12 +36,32 @@ VOID CALLBACK MyTimerProc(
     UINT idTimer,     // timer identifier
     DWORD dwTime);     // current system time
 
-int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR /*lpCmdLine*/, int nCmdShow)
+class MyBuf : public std::streambuf
 {
-	std::ofstream ofs("D:\\Development\\pets\\build\\bin\\Debug\\log.txt");
-	std::streambuf * rdtbuf = ofs.rdbuf();
-	std::cout.set_rdbuf(rdtbuf);
-	std::cerr.set_rdbuf(rdtbuf);
+public:
+	std::streamsize xsputn(const char* _Ptr, std::streamsize _Count) override
+	{
+		OutputDebugStringA(_Ptr);
+		return _Count;
+	}
+
+	int_type overflow(int_type c) override
+	{
+		if (c >= static_cast<int>(std::numeric_limits<char>::min()) &&
+			c <= static_cast<int>(std::numeric_limits<char>::max()))
+		{
+			char buffer[2] = {static_cast<char>(c), '\0'};
+			OutputDebugStringA(buffer);
+		}
+		return c;
+	}
+};
+
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, PSTR lpCmdLine, int nCmdShow)
+{
+	MyBuf myBuf;
+	std::cout.set_rdbuf(&myBuf);
+	std::cerr.set_rdbuf(&myBuf);
 
 	g_hInst = hInstance;
 	RegisterWindowClass(szWindowClass, "Mouse Remote Menu", WndProc);
@@ -48,6 +73,10 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR /*lpCmdLine*/, int n
 	{
 		ShowWindow(hwnd, SW_HIDE);
 		SetTimer(hwnd, s_idTimer, USER_TIMER_MINIMUM, (TIMERPROC)MyTimerProc);
+
+		s_application = std::make_unique<EventReceiverApplication>();
+
+		s_application->ProcessCommandLine(1, &lpCmdLine);
 
 		// Main message loop:
 		MSG msg;
@@ -99,6 +128,20 @@ void CALLBACK MyTimerProc(
 {
 	if (idTimer == s_idTimer)
 	{
+		static DWORD lastTime;
+		if (lastTime == 0)
+		{
+			lastTime = dwTime;
+			return;
+		}
+
+		DWORD diff = dwTime - lastTime;
+		lastTime = dwTime;
+
+		if (s_application)
+		{
+			s_application->ProcessElapsedTime(TimeState::Milliseconds(diff));
+		}
 		// const static DWORD s_length = 2 * 1000;
 		// static DWORD s_start;
 		// static DWORD s_end;
@@ -275,43 +318,42 @@ BOOL DeleteNotificationIcon()
 	return Shell_NotifyIcon(NIM_DELETE, &s_hNotifyIconData);
 }
 
-int main(int argc, char** argv)
-{
-	std::cout
-		<< "Event Receiver Application started." << '\n'
-		<< "I'll receive events from event-dispatcher application and handle it." << std::endl;
-
-	// auto application = std::make_unique<EventReceiverApplication>();
-	// application->ProcessCommandLine(argc, argv);
-	//
-	// sf::Window window(sf::VideoMode(600, 400), "Event Receiver App");
-	//
-	// sf::Clock clock;
-	// sf::Time timeOnFrame = sf::milliseconds(15);
-	// sf::Time elapsedTimeOnFrame;
-	//
-	// bool shouldClose = false;
-	// while (not shouldClose)
-	// {
-	// 	FrameMarkNamed("Frame");
-	// 	sf::Event event;
-	// 	while (!shouldClose && window.pollEvent(event))
-	// 	{
-	// 		application->ProcessEvent(event);
-	// 		shouldClose = application->ShouldTerminate();
-	// 	}
-	//
-	// 	auto elapsedTimeInternal = TimeState::Milliseconds(elapsedTimeOnFrame.asMilliseconds());
-	// 	application->ProcessElapsedTime(elapsedTimeInternal);
-	//
-	// 	elapsedTimeOnFrame = clock.restart();
-	// 	if (elapsedTimeOnFrame < timeOnFrame)
-	// 	{
-	// 		sleep(timeOnFrame - elapsedTimeOnFrame);
-	// 	}
-	// }
-	//
-	// window.close();
-
-	return 0;
-}
+// int main(int argc, char** argv)
+// {
+// 	std::cout
+// 		<< "Event Receiver Application started." << '\n'
+// 		<< "I'll receive events from event-dispatcher application and handle it." << std::endl;
+//
+// 	application->ProcessCommandLine(argc, argv);
+// 	
+// 	sf::Window window(sf::VideoMode(600, 400), "Event Receiver App");
+// 	
+// 	sf::Clock clock;
+// 	sf::Time timeOnFrame = sf::milliseconds(15);
+// 	sf::Time elapsedTimeOnFrame;
+// 	
+// 	bool shouldClose = false;
+// 	while (not shouldClose)
+// 	{
+// 		FrameMarkNamed("Frame");
+// 		sf::Event event;
+// 		while (!shouldClose && window.pollEvent(event))
+// 		{
+// 			application->ProcessEvent(event);
+// 			shouldClose = application->ShouldTerminate();
+// 		}
+// 	
+// 		auto elapsedTimeInternal = TimeState::Milliseconds(elapsedTimeOnFrame.asMilliseconds());
+// 		application->ProcessElapsedTime(elapsedTimeInternal);
+// 	
+// 		elapsedTimeOnFrame = clock.restart();
+// 		if (elapsedTimeOnFrame < timeOnFrame)
+// 		{
+// 			sleep(timeOnFrame - elapsedTimeOnFrame);
+// 		}
+// 	}
+// 	
+// 	window.close();
+//
+// 	return 0;
+// }

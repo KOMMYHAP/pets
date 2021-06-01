@@ -5,12 +5,12 @@ namespace jni {
     inline Local<AvailableConnectionDataObject>
     MakeAnything(ThingToMake<AvailableConnectionDataObject>, JNIEnv &env,
                  const AvailableConnectionData &data) {
-        auto clazz = &Class<AvailableConnectionDataClass>::Singleton(env);
-        auto constructor = clazz->GetConstructor<String, String, jint>(env);
-        return clazz->New(env, constructor,
-                         Make<String>(env, data.hostname),
+        auto clazz = Class<AvailableConnectionDataClass>::Find(env);
+        auto constructor = clazz.GetConstructor<String, String, jshort>(env);
+        return clazz.New(env, constructor,
                          Make<String>(env, data.ip),
-                         data.port);
+                         Make<String>(env, data.hostname),
+                         static_cast<jshort>(data.port));
     }
 
     inline Local<NativeBridge$ApplicationStateObject>
