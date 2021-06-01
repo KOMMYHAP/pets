@@ -23,8 +23,11 @@ namespace jni {
             case EventDispatcherRemoteApplication::State::NotInitialized:
                 name = "NotInitialized";
                 break;
-            case EventDispatcherRemoteApplication::State::Initialized:
-                name = "Initialized";
+            case EventDispatcherRemoteApplication::State::Idle:
+                name = "Idle";
+                break;
+            case EventDispatcherRemoteApplication::State::SearchingConnections:
+                name = "SearchingConnections";
                 break;
             case EventDispatcherRemoteApplication::State::WaitingForConnect:
                 name = "WaitingForConnect";
@@ -72,7 +75,11 @@ namespace jni {
             case EventDispatcherRemoteApplication::Error::NoError:
                 name = "NoError";
                 break;
-            default: ;
+            default:
+                [[fallthrough]];
+            case EventDispatcherRemoteApplication::Error::InvalidState:
+                name = "_InvalidNativeState";
+                break;
         }
         auto staticField = clazz->GetStaticField<NativeBridge$ApplicationErrorStateObject>(env, name);
         return clazz->Get(env, staticField);

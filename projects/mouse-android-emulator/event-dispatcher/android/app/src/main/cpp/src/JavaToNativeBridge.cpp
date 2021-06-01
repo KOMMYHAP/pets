@@ -34,3 +34,12 @@ void JavaToNativeBridge::RequestAvailableConnectionList(const std::string & host
         application->RequestAvailableConnections(hostname);
     }
 }
+
+void JavaToNativeBridge::CanBeInitialized()
+{
+    auto * application = _nativeJniBridge.GetApplication();
+    if (application)
+    {
+        application->Initialize();
+    }
+}

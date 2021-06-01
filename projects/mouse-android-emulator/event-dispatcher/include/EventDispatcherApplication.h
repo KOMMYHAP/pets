@@ -20,6 +20,7 @@ class EventDispatcherApplication
 public:
 	EventDispatcherApplication();
 	~EventDispatcherApplication();
+	void Initialize();
 
 	void SetApplicationOutputInterface(ApplicationOutputInterface * output);
 

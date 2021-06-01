@@ -45,8 +45,8 @@ public class ChooseConnectionFragment extends Fragment {
             {
                 if (_scrollConnectionList != null)
                 {
-                    // todo: fill the scroll view
-//                    _scrollConnectionList.fill
+//                     todo: fill the scroll view
+//                    _scrollConnectionList.addView();
                 }
             });
         }

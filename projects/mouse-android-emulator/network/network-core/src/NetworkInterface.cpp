@@ -8,7 +8,7 @@
 class PacketProcessingOperation : public Operation
 {
 public:
-	PacketProcessingOperation(Network::Peer & peer)
+	explicit PacketProcessingOperation(Network::Peer & peer)
 		: _peer(peer)
 	{
 	}

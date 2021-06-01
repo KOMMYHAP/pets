@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration _appBarConfiguration;
-    private NativeBridge _nativeBridge;
+    private final NativeBridge _nativeBridge = NativeBridge.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +40,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, _appBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        _nativeBridge = new NativeBridge();
-
-        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-
-        scheduledExecutorService.scheduleWithFixedDelay(() -> runOnUiThread(() -> _nativeBridge.updateFrame(15)), 0, 15, TimeUnit.MILLISECONDS);
     }
 
     public NativeBridge getNativeBridge()

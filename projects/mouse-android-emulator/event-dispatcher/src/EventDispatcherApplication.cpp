@@ -14,9 +14,6 @@ EventDispatcherApplication::EventDispatcherApplication()
 	: _operationManager(std::make_unique<OperationManager>())
 	, _owner(std::make_shared<int>(42))
 {
-	_remoteApplication = std::make_unique<EventDispatcherRemoteApplication>(*_operationManager);
-	_remoteApplication->SubscribeOnStatusChange(TypedCallback<EventDispatcherRemoteApplication::State>(_owner, this, &EventDispatcherApplication::OnStateChanged));
-	_remoteApplication->SubscribeOnConnectionList(TypedCallback<const std::vector<AvailableConnectionData> &>(_owner, this, &EventDispatcherApplication::OnConnectionListReceived));
 }
 
 EventDispatcherApplication::~EventDispatcherApplication() = default;
@@ -78,8 +75,8 @@ void EventDispatcherApplication::OnStateChanged(EventDispatcherRemoteApplication
 //		{
 //		case EventDispatcherRemoteApplication::State::NotInitialized:
 //			return "NotInitialized";
-//		case EventDispatcherRemoteApplication::State::Initialized:
-//			return "Initialized";
+//		case EventDispatcherRemoteApplication::State::Idle:
+//			return "Idle";
 //		case EventDispatcherRemoteApplication::State::WaitingForConnect:
 //			return "WaitingForConnect";
 //		case EventDispatcherRemoteApplication::State::Connected:
@@ -181,5 +178,15 @@ void EventDispatcherApplication::OnConnectionListReceived(const std::vector<Avai
 	{
 		_outputInterface->ResponseAvailableConnectionList(connectionList);
 	}
+}
+
+void EventDispatcherApplication::Initialize()
+{
+    _remoteApplication = std::make_unique<EventDispatcherRemoteApplication>(*_operationManager);
+    _remoteApplication->SubscribeOnStatusChange(TypedCallback<EventDispatcherRemoteApplication::State>(_owner, this, &EventDispatcherApplication::OnStateChanged));
+    _remoteApplication->SubscribeOnConnectionList(TypedCallback<const std::vector<AvailableConnectionData> &>(_owner, this, &EventDispatcherApplication::OnConnectionListReceived));
+
+    EventDispatcherOptions options;
+    _remoteApplication->Initialize(options);
 }
 

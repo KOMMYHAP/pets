@@ -72,6 +72,18 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void * /*reserved*/) {
         }
     };
 
+    auto initialize = [](jni::JNIEnv &env, jni::Object<NativeBridgeClass> &clazz)
+    {
+        if (s_nativeJniBridge) {
+            auto * input = s_nativeJniBridge->GetApplicationInputInterface();
+            if (input)
+            {
+                input->CanBeInitialized();
+            }
+        }
+    };
+
+
 #define MAKE_NATIVE(method) \
    jni::MakeNativeMethod(#method, method)
 
@@ -81,7 +93,8 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void * /*reserved*/) {
                          MAKE_NATIVE(touchAreaResize),
                          MAKE_NATIVE(touchMoving),
                          MAKE_NATIVE(touchTapping),
-                         MAKE_NATIVE(requestAvailableConnections)
+                         MAKE_NATIVE(requestAvailableConnections),
+                         MAKE_NATIVE(initialize)
     );
 #undef MAKE_NATIVE
 
@@ -92,7 +105,7 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void * /*reserved*/) {
 namespace details {
     JNIEnv *GetEnv(JavaVM *vm) {
         if (vm) {
-            jni::GetEnv(*vm, jni::jni_version_1_6);
+            return &jni::GetEnv(*vm, jni::jni_version_1_6);
         }
         return nullptr;
     }

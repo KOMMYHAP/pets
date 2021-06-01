@@ -14,6 +14,7 @@ class ApplicationInputInterface
 public:
 	virtual ~ApplicationInputInterface() = default;
 
+	virtual void CanBeInitialized() = 0;
 	virtual void UpdateFrame(int64_t elapsedMs) = 0;
 	virtual void ProcessEvent(const ApplicationEvent & event) = 0;
 

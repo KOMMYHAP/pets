@@ -18,7 +18,7 @@ public class ChooseConnectionViewModel extends ViewModel {
     public void startSearching() {
         if (_nativeBridge != null)
         {
-            _nativeBridge.requestAvailableConnections("q_q");
+            _nativeBridge.requestAvailableConnections("o_o");
         }
     }
 }

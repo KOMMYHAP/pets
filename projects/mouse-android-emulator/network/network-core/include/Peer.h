@@ -1,17 +1,8 @@
 #pragma once
-// #include <map>
-// #include <mutex>
-
 #include "tools/Callback.h"
 #include "PacketsId.pb.h"
 
 class OperationManager;
-
-namespace google {
-	namespace protobuf {
-		class Message;
-	}
-}
 
 namespace Network
 {
@@ -70,15 +61,23 @@ namespace Network
 			using namespace my::proto::package;
 			SendPacket(GetPackageId<T>(), *static_cast<const google::protobuf::Message *>(&request));
 		}
+		else
+		{
+			static_assert(Utils::always_false_v<T>, "Packet must be derived of google::protobuf::Message.");
+		}
 	}
 
 	template <class T>
 	void Peer::Subscribe(TypedResponseCallback<T> response)
 	{
+		if constexpr (!std::is_base_of_v<google::protobuf::Message, T>)
+		{
+			static_assert(Utils::always_false_v<T>, "Packet must be derived of google::protobuf::Message.");
+		}
 		auto owner = response.Owner();
 		auto upcastedResponse = ResponseCallback(std::move(owner), [response = std::move(response)](const google::protobuf::Message & msg) 
 		{
-			if (const auto * castedMsg = dynamic_cast<const T *>(&msg))
+			if (const T * castedMsg = static_cast<const T *>(&msg))
 			{
 				response(*castedMsg);
 			}

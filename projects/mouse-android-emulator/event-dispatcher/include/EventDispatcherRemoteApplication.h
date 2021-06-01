@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "ProtoPackagesNamespace.h"
 #include "tools/Callback.h"
@@ -23,23 +24,20 @@ namespace Network {
 
 struct ConnectionStatus
 {
-	bool			wasConnected = false;
 	uint16_t		port = 0;
 	std::string		ip;
-};
-
-struct ConnectionHandler
-{
-	uint32_t		retries = 0;
-	TimeState		delay;
+	uint32_t		retriesLeft = 0;
 };
 
 struct EventDispatcherOptions
 {
 	uint16_t 		localPort = 44332;
+	uint16_t 		remotePort = 44331;
 
 	TimeState 		pingTime = TimeState::Seconds(3);
 	TimeState 		pongTimeout = TimeState::Seconds(5);
+
+	TimeState		searchConnectionsTime = TimeState::Seconds(2);
 
 	TimeState 		connectionTimeout = TimeState::Seconds(3);
 	uint32_t 		connectionRetries = 5;
@@ -47,6 +45,9 @@ struct EventDispatcherOptions
 
 struct AvailableConnectionData
 {
+	AvailableConnectionData() = default;
+	AvailableConnectionData(std::string ip, std::string hostname, uint16_t port) noexcept;
+
 	std::string		ip;
 	std::string		hostname;
 	uint16_t		port = 0;
@@ -58,13 +59,14 @@ public:
 	enum class State
 	{
 		NotInitialized,
-		Initialized,
+		Idle,
+		SearchingConnections,
 		WaitingForConnect,
 		Connected,
 		ConnectionRequestTimeout,
 		Disconnected,
 		DisconnectedByTimeout,
-		ErrorOccurred
+		ErrorOccurred,
 	};
 
 	enum class Error
@@ -74,6 +76,7 @@ public:
 		RemotePortEmpty,
 		InvalidIp,
 		NoError,
+		InvalidState
 	};
 	
 	EventDispatcherRemoteApplication(OperationManager & operationManager);
@@ -82,7 +85,7 @@ public:
 	void SubscribeOnStatusChange(TypedCallback<State> callback);
 
 	void Initialize(const EventDispatcherOptions & options);
-	void Initialize(uint16_t localPort, const std::string & remoteIp, uint16_t remotePort, TimeState pingTime, TimeState pongTimeout);
+//	void Initialize(uint16_t localPort, const std::string & remoteIp, uint16_t remotePort, TimeState pingTime, TimeState pongTimeout);
 
 	void RequestConnectionList();
 	void SubscribeOnConnectionList(TypedCallback<const std::vector<AvailableConnectionData> &> callback);
@@ -109,6 +112,7 @@ private:
 	void OnDisconnect(const ProtoPackets::ConnectionDisconnect & disconnect);
 	void OnPongTimedOut();
 	void OnConnectionRequestTimedOut();
+	void OnConnectionsSearchTimedOut();
 
 	void SetState(State state);
 	void SetErrorState(Error error);
@@ -116,15 +120,19 @@ private:
 	State									_state = State::NotInitialized;
 	Error									_error = Error::NoError;
 	ConnectionStatus						_connectionStatus;
-	ConnectionHandler						_connectionHandler;
 	TypedCallback<State>					_stateChangedCallback;
 	int										_screenX = 0;
 	int										_screenY = 0;
+
+//	TimeState								_pingTime;
+//	TimeState								_pongTimeout;
+
+	TypedCallback<const std::vector<AvailableConnectionData>&> _availableConnectionCallback;
+	std::unique_ptr<Timer>					_availableConnectionTimer;
+	std::vector<AvailableConnectionData>	_availableConnectionList;
 	
 	std::unique_ptr<Timer>					_connectionRequestTimeoutTimer;
-	TimeState								_pingTime;
 	std::unique_ptr<Timer>					_pingTimer;
-	TimeState								_pongTimeout;
 	std::unique_ptr<Timer>					_pongTimeoutTimer;
 	
 	OperationManager &						_operationManager;
