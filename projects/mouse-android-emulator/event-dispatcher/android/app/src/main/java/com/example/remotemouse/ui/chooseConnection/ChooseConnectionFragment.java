@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -17,6 +18,8 @@ import com.example.remotemouse.MainActivity;
 import com.example.remotemouse.NativeBridge;
 import com.example.remotemouse.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class ChooseConnectionFragment extends Fragment {
     private ChooseConnectionViewModel _chooseConnectionViewModel;
@@ -41,22 +44,58 @@ public class ChooseConnectionFragment extends Fragment {
         if (context instanceof MainActivity)
         {
             NativeBridge nativeBridge = ((MainActivity) context).getNativeBridge();
-            _chooseConnectionViewModel.setNativeBridge(nativeBridge);
-            nativeBridge.getConnectionList().observe(getViewLifecycleOwner(), availableConnectionData ->
-            {
-                if (!availableConnectionData.isEmpty())
-                {
-                    final AvailableConnectionData connectionData = availableConnectionData.get(0);
-                    nativeBridge.connect(connectionData.ip, (short) connectionData.port);
+            _chooseConnectionViewModel.setNativeBridge(getViewLifecycleOwner(), nativeBridge);
+            _chooseConnectionViewModel.setConnectionCallback(new ChooseConnectionViewModel.ConnectionCallback() {
+                @Override
+                public void onStatusUpdated(boolean connected) {
+                    if (connected) {
+                        onConnected();
+                    }
+                    else {
+                        onConnectionFailed();
+                    }
                 }
-                if (_scrollConnectionList != null)
-                {
-//                     todo: fill the scroll view
-//                    _scrollConnectionList.addView();
+
+                @Override
+                public void onConnectionListReceived(List<AvailableConnectionData> connectionDataList) {
+                    if (_scrollConnectionList != null)
+                    {
+                        _scrollConnectionList.removeAllViews();
+                        for (AvailableConnectionData connection : connectionDataList)
+                        {
+                            // todo: create custom widget
+                            Button button = new Button(getContext());
+                            button.setText(connection.hostname);
+                            button.setOnClickListener(v -> connectionClicked(connection));
+                            _scrollConnectionList.addView(button);
+                        }
+                    }
                 }
             });
         }
 
         return root;
+    }
+
+    public void connectionClicked(AvailableConnectionData connectionData)
+    {
+        if (_scrollConnectionList != null && _chooseConnectionViewModel != null)
+        {
+            _scrollConnectionList.setEnabled(false);
+            _chooseConnectionViewModel.connect(connectionData);
+        }
+    }
+
+    private void onConnected()
+    {
+        if (_scrollConnectionList != null)
+        {
+            _scrollConnectionList.setEnabled(true);
+        }
+    }
+
+    private void onConnectionFailed()
+    {
+        Toast.makeText(getContext(), "Connection failed", Toast.LENGTH_SHORT).show();
     }
 }

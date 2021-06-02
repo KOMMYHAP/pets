@@ -47,6 +47,7 @@ public class NativeBridge {
     private static NativeBridge                         _instance;
     private final UiThreadExecutor                      _updateExecutor = new UiThreadExecutor();
     MutableLiveData<List<AvailableConnectionData>>      _connectionList = new MutableLiveData<>();
+    MutableLiveData<ApplicationState>                   _state = new MutableLiveData<>();
 
     private NativeBridge()
     {
@@ -71,6 +72,7 @@ public class NativeBridge {
     {
         return _connectionList;
     }
+    public LiveData<ApplicationState> getState() { return _state; }
 
     public void onAvailableConnectionListResponse(AvailableConnectionData[] connectionsList)
     {
@@ -92,6 +94,7 @@ public class NativeBridge {
         {
             Log.e(LOG_TAG, "Error state updated to " + error.toString());
         }
+        _state.setValue(state);
     }
 
     native private void cache();

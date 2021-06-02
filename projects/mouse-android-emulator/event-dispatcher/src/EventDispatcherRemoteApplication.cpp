@@ -163,10 +163,9 @@ void EventDispatcherRemoteApplication::OnConnectionResponse(const ProtoPackets::
 	}
 	if (_state == State::SearchingConnections)
 	{
-		std::string hostname = "p_p";
-		if (!connectionResponse.ip().empty() && !hostname.empty())
+		if (!connectionResponse.ip().empty() && !connectionResponse.hostname().empty())
 		{
-			_availableConnectionList.emplace_back(connectionResponse.ip(), hostname, connectionResponse.port());
+			_availableConnectionList.emplace_back(connectionResponse.ip(), connectionResponse.hostname(), connectionResponse.port());
 		}
 		return;
 	}
