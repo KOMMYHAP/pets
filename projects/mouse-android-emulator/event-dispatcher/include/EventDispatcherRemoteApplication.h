@@ -41,6 +41,8 @@ struct EventDispatcherOptions
 
 	TimeState 		connectionTimeout = TimeState::Seconds(3);
 	uint32_t 		connectionRetries = 5;
+
+    std::string 	name;
 };
 
 struct AvailableConnectionData

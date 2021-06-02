@@ -197,7 +197,9 @@ class ConnectionRequest final :
 
   enum : int {
     kIpFieldNumber = 1,
+    kHostnameFieldNumber = 4,
     kPortFieldNumber = 2,
+    kSearchFieldNumber = 3,
   };
   // string ip = 1;
   void clear_ip();
@@ -213,6 +215,20 @@ class ConnectionRequest final :
   std::string* _internal_mutable_ip();
   public:
 
+  // string hostname = 4;
+  void clear_hostname();
+  const std::string& hostname() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_hostname(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_hostname();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_hostname();
+  void set_allocated_hostname(std::string* hostname);
+  private:
+  const std::string& _internal_hostname() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_hostname(const std::string& value);
+  std::string* _internal_mutable_hostname();
+  public:
+
   // uint32 port = 2;
   void clear_port();
   ::PROTOBUF_NAMESPACE_ID::uint32 port() const;
@@ -220,6 +236,15 @@ class ConnectionRequest final :
   private:
   ::PROTOBUF_NAMESPACE_ID::uint32 _internal_port() const;
   void _internal_set_port(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // bool search = 3;
+  void clear_search();
+  bool search() const;
+  void set_search(bool value);
+  private:
+  bool _internal_search() const;
+  void _internal_set_search(bool value);
   public:
 
   // @@protoc_insertion_point(class_scope:my.proto.package.ConnectionRequest)
@@ -230,7 +255,9 @@ class ConnectionRequest final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr hostname_;
   ::PROTOBUF_NAMESPACE_ID::uint32 port_;
+  bool search_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Connection_2eproto;
 };
@@ -345,6 +372,7 @@ class ConnectionResponse final :
 
   enum : int {
     kIpFieldNumber = 1,
+    kHostnameFieldNumber = 3,
     kPortFieldNumber = 2,
   };
   // string ip = 1;
@@ -359,6 +387,20 @@ class ConnectionResponse final :
   const std::string& _internal_ip() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_ip(const std::string& value);
   std::string* _internal_mutable_ip();
+  public:
+
+  // string hostname = 3;
+  void clear_hostname();
+  const std::string& hostname() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_hostname(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_hostname();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_hostname();
+  void set_allocated_hostname(std::string* hostname);
+  private:
+  const std::string& _internal_hostname() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_hostname(const std::string& value);
+  std::string* _internal_mutable_hostname();
   public:
 
   // uint32 port = 2;
@@ -378,6 +420,7 @@ class ConnectionResponse final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr hostname_;
   ::PROTOBUF_NAMESPACE_ID::uint32 port_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Connection_2eproto;
@@ -815,6 +858,71 @@ inline void ConnectionRequest::set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:my.proto.package.ConnectionRequest.port)
 }
 
+// string hostname = 4;
+inline void ConnectionRequest::clear_hostname() {
+  hostname_.ClearToEmpty();
+}
+inline const std::string& ConnectionRequest::hostname() const {
+  // @@protoc_insertion_point(field_get:my.proto.package.ConnectionRequest.hostname)
+  return _internal_hostname();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ConnectionRequest::set_hostname(ArgT0&& arg0, ArgT... args) {
+ 
+ hostname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:my.proto.package.ConnectionRequest.hostname)
+}
+inline std::string* ConnectionRequest::mutable_hostname() {
+  // @@protoc_insertion_point(field_mutable:my.proto.package.ConnectionRequest.hostname)
+  return _internal_mutable_hostname();
+}
+inline const std::string& ConnectionRequest::_internal_hostname() const {
+  return hostname_.Get();
+}
+inline void ConnectionRequest::_internal_set_hostname(const std::string& value) {
+  
+  hostname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* ConnectionRequest::_internal_mutable_hostname() {
+  
+  return hostname_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* ConnectionRequest::release_hostname() {
+  // @@protoc_insertion_point(field_release:my.proto.package.ConnectionRequest.hostname)
+  return hostname_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void ConnectionRequest::set_allocated_hostname(std::string* hostname) {
+  if (hostname != nullptr) {
+    
+  } else {
+    
+  }
+  hostname_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), hostname,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:my.proto.package.ConnectionRequest.hostname)
+}
+
+// bool search = 3;
+inline void ConnectionRequest::clear_search() {
+  search_ = false;
+}
+inline bool ConnectionRequest::_internal_search() const {
+  return search_;
+}
+inline bool ConnectionRequest::search() const {
+  // @@protoc_insertion_point(field_get:my.proto.package.ConnectionRequest.search)
+  return _internal_search();
+}
+inline void ConnectionRequest::_internal_set_search(bool value) {
+  
+  search_ = value;
+}
+inline void ConnectionRequest::set_search(bool value) {
+  _internal_set_search(value);
+  // @@protoc_insertion_point(field_set:my.proto.package.ConnectionRequest.search)
+}
+
 // -------------------------------------------------------------------
 
 // ConnectionResponse
@@ -882,6 +990,51 @@ inline void ConnectionResponse::_internal_set_port(::PROTOBUF_NAMESPACE_ID::uint
 inline void ConnectionResponse::set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_port(value);
   // @@protoc_insertion_point(field_set:my.proto.package.ConnectionResponse.port)
+}
+
+// string hostname = 3;
+inline void ConnectionResponse::clear_hostname() {
+  hostname_.ClearToEmpty();
+}
+inline const std::string& ConnectionResponse::hostname() const {
+  // @@protoc_insertion_point(field_get:my.proto.package.ConnectionResponse.hostname)
+  return _internal_hostname();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ConnectionResponse::set_hostname(ArgT0&& arg0, ArgT... args) {
+ 
+ hostname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:my.proto.package.ConnectionResponse.hostname)
+}
+inline std::string* ConnectionResponse::mutable_hostname() {
+  // @@protoc_insertion_point(field_mutable:my.proto.package.ConnectionResponse.hostname)
+  return _internal_mutable_hostname();
+}
+inline const std::string& ConnectionResponse::_internal_hostname() const {
+  return hostname_.Get();
+}
+inline void ConnectionResponse::_internal_set_hostname(const std::string& value) {
+  
+  hostname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* ConnectionResponse::_internal_mutable_hostname() {
+  
+  return hostname_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* ConnectionResponse::release_hostname() {
+  // @@protoc_insertion_point(field_release:my.proto.package.ConnectionResponse.hostname)
+  return hostname_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void ConnectionResponse::set_allocated_hostname(std::string* hostname) {
+  if (hostname != nullptr) {
+    
+  } else {
+    
+  }
+  hostname_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), hostname,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:my.proto.package.ConnectionResponse.hostname)
 }
 
 // -------------------------------------------------------------------

@@ -187,6 +187,7 @@ void EventDispatcherApplication::Initialize()
     _remoteApplication->SubscribeOnConnectionList(TypedCallback<const std::vector<AvailableConnectionData> &>(_owner, this, &EventDispatcherApplication::OnConnectionListReceived));
 
     EventDispatcherOptions options;
+    options.name = "Mobile Tester";
     _remoteApplication->Initialize(options);
 }
 

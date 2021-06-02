@@ -9,10 +9,29 @@
 #include "tools/Timer.h"
 
 #define WIN32_LEAN_AND_MEAN
+#include <array>
 #include <Tracy.hpp>
 #include <Windows.h>
 
 #include "network/IpAddress.hpp"
+
+namespace
+{
+	std::string GetUserNameWrapper()
+	{
+		static std::string username;
+		if (username.empty())
+		{
+			std::array<char, 32767> buffer;
+			DWORD bufferCount = buffer.size();
+			if (GetUserNameA(buffer.data(), &bufferCount))
+			{
+				username.assign(buffer.data(), bufferCount);
+			}
+		}
+		return username;
+	}
+}
 
 EventReceiverRemoteApplication::EventReceiverRemoteApplication(OperationManager& operationManager)
 	: _operationManager(operationManager)
@@ -80,27 +99,25 @@ void EventReceiverRemoteApplication::OnConnectionRequested([[maybe_unused]] cons
 {
 	if (_state == State::WaitingForConnectionRequest)
 	{
-		bool debugOnLocalHost = true;
-		if (!debugOnLocalHost ||
-			debugOnLocalHost && connectionRequest.ip() != sf::IpAddress::getLocalAddress().toString())
-		{
-			const bool remoteChanged = GetPeer().OpenRemoteConnection(connectionRequest.port(), connectionRequest.ip());
-			if (!remoteChanged)
-			{
-				SetErrorState(Error::RemoteIpInvalid);
-				return;
-			}
+		const bool remoteChanged = GetPeer().OpenRemoteConnection(connectionRequest.port(), connectionRequest.ip());
+		if (!remoteChanged){
+			SetErrorState(Error::RemoteIpInvalid);
+			return;
 		}
 
 		ProtoPackets::ConnectionResponse response;
 		response.set_ip(sf::IpAddress::getLocalAddress().toString());
 		response.set_port(GetPeer().GetLocalPort());
+		response.set_hostname(GetUserNameWrapper());
 		GetPeer().SendPacket(response);
 		
-		_idleTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &EventReceiverRemoteApplication::DisconnectByIdle), _idleTimeout, _operationManager);
-		_idleTimer->Restart();
-
-		SetState(State::Connected);
+		if (!connectionRequest.search())
+		{
+			_idleTimer = std::make_unique<Timer>(TypedCallback<>(_networkInterface, this, &EventReceiverRemoteApplication::DisconnectByIdle), _idleTimeout, _operationManager);
+			_idleTimer->Restart();
+			SetState(State::Connected);
+		}
+		
 		return;
 	}
 

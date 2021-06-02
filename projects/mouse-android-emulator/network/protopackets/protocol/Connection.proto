@@ -8,6 +8,8 @@ message ConnectionRequest
 	option (package_id) = CONNECTION_REQUEST;
 	string 				ip = 1;
 	uint32				port = 2;
+	string				hostname = 4;
+	bool				search = 3;
 }
 
 message ConnectionResponse
@@ -15,6 +17,7 @@ message ConnectionResponse
 	option (package_id) = CONNECTION_RESPONSE;
 	string 				ip = 1;
 	uint32				port = 2;
+	string				hostname = 3;
 }
 
 message ConnectionPing

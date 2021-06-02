@@ -270,6 +270,8 @@ void EventDispatcherRemoteApplication::RequestConnectionList() {
     ProtoPackets::ConnectionRequest request;
     request.set_ip(sf::IpAddress::getLocalAddress().toString());
     request.set_port(GetPeer().GetLocalPort());
+    request.set_hostname(_options.name);
+    request.set_search(true);
     GetPeer().SendPacket(request);
 }
 
