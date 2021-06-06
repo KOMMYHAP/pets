@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,9 @@ public class ChooseConnectionFragment extends Fragment {
     private ChooseConnectionViewModel _chooseConnectionViewModel;
     private ScrollView _scrollConnectionList;
     private FloatingActionButton _searchButton;
+    private TextView _searchHintView;
     private boolean _connecting = false;
+    private boolean _searching = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -34,11 +37,9 @@ public class ChooseConnectionFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_choose_connection, container, false);
 
         _searchButton = root.findViewById(R.id.search_button);
-        _searchButton.setOnClickListener(view ->
-        {
-            _chooseConnectionViewModel.startSearching();
-            Toast.makeText(getContext(), "Searching...", Toast.LENGTH_SHORT).show();
-        });
+        _searchButton.setOnClickListener(view -> startSearching());
+
+        _searchHintView = root.findViewById(R.id.header_text);
 
         _scrollConnectionList = root.findViewById(R.id.scrollConnectionList);
 
@@ -49,12 +50,21 @@ public class ChooseConnectionFragment extends Fragment {
             _chooseConnectionViewModel.setNativeBridge(getViewLifecycleOwner(), nativeBridge);
             _chooseConnectionViewModel.setConnectionCallback(new ChooseConnectionViewModel.ConnectionCallback() {
                 @Override
-                public void onStatusUpdated(boolean connected) {
-                    notifyConnectionChanged(connected);
+                public void onSearchStatusUpdated(boolean searching) {
+                    notifySearchStateChanged(searching);
+                }
+
+                @Override
+                public void onConnectionStatusUpdated(boolean connected) {
+                    notifyConnectionStateChanged(connected);
                 }
 
                 @Override
                 public void onConnectionListReceived(List<AvailableConnectionData> connectionDataList) {
+                    if (_searchHintView != null && connectionDataList.isEmpty())
+                    {
+                        _searchHintView.setVisibility(View.VISIBLE);
+                    }
                     if (_scrollConnectionList != null)
                     {
                         _scrollConnectionList.removeAllViews();
@@ -74,18 +84,58 @@ public class ChooseConnectionFragment extends Fragment {
         return root;
     }
 
-    public void connectionClicked(AvailableConnectionData connectionData)
+    public void startSearching()
+    {
+        if (_chooseConnectionViewModel != null)
+        {
+            _searching = true;
+            _chooseConnectionViewModel.startSearching();
+        }
+    }
+
+    private void searchStarted()
+    {
+//        if (_searchHintView != null)
+//        {
+//            _searchHintView.setVisibility(View.GONE);
+//        }
+        _searchButton.setEnabled(false);
+        Toast.makeText(getContext(), "Searching...", Toast.LENGTH_LONG).show();
+    }
+
+    private void searchStopped()
+    {
+        _searching = false;
+        _searchButton.setEnabled(true);
+    }
+
+    public void notifySearchStateChanged(boolean searching)
+    {
+        if (!_searching)
+        {
+            return;
+        }
+        if (searching)
+        {
+            searchStarted();
+        }
+        else
+        {
+            searchStopped();
+        }
+    }
+
+    private void connectionClicked(AvailableConnectionData connectionData)
     {
         if (_scrollConnectionList != null && _chooseConnectionViewModel != null)
         {
             _connecting = true;
             _scrollConnectionList.setEnabled(false);
-            _searchButton.setEnabled(false);
             _chooseConnectionViewModel.connect(connectionData);
         }
     }
 
-    private void notifyConnectionChanged(boolean connected)
+    public void notifyConnectionStateChanged(boolean connected)
     {
         if (!_connecting)
         {

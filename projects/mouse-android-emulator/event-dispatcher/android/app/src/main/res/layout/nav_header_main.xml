@@ -18,13 +18,10 @@
         android:layout_width="379dp"
         android:layout_height="match_parent"
         android:fontFamily="serif-monospace"
-        android:shadowColor="#9F0A0A"
-        android:shadowDx="1.0"
-        android:shadowDy="-1.0"
-        android:shadowRadius="20"
         android:singleLine="true"
         android:text="@string/nav_header_title"
         android:textAlignment="viewStart"
+        android:textColor="#B2EBF2"
         android:textSize="24sp"
         android:textStyle="bold" />
 

@@ -12,13 +12,13 @@ import java.util.List;
 public class ChooseConnectionViewModel extends ViewModel {
     public interface ConnectionCallback
     {
-        void onStatusUpdated(boolean connected);
+        void onSearchStatusUpdated(boolean searching);
+        void onConnectionStatusUpdated(boolean connected);
         void onConnectionListReceived(List<AvailableConnectionData> connectionDataList);
     }
 
     private ConnectionCallback                              _onConnectedCallback;
     private NativeBridge                                    _nativeBridge;
-    private MutableLiveData<AvailableConnectionData>         _connection;
 
     public ChooseConnectionViewModel() {
     }
@@ -52,10 +52,19 @@ public class ChooseConnectionViewModel extends ViewModel {
     private void onApplicationStateChanged(NativeBridge.ApplicationState state)
     {
         final boolean connected = state == NativeBridge.ApplicationState.Connected;
+        final boolean searching = state == NativeBridge.ApplicationState.SearchingConnections;
+        final boolean idle = state == NativeBridge.ApplicationState.Idle;
         final boolean error = state == NativeBridge.ApplicationState.ErrorOccurred;
-        if (_onConnectedCallback != null && (connected || error))
+        if (_onConnectedCallback != null)
         {
-            _onConnectedCallback.onStatusUpdated(connected);
+            if (connected || error)
+            {
+                _onConnectedCallback.onConnectionStatusUpdated(connected);
+            }
+            if (searching || idle || error)
+            {
+                _onConnectedCallback.onSearchStatusUpdated(searching);
+            }
         }
     }
 

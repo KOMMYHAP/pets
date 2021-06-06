@@ -20,6 +20,7 @@ public class TouchpadFragment extends Fragment {
     private View _touchPadView;
     private int _prevX;
     private int _prevY;
+    private boolean _moving = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -35,18 +36,25 @@ public class TouchpadFragment extends Fragment {
         }
 
         _touchPadView.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_MOVE && _prevX != 0 && _prevY != 0)
+            if (event.getAction() == MotionEvent.ACTION_MOVE && _moving)
             {
-                final int x = ((int) event.getX());
-                final int y = ((int) event.getY());
+                final int historySize = event.getHistorySize();
+                for (int i = 0; i < historySize; ++i)
+                {
+                    final int x = ((int) event.getHistoricalX(i));
+                    final int y = ((int) event.getHistoricalY(i));
 
-                final int deltaX = x - _prevX;
-                final int deltaY = y - _prevY;
+                    final int deltaX = x - _prevX;
+                    final int deltaY = y - _prevY;
 
-                _prevX = x;
-                _prevY = y;
+                    _prevX = x;
+                    _prevY = y;
 
-                _touchpadViewModel.touchMoving(deltaX, deltaY);
+                    if (deltaX != 0 || deltaY != 0)
+                    {
+                        _touchpadViewModel.touchMoving(deltaX, deltaY);
+                    }
+                }
                 return true;
             }
             else if (event.getAction() == MotionEvent.ACTION_DOWN)
@@ -56,12 +64,12 @@ public class TouchpadFragment extends Fragment {
 
                 _prevX = x;
                 _prevY = y;
+                _moving = true;
                 return true;
             }
             else if (event.getAction() == MotionEvent.ACTION_UP)
             {
-                _prevX = 0;
-                _prevY = 0;
+                _moving = false;
             }
             return v.performClick();
         });

@@ -17,7 +17,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#F37FC0DA"
+            android:background="@color/app_bar_color"
             app:popupTheme="@style/Theme.RemoteMouse.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
