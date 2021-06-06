@@ -26,7 +26,10 @@ namespace
 			DWORD bufferCount = buffer.size();
 			if (GetUserNameA(buffer.data(), &bufferCount))
 			{
-				username.assign(buffer.data(), bufferCount);
+				if (bufferCount >= 1)
+				{
+					username.assign(buffer.data(), bufferCount - 1);
+				}
 			}
 		}
 		return username;
