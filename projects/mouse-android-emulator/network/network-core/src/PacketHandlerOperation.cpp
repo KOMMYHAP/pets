@@ -41,6 +41,7 @@ bool PacketHandlerOperation::Impl::IsTargetHost(uint16_t port, const sf::IpAddre
 	}
 
 	const bool isCommonIp = 
+		remoteAddress == sf::IpAddress::Any || 
 		remoteAddress == sf::IpAddress::Broadcast || 
 		remoteAddress == sf::IpAddress::LocalHost;
 	return isTargetPort && isCommonIp;

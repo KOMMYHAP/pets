@@ -149,6 +149,16 @@ void EventReceiverRemoteApplication::OnMouseMoved(const ProtoPackets::MousePosit
 	{
 		_idleTimer->Restart();
 
+		if (_prevX == 0 && _prevY == 0)
+		{
+			POINT pos;
+			if (GetCursorPos(&pos))
+			{
+				_prevX = pos.x;
+				_prevY = pos.y;
+			}
+		}
+
 		static int s_width = GetSystemMetrics(SM_CXSCREEN);
 		static int s_height = GetSystemMetrics(SM_CYSCREEN);
 		

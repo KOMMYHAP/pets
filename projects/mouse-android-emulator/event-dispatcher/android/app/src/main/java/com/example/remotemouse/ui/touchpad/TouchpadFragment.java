@@ -34,10 +34,8 @@ public class TouchpadFragment extends Fragment {
         }
 
         _touchPadView.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_MOVE)
+            if (event.getAction() == MotionEvent.ACTION_MOVE && _prevX != 0 && _prevY != 0)
             {
-                final boolean firstMove = _prevX == 0 && _prevY == 0;
-
                 final int x = ((int) event.getX());
                 final int y = ((int) event.getY());
 
@@ -47,18 +45,23 @@ public class TouchpadFragment extends Fragment {
                 _prevX = x;
                 _prevY = y;
 
-                if (!firstMove)
-                {
-                    _touchpadViewModel.touchMoving(deltaX, deltaY);
-                    return true;
-                }
+                _touchpadViewModel.touchMoving(deltaX, deltaY);
+                return true;
             }
             else if (event.getAction() == MotionEvent.ACTION_DOWN)
             {
                 int x = ((int) event.getX());
                 int y = ((int) event.getY());
-                _touchpadViewModel.touched(x, y);
+//                _touchpadViewModel.touched(x, y);
+
+                _prevX = x;
+                _prevY = y;
                 return true;
+            }
+            else if (event.getAction() == MotionEvent.ACTION_UP)
+            {
+                _prevX = 0;
+                _prevY = 0;
             }
             return v.performClick();
         });
