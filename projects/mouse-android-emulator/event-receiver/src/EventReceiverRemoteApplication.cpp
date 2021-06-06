@@ -152,16 +152,21 @@ void EventReceiverRemoteApplication::OnMouseMoved(const ProtoPackets::MousePosit
 		static int s_width = GetSystemMetrics(SM_CXSCREEN);
 		static int s_height = GetSystemMetrics(SM_CYSCREEN);
 		
-		float x = mousePosition.x();
-		float y = mousePosition.y();
+		float offsetX = mousePosition.x() * s_width;
+		float offsetY = mousePosition.y() * s_height;
 
-		SetCursorPos(x * s_width, y * s_height);
+		_prevX += offsetX;
+		_prevY += offsetY;
+
+		SetCursorPos(_prevX, _prevY);
 	}
 }
 
 void EventReceiverRemoteApplication::ChangeStateWaitingForConnect()
 {
-	GetPeer().OpenRemoteConnection(_connectionStatus.remotePort, "255.255.255.255");
+	std::string remoteIp = sf::IpAddress::Any.toString();
+	remoteIp = "192.168.43.174";
+	GetPeer().OpenRemoteConnection(_connectionStatus.remotePort, remoteIp);
 	SetState(State::WaitingForConnectionRequest);
 }
 

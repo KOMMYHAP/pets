@@ -71,6 +71,8 @@ private:
 	State									_state = State::NotInitialized;
 	Error									_error = Error::NoError;
 	ConnectionStatus						_connectionStatus;
+	float									_prevX = 0.0f;
+	float									_prevY = 0.0f;
 	TypedCallback<State>					_stateChangedCallback;
 	TimeState								_idleTimeout;
 	

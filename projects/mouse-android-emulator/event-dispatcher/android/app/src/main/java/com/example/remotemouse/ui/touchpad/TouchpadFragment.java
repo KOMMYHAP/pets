@@ -17,6 +17,8 @@ import com.example.remotemouse.R;
 public class TouchpadFragment extends Fragment {
     private TouchpadViewModel _touchpadViewModel;
     private View _touchPadView;
+    private int _prevX;
+    private int _prevY;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -34,12 +36,24 @@ public class TouchpadFragment extends Fragment {
         _touchPadView.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_MOVE)
             {
-                int x = ((int) event.getX());
-                int y = ((int) event.getY());
-                _touchpadViewModel.touchMoving(x, y);
-                return true;
+                final boolean firstMove = _prevX == 0 && _prevY == 0;
+
+                final int x = ((int) event.getX());
+                final int y = ((int) event.getY());
+
+                final int deltaX = x - _prevX;
+                final int deltaY = y - _prevY;
+
+                _prevX = x;
+                _prevY = y;
+
+                if (!firstMove)
+                {
+                    _touchpadViewModel.touchMoving(deltaX, deltaY);
+                    return true;
+                }
             }
-            if (event.getAction() == MotionEvent.ACTION_DOWN)
+            else if (event.getAction() == MotionEvent.ACTION_DOWN)
             {
                 int x = ((int) event.getX());
                 int y = ((int) event.getY());
