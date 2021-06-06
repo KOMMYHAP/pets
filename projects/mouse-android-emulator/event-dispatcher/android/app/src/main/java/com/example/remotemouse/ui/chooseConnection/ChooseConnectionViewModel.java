@@ -52,7 +52,8 @@ public class ChooseConnectionViewModel extends ViewModel {
     private void onApplicationStateChanged(NativeBridge.ApplicationState state)
     {
         final boolean connected = state == NativeBridge.ApplicationState.Connected;
-        if (_onConnectedCallback != null)
+        final boolean error = state == NativeBridge.ApplicationState.ErrorOccurred;
+        if (_onConnectedCallback != null && (connected || error))
         {
             _onConnectedCallback.onStatusUpdated(connected);
         }

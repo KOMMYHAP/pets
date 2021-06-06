@@ -24,6 +24,8 @@ import java.util.List;
 public class ChooseConnectionFragment extends Fragment {
     private ChooseConnectionViewModel _chooseConnectionViewModel;
     private ScrollView _scrollConnectionList;
+    private FloatingActionButton _searchButton;
+    private boolean _connecting = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -31,8 +33,8 @@ public class ChooseConnectionFragment extends Fragment {
                 new ViewModelProvider(this).get(ChooseConnectionViewModel.class);
         View root = inflater.inflate(R.layout.fragment_choose_connection, container, false);
 
-        FloatingActionButton fab = root.findViewById(R.id.search_button);
-        fab.setOnClickListener(view ->
+        _searchButton = root.findViewById(R.id.search_button);
+        _searchButton.setOnClickListener(view ->
         {
             _chooseConnectionViewModel.startSearching();
             Toast.makeText(getContext(), "Searching...", Toast.LENGTH_SHORT).show();
@@ -48,12 +50,7 @@ public class ChooseConnectionFragment extends Fragment {
             _chooseConnectionViewModel.setConnectionCallback(new ChooseConnectionViewModel.ConnectionCallback() {
                 @Override
                 public void onStatusUpdated(boolean connected) {
-                    if (connected) {
-                        onConnected();
-                    }
-                    else {
-                        onConnectionFailed();
-                    }
+                    notifyConnectionChanged(connected);
                 }
 
                 @Override
@@ -81,17 +78,36 @@ public class ChooseConnectionFragment extends Fragment {
     {
         if (_scrollConnectionList != null && _chooseConnectionViewModel != null)
         {
+            _connecting = true;
             _scrollConnectionList.setEnabled(false);
+            _searchButton.setEnabled(false);
             _chooseConnectionViewModel.connect(connectionData);
         }
     }
 
+    private void notifyConnectionChanged(boolean connected)
+    {
+        if (!_connecting)
+        {
+            return;
+        }
+        if (connected)
+        {
+            onConnected();
+        }
+        else
+        {
+            onConnectionFailed();
+        }
+
+        _scrollConnectionList.setEnabled(true);
+        _searchButton.setEnabled(true);
+        _connecting = false;
+    }
+
     private void onConnected()
     {
-        if (_scrollConnectionList != null)
-        {
-            _scrollConnectionList.setEnabled(true);
-        }
+        Toast.makeText(getContext(), "Connected!", Toast.LENGTH_SHORT).show();
     }
 
     private void onConnectionFailed()
