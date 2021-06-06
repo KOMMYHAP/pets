@@ -9,3 +9,8 @@ message MousePositionMessage
 	float x = 1;
 	float y = 2;
 }
+
+message MouseClickMessage
+{
+	option (package_id) = MOUSE_CLICK_MESSAGE;
+}

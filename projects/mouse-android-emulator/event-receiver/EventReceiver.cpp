@@ -1,7 +1,5 @@
 #include <fstream>
 #include <iostream>
-// #include <SFML/Window.hpp>
-// #include "SFML/System.hpp"
 #include <array>
 
 #include "EventReceiverApplication.h"
@@ -11,6 +9,19 @@
 #include <shellapi.h>
 #include <windowsx.h>
 
+static const char * s_connectionStatus;
+void SwitchConnectionStatus(bool connected)
+{
+	if (connected)
+	{
+		s_connectionStatus = "Status - Connected";
+	}
+	else
+	{
+		s_connectionStatus = "Status - Disconnected";
+	}
+}
+
 static std::unique_ptr<EventReceiverApplication> s_application;
 
 UINT const WMAPP_NOTIFYCALLBACK = WM_APP + 1;
@@ -19,7 +30,7 @@ HINSTANCE g_hInst = nullptr;
 NOTIFYICONDATA s_hNotifyIconData = { sizeof(NOTIFYICONDATA) };
 const char* szWindowClass = "MouseRemoteClass";
 const char* s_applicationIco = "D:\\Development\\pets\\build\\bin\\Debug\\MouseRemote_4.ico";
-std::string_view s_iconTip = "TestToolTip";
+std::string_view s_iconTip = "Remote Mouse";
 const int s_idIcon = 43;
 const int s_idStatus = 100;
 const int s_idSeparator = 101;
@@ -62,6 +73,19 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, PSTR lpCmdLine, int nCmdSho
 	MyBuf myBuf;
 	std::cout.set_rdbuf(&myBuf);
 	std::cerr.set_rdbuf(&myBuf);
+
+	std::string buffer(4096, '\0');
+	const size_t bufferSize = buffer.size();
+	size_t bytes = GetCurrentDirectoryA(buffer.size(), buffer.data());
+	if (bytes != 0 && bytes < bufferSize)
+	{
+		buffer.resize(bytes);
+	}
+	std::string resourcesDir = buffer + "\\bin\\Resources\\";
+	std::string icoPath = resourcesDir + "laptop_78931.ico";
+	s_applicationIco = icoPath.data();
+
+	SwitchConnectionStatus(false);
 
 	g_hInst = hInstance;
 	RegisterWindowClass(szWindowClass, "Mouse Remote Menu", WndProc);
@@ -177,10 +201,6 @@ void RegisterWindowClass(PCSTR pszClassName, PCSTR pszMenuName, WNDPROC lpfnWndP
 	wcex.lpszMenuName = pszMenuName;
 	wcex.lpszClassName = pszClassName;
 	ATOM r = RegisterClassEx(&wcex);
-	if (!r)
-	{
-		int err = GetLastError();
-	}
 }
 
 BOOL AddNotificationIcon(HWND hwnd)
@@ -248,7 +268,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 				{
 					GetCursorPos(&lpClickPoint);
 					HMENU hPopMenu = CreatePopupMenu();
-					InsertMenu(hPopMenu, 0xFFFFFFFF,MF_BYPOSITION | MF_STRING, s_idStatus, ("Status"));
+					InsertMenu(hPopMenu, 0xFFFFFFFF,MF_BYPOSITION | MF_STRING | MFS_DISABLED, s_idStatus, s_connectionStatus);
 					InsertMenu(hPopMenu, 0xFFFFFFFF,MF_SEPARATOR, s_idSeparator, ("Separator"));
 					InsertMenu(hPopMenu, 0xFFFFFFFF,MF_BYPOSITION | MF_STRING, s_idExit, ("Exit"));
 
@@ -268,9 +288,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 			// Parse the menu selections:
 			switch (wmId)
 			{
-			case s_idStatus:
-				MessageBox(nullptr, ("This is a test for menu Test 1"), ("Test 1"),MB_OK);
-				break;
 			case s_idExit:
 				DeleteNotificationIcon();
 				DestroyWindow(hwnd);

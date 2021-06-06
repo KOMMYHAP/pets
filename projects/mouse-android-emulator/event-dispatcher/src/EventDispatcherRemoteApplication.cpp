@@ -101,12 +101,6 @@ Network::Peer & EventDispatcherRemoteApplication::GetPeer() const
 
 void EventDispatcherRemoteApplication::TryConnect()
 {
-	if (_state != State::Idle && _state != State::WaitingForConnect)
-	{
-		SetErrorState(Error::InvalidState);
-		return;
-	}
-
 	_connectionRequestTimeoutTimer->Restart();
 	SetState(State::WaitingForConnect);
 
@@ -138,14 +132,12 @@ void EventDispatcherRemoteApplication::DisconnectByTimeout()
 
 void EventDispatcherRemoteApplication::Ping()
 {
-	if (_state != State::Connected)
+	if (_state == State::Connected)
 	{
-		SetErrorState(Error::InvalidState);
-		return;
+		_pongTimeoutTimer->Restart();
+		ProtoPackets::ConnectionPing ping;
+		GetPeer().SendPacket(ping);
 	}
-	_pongTimeoutTimer->Restart();
-	ProtoPackets::ConnectionPing ping;
-	GetPeer().SendPacket(ping);
 }
 
 void EventDispatcherRemoteApplication::OnConnectionResponse(const ProtoPackets::ConnectionResponse& connectionResponse)
@@ -256,11 +248,11 @@ void EventDispatcherRemoteApplication::Initialize(const EventDispatcherOptions &
 }
 
 void EventDispatcherRemoteApplication::RequestConnectionList() {
-    if (_state != State::Idle && _state != State::ErrorOccurred)
-    {
-        SetErrorState(Error::NoError);
-        return;
-    }
+//    if (_state != State::Idle && _state != State::ErrorOccurred)
+//    {
+//        SetErrorState(Error::NoError);
+//        return;
+//    }
 
     _availableConnectionList.clear();
 	_availableConnectionTimer->Restart();
@@ -284,15 +276,15 @@ void EventDispatcherRemoteApplication::Connect(const std::string &ip, uint16_t p
 		Disconnect();
 	}
 
-	const bool idle = _state == State::Idle;
-	const bool disconnected = _state == State::Disconnected || _state != State::DisconnectedByTimeout;
-	const bool error = _state == State::ErrorOccurred;
-	const bool fromValidState = idle || disconnected || error;
-	if (!fromValidState)
-	{
-		SetErrorState(Error::InvalidState);
-		return;
-	}
+//	const bool idle = _state == State::Idle;
+//	const bool disconnected = _state == State::Disconnected || _state != State::DisconnectedByTimeout;
+//	const bool error = _state == State::ErrorOccurred;
+//	const bool fromValidState = idle || disconnected || error;
+//	if (!fromValidState)
+//	{
+//		SetErrorState(Error::InvalidState);
+//		return;
+//	}
 
     if (!GetPeer().OpenRemoteConnection(port, ip))
     {
@@ -307,6 +299,15 @@ void EventDispatcherRemoteApplication::Connect(const std::string &ip, uint16_t p
 void EventDispatcherRemoteApplication::OnConnectionsSearchTimedOut() {
 	SetState(State::Idle);
 	_availableConnectionCallback(_availableConnectionList);
+}
+
+void EventDispatcherRemoteApplication::SendMouseClick()
+{
+	if (_state == State::Connected)
+	{
+		ProtoPackets::MouseClickMessage message;
+		GetPeer().SendPacket(message);
+	}
 }
 
 AvailableConnectionData::AvailableConnectionData(std::string ip, std::string hostname, uint16_t port) noexcept

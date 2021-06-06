@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -50,9 +51,8 @@ public class TouchpadFragment extends Fragment {
             }
             else if (event.getAction() == MotionEvent.ACTION_DOWN)
             {
-                int x = ((int) event.getX());
-                int y = ((int) event.getY());
-//                _touchpadViewModel.touched(x, y);
+                final int x = ((int) event.getX());
+                final int y = ((int) event.getY());
 
                 _prevX = x;
                 _prevY = y;
@@ -65,6 +65,13 @@ public class TouchpadFragment extends Fragment {
             }
             return v.performClick();
         });
+
+        Button leftButton = root.findViewById(R.id.leftButton);
+        leftButton.setOnClickListener(v ->
+        {
+            _touchpadViewModel.touched(0, 0);
+        });
+
 
         _touchPadView.post(this::notifyTouchAreaSizeUpdated);
         return root;

@@ -14,6 +14,7 @@ namespace my::proto::package
 	class ConnectionRequest;
 	class ConnectionPing;
 	class MousePositionMessage;
+	class MouseClickMessage;
 }
 
 namespace Network {
@@ -62,6 +63,7 @@ private:
 	void OnPing(const ProtoPackets::ConnectionPing & connectionPing);
 
 	void OnMouseMoved(const ProtoPackets::MousePositionMessage & mousePosition);
+	void OnMouseClicked(const ProtoPackets::MouseClickMessage & mouseClick);
 
 	void ChangeStateWaitingForConnect();
 	

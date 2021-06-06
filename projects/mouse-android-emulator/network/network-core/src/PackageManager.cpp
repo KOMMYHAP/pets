@@ -26,6 +26,7 @@ namespace Network
 		RegisterPackage<ConnectionPong>(_creators);
 		RegisterPackage<ConnectionDisconnect>(_creators);
 		RegisterPackage<MousePositionMessage>(_creators);
+		RegisterPackage<MouseClickMessage>(_creators);
 	}
 
 	std::unique_ptr<google::protobuf::Message> PackageManager::Create(uint32_t id)

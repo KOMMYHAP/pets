@@ -47,7 +47,7 @@ struct TableStruct_Main_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[1]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -57,6 +57,9 @@ extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table
 namespace my {
 namespace proto {
 namespace package {
+class MouseClickMessage;
+struct MouseClickMessageDefaultTypeInternal;
+extern MouseClickMessageDefaultTypeInternal _MouseClickMessage_default_instance_;
 class MousePositionMessage;
 struct MousePositionMessageDefaultTypeInternal;
 extern MousePositionMessageDefaultTypeInternal _MousePositionMessage_default_instance_;
@@ -64,6 +67,7 @@ extern MousePositionMessageDefaultTypeInternal _MousePositionMessage_default_ins
 }  // namespace proto
 }  // namespace my
 PROTOBUF_NAMESPACE_OPEN
+template<> ::my::proto::package::MouseClickMessage* Arena::CreateMaybeMessage<::my::proto::package::MouseClickMessage>(Arena*);
 template<> ::my::proto::package::MousePositionMessage* Arena::CreateMaybeMessage<::my::proto::package::MousePositionMessage>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace my {
@@ -213,6 +217,125 @@ class MousePositionMessage final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Main_2eproto;
 };
+// -------------------------------------------------------------------
+
+class MouseClickMessage final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:my.proto.package.MouseClickMessage) */ {
+ public:
+  inline MouseClickMessage() : MouseClickMessage(nullptr) {}
+  ~MouseClickMessage() override;
+  explicit constexpr MouseClickMessage(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  MouseClickMessage(const MouseClickMessage& from);
+  MouseClickMessage(MouseClickMessage&& from) noexcept
+    : MouseClickMessage() {
+    *this = ::std::move(from);
+  }
+
+  inline MouseClickMessage& operator=(const MouseClickMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline MouseClickMessage& operator=(MouseClickMessage&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const MouseClickMessage& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const MouseClickMessage* internal_default_instance() {
+    return reinterpret_cast<const MouseClickMessage*>(
+               &_MouseClickMessage_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(MouseClickMessage& a, MouseClickMessage& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(MouseClickMessage* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(MouseClickMessage* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline MouseClickMessage* New() const final {
+    return new MouseClickMessage();
+  }
+
+  MouseClickMessage* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<MouseClickMessage>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const MouseClickMessage& from);
+  void MergeFrom(const MouseClickMessage& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(MouseClickMessage* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "my.proto.package.MouseClickMessage";
+  }
+  protected:
+  explicit MouseClickMessage(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:my.proto.package.MouseClickMessage)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Main_2eproto;
+};
 // ===================================================================
 
 
@@ -264,9 +387,15 @@ inline void MousePositionMessage::set_y(float value) {
   // @@protoc_insertion_point(field_set:my.proto.package.MousePositionMessage.y)
 }
 
+// -------------------------------------------------------------------
+
+// MouseClickMessage
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

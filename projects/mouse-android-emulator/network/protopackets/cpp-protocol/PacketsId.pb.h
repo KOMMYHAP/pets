@@ -67,12 +67,13 @@ enum PackageId : int {
   CONNECTION_PONG = 13,
   CONNECTION_DISCONNECT = 14,
   MOUSE_POSITION_MESSAGE = 100,
+  MOUSE_CLICK_MESSAGE = 101,
   PackageId_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   PackageId_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool PackageId_IsValid(int value);
 constexpr PackageId PackageId_MIN = UNKNOWN_MESSAGE_ID;
-constexpr PackageId PackageId_MAX = MOUSE_POSITION_MESSAGE;
+constexpr PackageId PackageId_MAX = MOUSE_CLICK_MESSAGE;
 constexpr int PackageId_ARRAYSIZE = PackageId_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PackageId_descriptor();

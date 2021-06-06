@@ -32,10 +32,21 @@ struct MousePositionMessageDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT MousePositionMessageDefaultTypeInternal _MousePositionMessage_default_instance_;
+constexpr MouseClickMessage::MouseClickMessage(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized){}
+struct MouseClickMessageDefaultTypeInternal {
+  constexpr MouseClickMessageDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~MouseClickMessageDefaultTypeInternal() {}
+  union {
+    MouseClickMessage _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT MouseClickMessageDefaultTypeInternal _MouseClickMessage_default_instance_;
 }  // namespace package
 }  // namespace proto
 }  // namespace my
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Main_2eproto[1];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Main_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_Main_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_Main_2eproto = nullptr;
 
@@ -47,27 +58,35 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Main_2eproto::offsets[] PROTOB
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::my::proto::package::MousePositionMessage, x_),
   PROTOBUF_FIELD_OFFSET(::my::proto::package::MousePositionMessage, y_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::my::proto::package::MouseClickMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::my::proto::package::MousePositionMessage)},
+  { 7, -1, sizeof(::my::proto::package::MouseClickMessage)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::my::proto::package::_MousePositionMessage_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::my::proto::package::_MouseClickMessage_default_instance_),
 };
 
 const char descriptor_table_protodef_Main_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\nMain.proto\022\020my.proto.package\032\017PacketsI"
   "d.proto\"2\n\024MousePositionMessage\022\t\n\001x\030\001 \001"
-  "(\002\022\t\n\001y\030\002 \001(\002:\004\200\265\030db\006proto3"
+  "(\002\022\t\n\001y\030\002 \001(\002:\004\200\265\030d\"\031\n\021MouseClickMessage"
+  ":\004\200\265\030eb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Main_2eproto_deps[1] = {
   &::descriptor_table_PacketsId_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Main_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Main_2eproto = {
-  false, false, 107, descriptor_table_protodef_Main_2eproto, "Main.proto", 
-  &descriptor_table_Main_2eproto_once, descriptor_table_Main_2eproto_deps, 1, 1,
+  false, false, 134, descriptor_table_protodef_Main_2eproto, "Main.proto", 
+  &descriptor_table_Main_2eproto_once, descriptor_table_Main_2eproto_deps, 1, 2,
   schemas, file_default_instances, TableStruct_Main_2eproto::offsets,
   file_level_metadata_Main_2eproto, file_level_enum_descriptors_Main_2eproto, file_level_service_descriptors_Main_2eproto,
 };
@@ -302,6 +321,164 @@ void MousePositionMessage::InternalSwap(MousePositionMessage* other) {
       file_level_metadata_Main_2eproto[0]);
 }
 
+// ===================================================================
+
+class MouseClickMessage::_Internal {
+ public:
+};
+
+MouseClickMessage::MouseClickMessage(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:my.proto.package.MouseClickMessage)
+}
+MouseClickMessage::MouseClickMessage(const MouseClickMessage& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:my.proto.package.MouseClickMessage)
+}
+
+void MouseClickMessage::SharedCtor() {
+}
+
+MouseClickMessage::~MouseClickMessage() {
+  // @@protoc_insertion_point(destructor:my.proto.package.MouseClickMessage)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void MouseClickMessage::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void MouseClickMessage::ArenaDtor(void* object) {
+  MouseClickMessage* _this = reinterpret_cast< MouseClickMessage* >(object);
+  (void)_this;
+}
+void MouseClickMessage::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void MouseClickMessage::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void MouseClickMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:my.proto.package.MouseClickMessage)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* MouseClickMessage::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* MouseClickMessage::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:my.proto.package.MouseClickMessage)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:my.proto.package.MouseClickMessage)
+  return target;
+}
+
+size_t MouseClickMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:my.proto.package.MouseClickMessage)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void MouseClickMessage::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:my.proto.package.MouseClickMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const MouseClickMessage* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<MouseClickMessage>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:my.proto.package.MouseClickMessage)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:my.proto.package.MouseClickMessage)
+    MergeFrom(*source);
+  }
+}
+
+void MouseClickMessage::MergeFrom(const MouseClickMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:my.proto.package.MouseClickMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void MouseClickMessage::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:my.proto.package.MouseClickMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void MouseClickMessage::CopyFrom(const MouseClickMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:my.proto.package.MouseClickMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool MouseClickMessage::IsInitialized() const {
+  return true;
+}
+
+void MouseClickMessage::InternalSwap(MouseClickMessage* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata MouseClickMessage::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_Main_2eproto_getter, &descriptor_table_Main_2eproto_once,
+      file_level_metadata_Main_2eproto[1]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace package
 }  // namespace proto
@@ -309,6 +486,9 @@ void MousePositionMessage::InternalSwap(MousePositionMessage* other) {
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::my::proto::package::MousePositionMessage* Arena::CreateMaybeMessage< ::my::proto::package::MousePositionMessage >(Arena* arena) {
   return Arena::CreateMessageInternal< ::my::proto::package::MousePositionMessage >(arena);
+}
+template<> PROTOBUF_NOINLINE ::my::proto::package::MouseClickMessage* Arena::CreateMaybeMessage< ::my::proto::package::MouseClickMessage >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::my::proto::package::MouseClickMessage >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

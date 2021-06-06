@@ -15,6 +15,8 @@
 
 #include "network/IpAddress.hpp"
 
+extern BOOL SendMouseClick();
+
 namespace
 {
 	std::string GetUserNameWrapper()
@@ -45,6 +47,7 @@ EventReceiverRemoteApplication::EventReceiverRemoteApplication(OperationManager&
 	peer.Subscribe(TypedCallback<const ProtoPackets::ConnectionRequest &>(_networkInterface, this, &EventReceiverRemoteApplication::OnConnectionRequested));
 	peer.Subscribe(TypedCallback<const ProtoPackets::ConnectionPing &>(_networkInterface, this, &EventReceiverRemoteApplication::OnPing));
 	peer.Subscribe(TypedCallback<const ProtoPackets::MousePositionMessage &>(_networkInterface, this, &EventReceiverRemoteApplication::OnMouseMoved));
+	peer.Subscribe(TypedCallback<const ProtoPackets::MouseClickMessage &>(_networkInterface, this, &EventReceiverRemoteApplication::OnMouseClicked));
 }
 
 EventReceiverRemoteApplication::~EventReceiverRemoteApplication() = default;
@@ -175,11 +178,18 @@ void EventReceiverRemoteApplication::OnMouseMoved(const ProtoPackets::MousePosit
 	}
 }
 
+void EventReceiverRemoteApplication::OnMouseClicked(const ProtoPackets::MouseClickMessage& mouseClick)
+{
+	if (_state == State::Connected)
+	{
+		_idleTimer->Restart();
+		SendMouseClick();
+	}
+}
+
 void EventReceiverRemoteApplication::ChangeStateWaitingForConnect()
 {
-	std::string remoteIp = sf::IpAddress::Any.toString();
-	remoteIp = "192.168.43.174";
-	GetPeer().OpenRemoteConnection(_connectionStatus.remotePort, remoteIp);
+	GetPeer().OpenRemoteConnection(_connectionStatus.remotePort, sf::IpAddress::Any.toString());
 	SetState(State::WaitingForConnectionRequest);
 }
 

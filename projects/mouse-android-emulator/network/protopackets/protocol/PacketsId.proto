@@ -13,6 +13,7 @@ enum PackageId
 	CONNECTION_DISCONNECT = 14;
 
 	MOUSE_POSITION_MESSAGE = 100;
+	MOUSE_CLICK_MESSAGE = 101;
 }
 
 extend google.protobuf.MessageOptions {

@@ -137,6 +137,10 @@ void EventDispatcherApplication::OnMouseMoved(const ApplicationEvents::MouseMove
 
 void EventDispatcherApplication::OnMouseClicked(const ApplicationEvents::MouseClicked&)
 {
+	if (_remoteApplication)
+	{
+		_remoteApplication->SendMouseClick();
+	}
 }
 
 void EventDispatcherApplication::OnCloseRequested(const ApplicationEvents::CloseRequest&)

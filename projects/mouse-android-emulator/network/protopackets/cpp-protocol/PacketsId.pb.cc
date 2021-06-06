@@ -30,21 +30,22 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances
 
 const char descriptor_table_protodef_PacketsId_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\017PacketsId.proto\022\020my.proto.package\032 goo"
-  "gle/protobuf/descriptor.proto*\265\001\n\tPackag"
+  "gle/protobuf/descriptor.proto*\316\001\n\tPackag"
   "eId\022\026\n\022UNKNOWN_MESSAGE_ID\020\000\022\026\n\022CONNECTIO"
   "N_REQUEST\020\n\022\027\n\023CONNECTION_RESPONSE\020\013\022\023\n\017"
   "CONNECTION_PING\020\014\022\023\n\017CONNECTION_PONG\020\r\022\031"
   "\n\025CONNECTION_DISCONNECT\020\016\022\032\n\026MOUSE_POSIT"
-  "ION_MESSAGE\020d:R\n\npackage_id\022\037.google.pro"
-  "tobuf.MessageOptions\030\320\206\003 \001(\0162\033.my.proto."
-  "package.PackageIdb\006proto3"
+  "ION_MESSAGE\020d\022\027\n\023MOUSE_CLICK_MESSAGE\020e:R"
+  "\n\npackage_id\022\037.google.protobuf.MessageOp"
+  "tions\030\320\206\003 \001(\0162\033.my.proto.package.Package"
+  "Idb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_PacketsId_2eproto_deps[1] = {
   &::descriptor_table_google_2fprotobuf_2fdescriptor_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_PacketsId_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_PacketsId_2eproto = {
-  false, false, 345, descriptor_table_protodef_PacketsId_2eproto, "PacketsId.proto", 
+  false, false, 370, descriptor_table_protodef_PacketsId_2eproto, "PacketsId.proto", 
   &descriptor_table_PacketsId_2eproto_once, descriptor_table_PacketsId_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_PacketsId_2eproto::offsets,
   nullptr, file_level_enum_descriptors_PacketsId_2eproto, file_level_service_descriptors_PacketsId_2eproto,
@@ -71,6 +72,7 @@ bool PackageId_IsValid(int value) {
     case 13:
     case 14:
     case 100:
+    case 101:
       return true;
     default:
       return false;

@@ -11,6 +11,8 @@
 #include "tools/Callback.h"
 #include "tools/ParsedCommandLine.h"
 
+extern void SwitchConnectionStatus(bool connected);
+
 EventReceiverApplication::EventReceiverApplication()
 	: _operationManager(std::make_unique<OperationManager>())
 {
@@ -94,4 +96,13 @@ void EventReceiverApplication::OnStateChanged(EventReceiverRemoteApplication::St
 		std::cout << "... with error: " << ErrorToString(_remoteApplication->GetError()) << '\n';
 	}
 	s_lastState = state;
+
+	if (state == EventReceiverRemoteApplication::State::Connected)
+	{
+		SwitchConnectionStatus(true);
+	}
+	else if (state == EventReceiverRemoteApplication::State::WaitingForConnectionRequest)
+	{
+		SwitchConnectionStatus(false);
+	}
 }
