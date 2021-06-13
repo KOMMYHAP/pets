@@ -8,6 +8,15 @@
 
 namespace {
     std::unique_ptr<NativeJniBridge> s_nativeJniBridge;
+
+    bool IsLeftButtonTouchType(jni::JNIEnv & env, EventTouchTypeObject & touchTypeObject)
+    {
+        auto clazz = &jni::Class<EventTouchTypeClass>::Singleton(env);
+        const char * leftButtonTypeFieldName = "LeftButtonTap";
+        auto staticField = clazz->GetStaticField<EventTouchTypeObject>(env, leftButtonTypeFieldName);
+        auto leftButtonFieldObject = clazz->Get(env, staticField);
+        return jni::IsSameObject(env, touchTypeObject.get(), leftButtonFieldObject.get());
+    }
 }
 
 extern "C"
@@ -56,7 +65,12 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void * /*reserved*/) {
         if (s_nativeJniBridge) {
             auto *input = s_nativeJniBridge->GetApplicationInputInterface();
             if (input) {
-                auto mouseButton = ApplicationEvents::MouseClicked::MouseButton::LeftButton;
+                const bool leftButton = IsLeftButtonTouchType(env, eventTouchType);
+                auto mouseButton = ApplicationEvents::MouseClicked::MouseButton::RightButton;
+                if (leftButton)
+                {
+                    mouseButton = ApplicationEvents::MouseClicked::MouseButton::LeftButton;
+                }
                 ApplicationEvents::MouseClicked mouseClicked{x, y, mouseButton};
                 input->ProcessEvent(ApplicationEvent(mouseClicked));
             }

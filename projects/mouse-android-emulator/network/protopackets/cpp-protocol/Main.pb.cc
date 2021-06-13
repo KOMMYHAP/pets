@@ -33,7 +33,9 @@ struct MousePositionMessageDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT MousePositionMessageDefaultTypeInternal _MousePositionMessage_default_instance_;
 constexpr MouseClickMessage::MouseClickMessage(
-  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized){}
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : button_(0)
+{}
 struct MouseClickMessageDefaultTypeInternal {
   constexpr MouseClickMessageDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -47,7 +49,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT MouseClickMessageDefaultTypeInt
 }  // namespace proto
 }  // namespace my
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Main_2eproto[2];
-static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_Main_2eproto = nullptr;
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_Main_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_Main_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Main_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -63,6 +65,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Main_2eproto::offsets[] PROTOB
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::my::proto::package::MouseClickMessage, button_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::my::proto::package::MousePositionMessage)},
@@ -77,15 +80,18 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_Main_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\nMain.proto\022\020my.proto.package\032\017PacketsI"
   "d.proto\"2\n\024MousePositionMessage\022\t\n\001x\030\001 \001"
-  "(\002\022\t\n\001y\030\002 \001(\002:\004\200\265\030d\"\031\n\021MouseClickMessage"
-  ":\004\200\265\030eb\006proto3"
+  "(\002\022\t\n\001y\030\002 \001(\002:\004\200\265\030d\"\212\001\n\021MouseClickMessag"
+  "e\022>\n\006button\030\001 \001(\0162..my.proto.package.Mou"
+  "seClickMessage.ButtonType\"/\n\nButtonType\022"
+  "\017\n\013LEFT_BUTTON\020\000\022\020\n\014RIGHT_BUTTON\020\001:\004\200\265\030e"
+  "b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Main_2eproto_deps[1] = {
   &::descriptor_table_PacketsId_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Main_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Main_2eproto = {
-  false, false, 134, descriptor_table_protodef_Main_2eproto, "Main.proto", 
+  false, false, 248, descriptor_table_protodef_Main_2eproto, "Main.proto", 
   &descriptor_table_Main_2eproto_once, descriptor_table_Main_2eproto_deps, 1, 2,
   schemas, file_default_instances, TableStruct_Main_2eproto::offsets,
   file_level_metadata_Main_2eproto, file_level_enum_descriptors_Main_2eproto, file_level_service_descriptors_Main_2eproto,
@@ -99,6 +105,27 @@ PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDe
 namespace my {
 namespace proto {
 namespace package {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* MouseClickMessage_ButtonType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Main_2eproto);
+  return file_level_enum_descriptors_Main_2eproto[0];
+}
+bool MouseClickMessage_ButtonType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr MouseClickMessage_ButtonType MouseClickMessage::LEFT_BUTTON;
+constexpr MouseClickMessage_ButtonType MouseClickMessage::RIGHT_BUTTON;
+constexpr MouseClickMessage_ButtonType MouseClickMessage::ButtonType_MIN;
+constexpr MouseClickMessage_ButtonType MouseClickMessage::ButtonType_MAX;
+constexpr int MouseClickMessage::ButtonType_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 
 // ===================================================================
 
@@ -336,10 +363,12 @@ MouseClickMessage::MouseClickMessage(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 MouseClickMessage::MouseClickMessage(const MouseClickMessage& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  button_ = from.button_;
   // @@protoc_insertion_point(copy_constructor:my.proto.package.MouseClickMessage)
 }
 
 void MouseClickMessage::SharedCtor() {
+button_ = 0;
 }
 
 MouseClickMessage::~MouseClickMessage() {
@@ -368,6 +397,7 @@ void MouseClickMessage::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  button_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -376,6 +406,17 @@ const char* MouseClickMessage::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .my.proto.package.MouseClickMessage.ButtonType button = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_button(static_cast<::my::proto::package::MouseClickMessage_ButtonType>(val));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
         if ((tag == 0) || ((tag & 7) == 4)) {
           CHK_(ptr);
           ctx->SetLastTag(tag);
@@ -386,6 +427,8 @@ const char* MouseClickMessage::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
             ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
+      }
+    }  // switch
   }  // while
 success:
   return ptr;
@@ -400,6 +443,13 @@ failure:
   // @@protoc_insertion_point(serialize_to_array_start:my.proto.package.MouseClickMessage)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
+
+  // .my.proto.package.MouseClickMessage.ButtonType button = 1;
+  if (this->button() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_button(), target);
+  }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -416,6 +466,12 @@ size_t MouseClickMessage::ByteSizeLong() const {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // .my.proto.package.MouseClickMessage.ButtonType button = 1;
+  if (this->button() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_button());
+  }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
@@ -448,6 +504,9 @@ void MouseClickMessage::MergeFrom(const MouseClickMessage& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.button() != 0) {
+    _internal_set_button(from._internal_button());
+  }
 }
 
 void MouseClickMessage::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -471,6 +530,7 @@ bool MouseClickMessage::IsInitialized() const {
 void MouseClickMessage::InternalSwap(MouseClickMessage* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(button_, other->button_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata MouseClickMessage::GetMetadata() const {

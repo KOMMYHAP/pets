@@ -30,6 +30,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "PacketsId.pb.h"
 // @@protoc_insertion_point(includes)
@@ -74,6 +75,31 @@ namespace my {
 namespace proto {
 namespace package {
 
+enum MouseClickMessage_ButtonType : int {
+  MouseClickMessage_ButtonType_LEFT_BUTTON = 0,
+  MouseClickMessage_ButtonType_RIGHT_BUTTON = 1,
+  MouseClickMessage_ButtonType_MouseClickMessage_ButtonType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  MouseClickMessage_ButtonType_MouseClickMessage_ButtonType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool MouseClickMessage_ButtonType_IsValid(int value);
+constexpr MouseClickMessage_ButtonType MouseClickMessage_ButtonType_ButtonType_MIN = MouseClickMessage_ButtonType_LEFT_BUTTON;
+constexpr MouseClickMessage_ButtonType MouseClickMessage_ButtonType_ButtonType_MAX = MouseClickMessage_ButtonType_RIGHT_BUTTON;
+constexpr int MouseClickMessage_ButtonType_ButtonType_ARRAYSIZE = MouseClickMessage_ButtonType_ButtonType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* MouseClickMessage_ButtonType_descriptor();
+template<typename T>
+inline const std::string& MouseClickMessage_ButtonType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, MouseClickMessage_ButtonType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function MouseClickMessage_ButtonType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    MouseClickMessage_ButtonType_descriptor(), enum_t_value);
+}
+inline bool MouseClickMessage_ButtonType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, MouseClickMessage_ButtonType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<MouseClickMessage_ButtonType>(
+    MouseClickMessage_ButtonType_descriptor(), name, value);
+}
 // ===================================================================
 
 class MousePositionMessage final :
@@ -324,7 +350,49 @@ class MouseClickMessage final :
 
   // nested types ----------------------------------------------------
 
+  typedef MouseClickMessage_ButtonType ButtonType;
+  static constexpr ButtonType LEFT_BUTTON =
+    MouseClickMessage_ButtonType_LEFT_BUTTON;
+  static constexpr ButtonType RIGHT_BUTTON =
+    MouseClickMessage_ButtonType_RIGHT_BUTTON;
+  static inline bool ButtonType_IsValid(int value) {
+    return MouseClickMessage_ButtonType_IsValid(value);
+  }
+  static constexpr ButtonType ButtonType_MIN =
+    MouseClickMessage_ButtonType_ButtonType_MIN;
+  static constexpr ButtonType ButtonType_MAX =
+    MouseClickMessage_ButtonType_ButtonType_MAX;
+  static constexpr int ButtonType_ARRAYSIZE =
+    MouseClickMessage_ButtonType_ButtonType_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  ButtonType_descriptor() {
+    return MouseClickMessage_ButtonType_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& ButtonType_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, ButtonType>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function ButtonType_Name.");
+    return MouseClickMessage_ButtonType_Name(enum_t_value);
+  }
+  static inline bool ButtonType_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
+      ButtonType* value) {
+    return MouseClickMessage_ButtonType_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
+
+  enum : int {
+    kButtonFieldNumber = 1,
+  };
+  // .my.proto.package.MouseClickMessage.ButtonType button = 1;
+  void clear_button();
+  ::my::proto::package::MouseClickMessage_ButtonType button() const;
+  void set_button(::my::proto::package::MouseClickMessage_ButtonType value);
+  private:
+  ::my::proto::package::MouseClickMessage_ButtonType _internal_button() const;
+  void _internal_set_button(::my::proto::package::MouseClickMessage_ButtonType value);
+  public:
 
   // @@protoc_insertion_point(class_scope:my.proto.package.MouseClickMessage)
  private:
@@ -333,6 +401,7 @@ class MouseClickMessage final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  int button_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Main_2eproto;
 };
@@ -391,6 +460,26 @@ inline void MousePositionMessage::set_y(float value) {
 
 // MouseClickMessage
 
+// .my.proto.package.MouseClickMessage.ButtonType button = 1;
+inline void MouseClickMessage::clear_button() {
+  button_ = 0;
+}
+inline ::my::proto::package::MouseClickMessage_ButtonType MouseClickMessage::_internal_button() const {
+  return static_cast< ::my::proto::package::MouseClickMessage_ButtonType >(button_);
+}
+inline ::my::proto::package::MouseClickMessage_ButtonType MouseClickMessage::button() const {
+  // @@protoc_insertion_point(field_get:my.proto.package.MouseClickMessage.button)
+  return _internal_button();
+}
+inline void MouseClickMessage::_internal_set_button(::my::proto::package::MouseClickMessage_ButtonType value) {
+  
+  button_ = value;
+}
+inline void MouseClickMessage::set_button(::my::proto::package::MouseClickMessage_ButtonType value) {
+  _internal_set_button(value);
+  // @@protoc_insertion_point(field_set:my.proto.package.MouseClickMessage.button)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
@@ -402,6 +491,16 @@ inline void MousePositionMessage::set_y(float value) {
 }  // namespace package
 }  // namespace proto
 }  // namespace my
+
+PROTOBUF_NAMESPACE_OPEN
+
+template <> struct is_proto_enum< ::my::proto::package::MouseClickMessage_ButtonType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::my::proto::package::MouseClickMessage_ButtonType>() {
+  return ::my::proto::package::MouseClickMessage_ButtonType_descriptor();
+}
+
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 

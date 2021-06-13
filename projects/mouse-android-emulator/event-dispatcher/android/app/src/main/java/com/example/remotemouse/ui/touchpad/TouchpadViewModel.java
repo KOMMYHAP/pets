@@ -22,11 +22,12 @@ public class TouchpadViewModel extends ViewModel {
         }
     }
 
-    public void touched(int x, int y)
+    public void touched(int x, int y, boolean leftButton)
     {
         if (_nativeBridge != null)
         {
-            _nativeBridge.touchTapping(x, y, NativeBridge.EventTouchType.ShortTap);
+            NativeBridge.EventTouchType touchType = leftButton ? NativeBridge.EventTouchType.LeftButtonTap : NativeBridge.EventTouchType.RightButtonTap;
+            _nativeBridge.touchTapping(x, y, touchType);
         }
     }
 

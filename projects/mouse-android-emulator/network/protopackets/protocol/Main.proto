@@ -13,4 +13,11 @@ message MousePositionMessage
 message MouseClickMessage
 {
 	option (package_id) = MOUSE_CLICK_MESSAGE;
+	enum ButtonType
+	{
+		LEFT_BUTTON = 0;
+		RIGHT_BUTTON = 1;
+	}
+	
+	ButtonType button = 1;
 }

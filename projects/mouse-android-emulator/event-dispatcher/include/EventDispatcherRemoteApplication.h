@@ -96,7 +96,7 @@ public:
 
 	void SetScreen(int x, int y);
 	void SendMousePosition(int x, int y);
-	void SendMouseClick();
+	void SendMouseClick(bool leftButton);
 
 	Error GetError() const;
 

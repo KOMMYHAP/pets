@@ -301,11 +301,19 @@ void EventDispatcherRemoteApplication::OnConnectionsSearchTimedOut() {
 	_availableConnectionCallback(_availableConnectionList);
 }
 
-void EventDispatcherRemoteApplication::SendMouseClick()
+void EventDispatcherRemoteApplication::SendMouseClick(bool leftButton)
 {
 	if (_state == State::Connected)
 	{
 		ProtoPackets::MouseClickMessage message;
+		if (leftButton)
+		{
+			message.set_button(my::proto::package::MouseClickMessage_ButtonType_LEFT_BUTTON);
+		}
+		else
+		{
+			message.set_button(my::proto::package::MouseClickMessage_ButtonType_RIGHT_BUTTON);
+		}
 		GetPeer().SendPacket(message);
 	}
 }

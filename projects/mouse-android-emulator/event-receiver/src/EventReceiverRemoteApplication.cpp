@@ -15,7 +15,7 @@
 
 #include "network/IpAddress.hpp"
 
-extern BOOL SendMouseClick();
+extern BOOL SendMouseClick(bool left);
 
 namespace
 {
@@ -183,7 +183,9 @@ void EventReceiverRemoteApplication::OnMouseClicked(const ProtoPackets::MouseCli
 	if (_state == State::Connected)
 	{
 		_idleTimer->Restart();
-		SendMouseClick();
+
+		const bool leftButton = mouseClick.button() == my::proto::package::MouseClickMessage_ButtonType_LEFT_BUTTON;
+		SendMouseClick(leftButton);
 	}
 }
 

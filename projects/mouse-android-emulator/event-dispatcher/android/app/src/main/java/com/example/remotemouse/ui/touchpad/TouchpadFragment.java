@@ -77,7 +77,13 @@ public class TouchpadFragment extends Fragment {
         Button leftButton = root.findViewById(R.id.leftButton);
         leftButton.setOnClickListener(v ->
         {
-            _touchpadViewModel.touched(0, 0);
+            _touchpadViewModel.touched(0, 0, true);
+        });
+
+        Button rightButton = root.findViewById(R.id.rightButton);
+        rightButton.setOnClickListener(v ->
+        {
+            _touchpadViewModel.touched(0, 0, false);
         });
 
 

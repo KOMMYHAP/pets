@@ -13,7 +13,8 @@ namespace ApplicationEvents
 	{
 		enum class MouseButton
 		{
-			LeftButton
+			LeftButton,
+			RightButton,
 		};
 
 		int			x;
@@ -32,8 +33,9 @@ namespace ApplicationEvents
 	};
 }
 
-struct ApplicationEvent
+class ApplicationEvent
 {
+public:
 	using ContentType = std::variant
 	<
 		ApplicationEvents::MouseMoved,

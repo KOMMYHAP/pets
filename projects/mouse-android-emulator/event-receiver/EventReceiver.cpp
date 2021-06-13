@@ -226,7 +226,7 @@ BOOL AddNotificationIcon(HWND hwnd)
 	return Shell_NotifyIcon(NIM_ADD, &nid);
 }
 
-BOOL SendMouseClick()
+BOOL SendMouseClick(bool left)
 {
 	POINT mousePos;
  	if (GetCursorPos(&mousePos))
@@ -235,12 +235,14 @@ BOOL SendMouseClick()
 		input[0].type = INPUT_MOUSE;
 		input[0].mi.dx = mousePos.x;
 		input[0].mi.dy = mousePos.y;
-		input[0].mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
+ 		DWORD buttonDown = left ? MOUSEEVENTF_LEFTDOWN : MOUSEEVENTF_RIGHTDOWN;
+		input[0].mi.dwFlags = buttonDown;
 
 		input[1].type = INPUT_MOUSE;
 		input[1].mi.dx = mousePos.x;
 		input[1].mi.dy = mousePos.y;
-		input[1].mi.dwFlags = MOUSEEVENTF_LEFTUP;
+ 		DWORD buttonUp = left ? MOUSEEVENTF_LEFTUP : MOUSEEVENTF_RIGHTUP;
+		input[1].mi.dwFlags = buttonUp;
 		SendInput(2, input, sizeof(INPUT));
  		return TRUE;
 	}
@@ -315,8 +317,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			if (wParam == VK_SPACE)
 			{
-				SendMouseClick();
+				// SendMouseClick();
 			}
+			break;
 		}
 	case WM_DESTROY:
 		DeleteNotificationIcon();

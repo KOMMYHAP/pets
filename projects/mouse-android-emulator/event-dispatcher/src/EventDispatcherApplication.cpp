@@ -135,11 +135,12 @@ void EventDispatcherApplication::OnMouseMoved(const ApplicationEvents::MouseMove
 	}
 }
 
-void EventDispatcherApplication::OnMouseClicked(const ApplicationEvents::MouseClicked&)
+void EventDispatcherApplication::OnMouseClicked(const ApplicationEvents::MouseClicked& mouseClicked)
 {
 	if (_remoteApplication)
 	{
-		_remoteApplication->SendMouseClick();
+		const bool leftButton = mouseClicked.button == ApplicationEvents::MouseClicked::MouseButton::LeftButton;
+		_remoteApplication->SendMouseClick(leftButton);
 	}
 }
 

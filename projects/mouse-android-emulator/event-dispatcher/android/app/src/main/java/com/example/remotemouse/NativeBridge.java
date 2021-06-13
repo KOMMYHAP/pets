@@ -1,7 +1,5 @@
 package com.example.remotemouse;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -41,7 +39,8 @@ public class NativeBridge {
 
     public enum EventTouchType
     {
-        ShortTap,
+        LeftButtonTap,
+        RightButtonTap,
     }
 
     private static NativeBridge                         _instance;
